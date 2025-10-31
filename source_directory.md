@@ -1,6 +1,7 @@
 
 Reliability Scores/Weights:
 * 1 - Official Company Reports
+  * 
 * 2 - Highly Trusted Industry Sources, usually cite the official document:
   * Billboard
   * Poll Star
