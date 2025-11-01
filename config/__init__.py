@@ -1,4 +1,0 @@
-from .config import BUCKET_NAME
-from .paths import NON_MUSICIANS_PATH, NOISY_SYMBOLS_PATH
-
-__all__ = ["BUCKET_NAME", "NOISY_SYMBOLS_PATH", "NON_MUSICIANS_PATH"]

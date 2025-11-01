@@ -9,6 +9,9 @@ import pandas as pd
 import csv
 import json
 from Levenshtein import distance as levenshtein_distance
+import logging
+from word2number import w2n
+logger = logging.getLogger()
 
 '''
 This parser is for the Billboard Boxscore schema that ran from 1984-10-20 to 2001-07-21
@@ -89,7 +92,7 @@ def parse_tour_lines(tour_lines):
 
         for line in tour_lines:
             line = line.replace("§", "$")
-            tour_days = num_sellouts = capacity = ticket_price_1 = ticket_price_2 = ticket_price_3 = location = last_day = artist_2 = artist_3 = None
+            tickets_sold = tour_days = num_sellouts = capacity = ticket_price_1 = ticket_price_2 = ticket_price_3 = location = last_day = artist_2 = artist_3 = None
             first_lowercase_idx = re.search(r"[a-z]", line).start()
             artist_1 = line[0:first_lowercase_idx-2]
             rest_of_line = line[first_lowercase_idx-1:].split()
@@ -107,6 +110,8 @@ def parse_tour_lines(tour_lines):
             venue = " ".join(venue)
 
             month = next_item
+
+            print(f"Month = {month}")
             if not re.search(pattern, month):
                 number_in_month = re.search(r"\d", month)
 
@@ -123,8 +128,24 @@ def parse_tour_lines(tour_lines):
             else:
                 first_day = tour_days
 
-            gross_receipts = re.sub(r"[$,]", "", next(it))
-            tickets_sold = re.sub(r"[$,]", "", next(it))
+            print(f"First day = {first_day}, last day = {last_day}")
+
+            next_item = next(it)
+
+            gross_receipts = re.sub(r"[$,]", "", next_item)
+            if gross_receipts.isdigit():
+                gross_receipts = int(gross_receipts)
+            else:
+                logger.warning(f"Gross receipts = {gross_receipts}, setting it back to None")
+                gross_receipts = None
+
+            print(f"Gross receipts = {gross_receipts}")
+
+            next_item = next(it)
+            print(f"Next item = {next_item}")
+
+            tickets_sold = re.sub(r"[.]", ",", next_item)
+            tickets_sold = int(re.sub(r"[$,]", "", tickets_sold))
             next_item = next(it)
 
             promoter = []
@@ -159,27 +180,31 @@ def parse_tour_lines(tour_lines):
 
             if '/' in ticket_price:
                 ticket_prices = ticket_price.split('/')
-                ticket_price_1 = re.sub(r"\$", "", ticket_prices[0])
+                ticket_price_1 = float(re.sub(r"\$", "", ticket_prices[0]))
 
                 if len(ticket_prices) == 2:
-                    ticket_price_2 = re.sub(r"\$", "", ticket_prices[1])
+                    ticket_price_2 = float(re.sub(r"\$", "", ticket_prices[1]))
                 elif len(ticket_prices) == 3:
-                    ticket_price_2 = re.sub(r"\$", "", ticket_prices[1])
-                    ticket_price_3 = re.sub(r"\$", "", ticket_prices[2])
+                    ticket_price_2 = float(re.sub(r"\$", "", ticket_prices[1]))
+                    ticket_price_3 = float(re.sub(r"\$", "", ticket_prices[2]))
             elif '-' in ticket_price:
                 ticket_prices = ticket_price.split('-')
-                ticket_price_1 = re.sub(r"\$", "", ticket_prices[0])
-                ticket_price_2 = re.sub(r"\$", "", ticket_prices[1])
+                ticket_price_1 = float(re.sub(r"\$", "", ticket_prices[0]))
+                ticket_price_2 = float(re.sub(r"\$", "", ticket_prices[1]))
             else:
-                ticket_price_1 = re.sub("\$", "", ticket_price)
+                ticket_price_1 = float(re.sub(r"\$", "", ticket_price))
 
             next_item = next(it)
 
             if next_item[0] == '(':
-                capacity = re.sub("[(),]", "", next_item)
+                capacity = int(re.sub("[(),]", "", next_item))
+                if capacity < tickets_sold:
+                    logger.warning(f"Capacity = {capacity} but attendance = {tickets_sold} for tour {rank}, setting capacity back to None")
+                    capacity = None
             elif next_item == 'sellout':
                 num_sellouts = 1
             else:
+                #num_sellouts = w2n.word_to_num(next_item)
                 num_sellouts = next_item
                 next(it)
 
@@ -231,6 +256,8 @@ def parse_tour_lines(tour_lines):
         return tour_objs
     except Exception as e:
         print(f"Exception: {e}")
+    except TourParsingError as e:
+        print(f"Tour Parsing Error: {e}")
 
 def extract_to_csv():
     try:
