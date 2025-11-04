@@ -47,9 +47,14 @@ object_key = 'raw/billboard/pdf/magazines/1984/10/BB-1984-10-20.pdf'
 
 months = ["Jan.", "Feb.", "March", "April", "May", "June", "July", "Aug.", "Sept.", "Oct.", "Nov.", "Dec."]
 
-months_pattern = r'\b(?:Jan|Feb|March|April|May|June|July|Aug|Sept|Oct|Nov|Dec)[\.,\b]'
+months_pattern = r'\b(?:Jan|Feb|March|April|May|June|July|Aug|Sept|Oct|Nov|Dec)[\.,\b]?'
 
-def extract_raw_tour_lines(page_lines):
+def extract_raw_tour_lines(page_lines, should_save):
+    """
+    Extracts the top boxoffice table lines
+    :param page_lines:
+    :return:
+    """
     found_boxscore = False
     tour_lines = []
 
@@ -63,17 +68,25 @@ def extract_raw_tour_lines(page_lines):
         elif found_boxscore:  # if inside box office section and the next line does not start with the next rank number, it must be overflow of the current tour data
             tour_lines.append(line)
 
-    with open("raw_tour_lines.json", "w") as f:
-        json.dump(tour_lines, f)
+    if should_save:
+        with open("raw_tour_lines.json", "w") as f:
+            json.dump(tour_lines, f)
+
+    return tour_lines
 
 def consolidate_tours(tour_lines):
+    """
+    Groups each tour into one String. Originally, tour data is in 2-3 lines
+    :param tour_lines:
+    :return:
+    """
     try:
         tours = []
         next_tour = []
-        pattern = r'\b(?:Jan|Feb|March|April|May|June|July|Aug|Sept|Oct|Nov|Dec)[\.,\b]'
+        #pattern = r'\b(?:Jan|Feb|March|April|May|June|July|Aug|Sept|Oct|Nov|Dec)'
 
         for line in tour_lines:
-            if re.search(pattern, line):           # only the first line of a tour contains the date of the tour
+            if re.search(months_pattern, line):           # only the first line of a tour contains the date of the tour
                 if len(next_tour) > 0:
                     tours.append(" | ".join(next_tour))
                 next_tour = []
@@ -111,6 +124,7 @@ def parse_date(month, it):
     :return:
     """
     tour_days = first_day = last_day = None
+    month = re.sub("[.,]", "", month)
 
     number_in_month = re.search(r"\d", month)
 
@@ -122,10 +136,10 @@ def parse_date(month, it):
 
     if '-' in tour_days:
         tour_days = tour_days.split('-')
-        first_day = tour_days[0]
-        last_day = tour_days[1]
+        first_day = re.sub(r"[.,]", "", tour_days[0])
+        last_day = re.sub(r"[.,]", "", tour_days[1])
     else:
-        first_day = tour_days
+        first_day = re.sub(r"[.,]", "", tour_days)
 
     return month, first_day, last_day, it
 
@@ -135,7 +149,7 @@ def parse_gross_receipts(gross_receipts):
     :param gross_receipts:
     :return:
     """
-    gross_receipts = re.sub(r"[$,]", "", gross_receipts)
+    gross_receipts = re.sub(r"[$,‘]", "", gross_receipts)
     if gross_receipts.isdigit():
         gross_receipts = int(gross_receipts)
     else:
@@ -144,30 +158,17 @@ def parse_gross_receipts(gross_receipts):
 
     return gross_receipts
 
-def parse_ticket_prices(ticket_prices):
-    """
-    Extracts up to three ticket prices for the tour
-    :param ticket_prices:
-    :return:
-    """
-    ticket_price_1 = ticket_price_2 = ticket_price_3 = None
-    if '/' in ticket_prices:
-        ticket_prices = ticket_prices.split('/')
-        ticket_price_1 = float(re.sub(r"\$", "", ticket_prices[0]))
+def parse_tickets_sold(tickets_sold):
+    tickets_sold = re.sub(r"\.", ",", tickets_sold)
+    tickets_sold = re.sub(r",", "", tickets_sold)
 
-        if len(ticket_prices) == 2:
-            ticket_price_2 = float(re.sub(r"\$", "", ticket_prices[1]))
-        elif len(ticket_prices) == 3:
-            ticket_price_2 = float(re.sub(r"\$", "", ticket_prices[1]))
-            ticket_price_3 = float(re.sub(r"\$", "", ticket_prices[2]))
-    elif '-' in ticket_prices:
-        ticket_prices = ticket_prices.split('-')
-        ticket_price_1 = float(re.sub(r"\$", "", ticket_prices[0]))
-        ticket_price_2 = float(re.sub(r"\$", "", ticket_prices[1]))
-    else:
-        ticket_price_1 = float(re.sub(r"\$", "", ticket_prices))
+    if tickets_sold.isdigit():                                                                      # check that there are no letters or random symbols
+        tickets_sold = int(re.sub(r"[$,]", "", tickets_sold))
+    else:                                                                                           # if any non-numbers, set tickets_sold back to None
+        logger.warning(f"Tickets sold = {tickets_sold}")
+        tickets_sold = None
 
-    return ticket_price_1, ticket_price_2, ticket_price_3
+    return tickets_sold
 
 def parse_capacity(next_item, tickets_sold):
     """
@@ -178,16 +179,18 @@ def parse_capacity(next_item, tickets_sold):
     """
     capacity = num_sellouts = None
 
-    if next_item[0] == '(':
-        capacity = int(re.sub("[(),]", "", next_item))
-        if capacity < tickets_sold:
-            logger.warning(
-                f"Capacity = {capacity} but attendance = {tickets_sold} for tour, setting capacity back to None")
-            capacity = None
+    if re.search(r"\d", next_item):
+        capacity = re.sub("[(),]", "", next_item)
+        if capacity.isdigit():
+            if tickets_sold is not None and int(capacity) < tickets_sold:
+                logger.warning(f"Capacity = {capacity} but attendance = {tickets_sold} for tour, setting capacity back to None")
+                capacity = None
+        else:
+            logger.warning(f"Capacity = {capacity}, setting it back to None")
     elif next_item == 'sellout':
         num_sellouts = 1
     else:
-        num_sellouts = next_item
+        num_sellouts = w2n.word_to_num(next_item)
 
     return capacity, num_sellouts
 
@@ -199,32 +202,15 @@ def parse_artist_2(next_item, it):
     :return:
     """
     artist_2 = [next_item]
-    next_item = next(it)
+    next_item = next(it, None)
 
-    while re.fullmatch(r"[A-Z]+", next_item):
+    while next_item is not None and re.search(r"[A-Z]+", next_item):
         artist_2.append(next_item)
-        next_item = next(it)
+        next_item = next(it, None)
 
     artist_2 = " ".join(artist_2)
 
     return artist_2, next_item, it
-
-def parse_artist_3(next_item, it):
-    """
-    Extracts the name of the third artist on the tour
-    :param next_item:
-    :param it:
-    :return:
-    """
-    next_item = next(it, None)
-    artist_3 = []
-    while next_item is not None:
-        artist_3.append(next_item)
-        next_item = next(it, None)
-
-    artist_3 = " ".join(artist_3)
-
-    return artist_3
 
 def parse_location(next_item, it):
     """
@@ -237,7 +223,7 @@ def parse_location(next_item, it):
         location = [next_item]
         next_item = next(it)
 
-        while not re.search(r"^\$", next_item):                                             # While the next item doesn't have a dollar sign, keep extracting the location
+        while not re.search(r"\$?[0-9]", next_item):                                             # While the next item doesn't have a dollar sign, keep extracting the location
             location.append(next_item)
             next_item = next(it)
 
@@ -253,9 +239,12 @@ def parse_tour_lines(tour_lines):
 
         for line in tour_lines:
             line = line.replace("§", "$")
-            tickets_sold = num_sellouts = capacity = ticket_price_1 = ticket_price_2 = ticket_price_3 = location = last_day = artist_2 = artist_3 = None
+            tickets_sold = num_sellouts = capacity = ticket_prices = location = last_day = artist_2 = artist_3 = None
+            artists = []
             first_lowercase_idx = re.search(r"[a-z]", line).start()
             artist_1 = line[0:first_lowercase_idx-2]
+            artists.append(artist_1)
+
             rest_of_line = line[first_lowercase_idx-1:].split()
             it = iter(rest_of_line)
             venue, it, next_item = parse_venue([], it)
@@ -263,8 +252,7 @@ def parse_tour_lines(tour_lines):
             next_item = next(it)
             gross_receipts = parse_gross_receipts(next_item)
             next_item = next(it)
-            tickets_sold = re.sub(r"[.]", ",", next_item)
-            tickets_sold = int(re.sub(r"[$,]", "", tickets_sold))
+            tickets_sold = parse_tickets_sold(next_item)
             next_item = next(it)
             promoter = []
 
@@ -274,12 +262,25 @@ def parse_tour_lines(tour_lines):
 
             next_item = next(it)    # skip next it
 
-            if re.search(r"^[A-Z].*[A-Z]", next_item):                                  # if next item has multiple uppercase, it is the second artist
-                artist_2, next_item, it = parse_artist_2(next_item, it)
+            print(f"Skipped pipe delimeter. Next item: {next_item}")
 
-            if not re.search(r"\$", next_item):                                         # if the next item does not have a dollar sign, it is the location
+            if re.fullmatch(r"[A-Z]+", next_item):                                  # if next item has multiple uppercase, it is the second artist
+                artist_2, next_item, it = parse_artist_2(next_item, it)
+                artists.append(artist_2)
+
+            if not re.search(r"\$?[0-9]", next_item):                                         # if the next item does not numbers, it is the location
+                print(f"Next item = {next_item}, parsing location")
                 location, next_item, it = parse_location(next_item, it)
-            ticket_price_1, ticket_price_2, ticket_price_3 = parse_ticket_prices(next_item)
+
+            print('Passed parse location')
+
+            if re.search(r"^0-9\$,.\/-", next_item):                                  # if next item
+                logger.warning(f"Ticket prices = {next_item}, setting it back to None")
+            else:
+                ticket_prices = re.sub(r"\$", "", next_item)
+
+            print(f"artist_1 = {artist_1}, venue = {venue}, gross receipts = {gross_receipts}, tickets sold = {tickets_sold}, ticket prices = {ticket_prices}")
+
             next_item = next(it)
             capacity, num_sellouts = parse_capacity(next_item, tickets_sold)
             next_item = next(it, None)
@@ -293,10 +294,21 @@ def parse_tour_lines(tour_lines):
             promoter = " ".join(promoter)
 
             if next_item == '|':
-                artist_3 = parse_artist_3(next_item, it)                                       # if there is a pipe delimeter, than there is a third artist
+                next_item = next(it, None)
+                if re.search(r"[A-Z]+\s?[A-Z]+", next_item):
+                    next_artist, next_item, it = parse_artist_2(next_item, it)
+                    artists.append(next_artist)
+                elif re.search(r"\$?[0-9]", next_item):
+                    ticket_prices += re.sub(r"\$", "", next_item)
+
+            next_item = next(it, None)
+            if next_item == '|':
+                if re.fullmatch(r"[A-Z]+", next_item):
+                    next_artist, next_item, it = parse_artist_2(next_item, it)
+                    artists.append(next_artist)
 
             next_tour = {
-                "artist_1": artist_1,
+                "artists": '/'.join(artists),
                 "venue": venue,
                 "month_1": month,
                 "first_day": first_day,
@@ -304,12 +316,8 @@ def parse_tour_lines(tour_lines):
                 "gross_receipts": gross_receipts,
                 "tickets_sold": tickets_sold,
                 "promoter": promoter,
-                "artist_2": artist_2,
-                "artist_3": artist_3,
                 "location": location,
-                "ticket_price_1": ticket_price_1,
-                "ticket_price_2": ticket_price_2,
-                "ticket_price_3": ticket_price_3,
+                "ticket_prices": ticket_prices,
                 "capacity": capacity,
                 "num_sellouts": num_sellouts,
                 "source_id": "billboard",
@@ -338,18 +346,16 @@ def extract_to_csv():
             #boxoffice_page = find_boxoffice_table(pdf, pdf_bytes)
 
             # magazine two is page 57
-            #page_text = extract_text_ocr(pdf_bytes, 38)
+            page_text = extract_text_ocr(pdf_bytes, 38)
 
             #print(page_text)
 
-            #lines = page_text.splitlines()
+            lines = page_text.splitlines()
 
-            #extract_raw_tour_lines(lines)
+            tour_lines = extract_raw_tour_lines(lines, False)
 
-            lines = []
-
-            with open("raw_tour_lines.json", "r") as f:
-                tour_lines = json.load(f)
+            #with open("raw_tour_lines.json", "r") as f:
+            #    tour_lines = json.load(f)
 
             consolidated_tour_lines = consolidate_tours(tour_lines)
 
@@ -357,6 +363,27 @@ def extract_to_csv():
                 print(tour)
 
             tour_objs = parse_tour_lines(consolidated_tour_lines)
+
+            df_all_tours = pd.DataFrame(tour_objs)
+
+            file_name = object_key.split('/')[-1]
+            csv_file_name = file_name.replace('.pdf', '.csv')
+
+            csv_buffer = io.StringIO()
+            df_all_tours.to_csv(csv_buffer, index=False)
+
+            year = object_key.split('/')[4]
+            month = object_key.split('/')[5]
+
+            try:
+                client.put_object(
+                    Bucket="music-industry-data-lake",
+                    Key=f"processed/billboard/magazines/{year}/{month}/" + csv_file_name,
+                    Body=csv_buffer.getvalue(),
+                )
+                print("Saved all tours report")
+            except Exception as e:
+                print(f"Error uploading file: {e}")
 
     except client.exceptions.NoSuchKey:
         print(f"Error: Object '{object_key}' not found in bucket '{BUCKET_NAME}'")
