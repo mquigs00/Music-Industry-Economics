@@ -30,7 +30,7 @@ pytesseract.pytesseract.tesseract_cmd = r"C:\Users\mquig\AppData\Local\Programs\
 
 directory_prefix = "raw/billboard/pdf/magazines/"
 
-object_key = 'raw/billboard/pdf/magazines/1984/10/BB-1984-10-20.pdf'
+object_key = 'raw/billboard/pdf/magazines/1984/11/BB-1984-11-03.pdf'
 
 '''
     Every tour has:
@@ -149,7 +149,7 @@ def parse_gross_receipts(gross_receipts):
     :param gross_receipts:
     :return:
     """
-    gross_receipts = re.sub(r"[$,‘]", "", gross_receipts)
+    gross_receipts = re.sub(r"[$,]", "", gross_receipts)
     if gross_receipts.isdigit():
         gross_receipts = int(gross_receipts)
     else:
@@ -170,30 +170,6 @@ def parse_tickets_sold(tickets_sold):
 
     return tickets_sold
 
-def parse_capacity(next_item, tickets_sold):
-    """
-    Extracts the capacity or number of sold out shows for the tour
-    :param next_item:
-    :param tickets_sold:
-    :return:
-    """
-    capacity = num_sellouts = None
-
-    if re.search(r"\d", next_item):
-        capacity = re.sub("[(),]", "", next_item)
-        if capacity.isdigit():
-            if tickets_sold is not None and int(capacity) < tickets_sold:
-                logger.warning(f"Capacity = {capacity} but attendance = {tickets_sold} for tour, setting capacity back to None")
-                capacity = None
-        else:
-            logger.warning(f"Capacity = {capacity}, setting it back to None")
-    elif next_item == 'sellout':
-        num_sellouts = 1
-    else:
-        num_sellouts = w2n.word_to_num(next_item)
-
-    return capacity, num_sellouts
-
 def parse_artist_2(next_item, it):
     """
     Extracts the name of the second artist on the tour
@@ -204,7 +180,7 @@ def parse_artist_2(next_item, it):
     artist_2 = [next_item]
     next_item = next(it, None)
 
-    while next_item is not None and re.search(r"[A-Z]+", next_item):
+    while next_item is not None and re.search(r"^[A-Z]+$", next_item):
         artist_2.append(next_item)
         next_item = next(it, None)
 
@@ -239,7 +215,9 @@ def parse_tour_lines(tour_lines):
 
         for line in tour_lines:
             line = line.replace("§", "$")
-            tickets_sold = num_sellouts = capacity = ticket_prices = location = last_day = artist_2 = artist_3 = None
+            line = re.sub(r"‘", "", line)
+            line = re.sub(' & ', '/', line)
+            num_shows = tickets_sold = num_sellouts = capacity = ticket_prices = location = last_day = artist_2 = artist_3 = None
             artists = []
             first_lowercase_idx = re.search(r"[a-z]", line).start()
             artist_1 = line[0:first_lowercase_idx-2]
@@ -262,27 +240,47 @@ def parse_tour_lines(tour_lines):
 
             next_item = next(it)    # skip next it
 
-            print(f"Skipped pipe delimeter. Next item: {next_item}")
-
-            if re.fullmatch(r"[A-Z]+", next_item):                                  # if next item has multiple uppercase, it is the second artist
+            if re.fullmatch(r"^[A-Z]+$", next_item):                                  # if next item has multiple uppercase, it is the second artist
                 artist_2, next_item, it = parse_artist_2(next_item, it)
                 artists.append(artist_2)
 
             if not re.search(r"\$?[0-9]", next_item):                                         # if the next item does not numbers, it is the location
-                print(f"Next item = {next_item}, parsing location")
                 location, next_item, it = parse_location(next_item, it)
-
-            print('Passed parse location')
 
             if re.search(r"^0-9\$,.\/-", next_item):                                  # if next item
                 logger.warning(f"Ticket prices = {next_item}, setting it back to None")
             else:
                 ticket_prices = re.sub(r"\$", "", next_item)
 
-            print(f"artist_1 = {artist_1}, venue = {venue}, gross receipts = {gross_receipts}, tickets sold = {tickets_sold}, ticket prices = {ticket_prices}")
-
             next_item = next(it)
-            capacity, num_sellouts = parse_capacity(next_item, tickets_sold)
+
+            if re.search(r"\d", next_item):
+                capacity = re.sub("[(),]", "", next_item)
+                if capacity.isdigit():
+                    if tickets_sold is not None and int(capacity) < tickets_sold:
+                        logger.warning(
+                            f"Capacity = {capacity} but attendance = {tickets_sold} for tour, setting capacity back to None")
+                        capacity = None
+                else:
+                    logger.warning(f"Capacity = {capacity}, setting it back to None")
+            elif next_item == 'sellout':
+                num_sellouts = 1
+            else:
+                try:
+                    number = w2n.word_to_num(next_item)
+                    next_item = next(it, None)
+                    if next_item == "sellouts":
+                        num_sellouts = number
+                    elif next_item == "shows":
+                        num_shows = number
+                    elif levenshtein_distance(next_item, "sellouts") <= 2:
+                        num_sellouts = number
+                    elif levenshtein_distance(next_item, "shows") <= 2:
+                        num_shows = number
+
+                except ValueError:
+                    print(f"Next item = {next_item}, not a number")
+
             next_item = next(it, None)
 
             while next_item is not None:                                                       # any other text preceding the '|' delimiter is overflow of the promoter name
@@ -292,20 +290,29 @@ def parse_tour_lines(tour_lines):
                 next_item = next(it, None)
 
             promoter = " ".join(promoter)
-
-            if next_item == '|':
-                next_item = next(it, None)
-                if re.search(r"[A-Z]+\s?[A-Z]+", next_item):
+                                                                          # if there is a pipe delimiter, there likely was a third line with more data
+            while next_item is not None:
+                if re.fullmatch(r"[A-Z]+", next_item):
                     next_artist, next_item, it = parse_artist_2(next_item, it)
                     artists.append(next_artist)
                 elif re.search(r"\$?[0-9]", next_item):
                     ticket_prices += re.sub(r"\$", "", next_item)
+                elif re.search(r"[a-z]+", next_item):
+                    try:
+                        number = w2n.word_to_num(next_item)
+                        next_item = next(it, None)
+                        if next_item == "sellouts":
+                            num_sellouts = number
+                        elif next_item == "shows":
+                            num_shows = number
+                        elif levenshtein_distance(next_item, "sellouts") <= 2:
+                            num_sellouts = number
+                        elif levenshtein_distance(next_item, "shows") <= 2:
+                            num_shows = number
+                    except ValueError:
+                        print(f"Next item = {next_item}, not a number")
 
-            next_item = next(it, None)
-            if next_item == '|':
-                if re.fullmatch(r"[A-Z]+", next_item):
-                    next_artist, next_item, it = parse_artist_2(next_item, it)
-                    artists.append(next_artist)
+                next_item = next(it, None)
 
             next_tour = {
                 "artists": '/'.join(artists),
@@ -319,6 +326,7 @@ def parse_tour_lines(tour_lines):
                 "location": location,
                 "ticket_prices": ticket_prices,
                 "capacity": capacity,
+                "num_shows": num_shows,
                 "num_sellouts": num_sellouts,
                 "source_id": "billboard",
                 "s3_uri": BUCKET_NAME + object_key
@@ -346,16 +354,16 @@ def extract_to_csv():
             #boxoffice_page = find_boxoffice_table(pdf, pdf_bytes)
 
             # magazine two is page 57
-            page_text = extract_text_ocr(pdf_bytes, 38)
+            page_text = extract_text_ocr(pdf_bytes, 55)
 
-            #print(page_text)
+            print(page_text)
 
-            lines = page_text.splitlines()
+            #lines = page_text.splitlines()
 
-            tour_lines = extract_raw_tour_lines(lines, False)
+            #tour_lines = extract_raw_tour_lines(lines, True)
 
-            #with open("raw_tour_lines.json", "r") as f:
-            #    tour_lines = json.load(f)
+            with open("raw_tour_lines.json", "r") as f:
+                tour_lines = json.load(f)
 
             consolidated_tour_lines = consolidate_tours(tour_lines)
 
