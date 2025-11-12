@@ -83,10 +83,10 @@ def consolidate_tours(tour_lines):
     try:
         tours = []
         next_tour = []
-        #pattern = r'\b(?:Jan|Feb|March|April|May|June|July|Aug|Sept|Oct|Nov|Dec)'
 
         for line in tour_lines:
-            if re.search(months_pattern, line):           # only the first line of a tour contains the date of the tour
+            if re.search(r"[A-Z]{2,}", line) and re.search(months_pattern, line):           # only the first line of a tour contains the date of the tour
+                print()
                 if len(next_tour) > 0:
                     tours.append(" | ".join(next_tour))
                 next_tour = []
@@ -100,242 +100,257 @@ def consolidate_tours(tour_lines):
     except Exception as e:
         print(f"Exception: {e}")
 
-def parse_venue(venue_list, it):
+def parse_location(tour_data, next_item, it):
     """
     Pieces together the venue name, stops once it reaches a month name
-    :param venue_list: the current list of words in the venue name
+    :param location: the current location
+    :param next_item: the current list of words in the venue name
     :param it: the iterator of tour data
     :return: the updated venue words and iterator
     """
-    next_item = next(it)
+    if not next_item:
+        return
+    next_location_line = []
+    next_location_line.append(next_item)
 
     # while no month is in the next item
-    while not re.search(months_pattern, next_item):
-        venue_list.append(next_item)
-        next_item = next(it)
+    while True:
+        next_item = next(it, None)
+        if not next_item:
+            break
+        if not re.fullmatch("[^0-9-/]+$", next_item) or re.search(months_pattern, next_item):
+            print(f"Breaking in parse_location because next_item: {next_item}")
+            break
+        next_location_line.append(next_item)
 
-    return " ".join(venue_list), it, next_item
+    tour_data["location"].append(" ".join(next_location_line))
+    return next_item
 
-def parse_date(month, it):
+def parse_date(tour_data, next_item, it):
     """
     Extracts the month, first, and last day of the tour
-    :param month:
+    :param dates:
+    :param next_item:
     :param it:
     :return:
     """
-    tour_days = first_day = last_day = None
-    month = re.sub("[.,]", "", month)
+    if not next_item:
+        return
+    next_data_line = []
+    next_data_line.append(next_item)
 
-    number_in_month = re.search(r"\d", month)
+    # while there is a month or starts with a number
+    while True:
+        next_item = next(it, None)
+        if not next_item:
+            break
+        # if there is no month or no number in the next_item, break
+        if not re.search(months_pattern, next_item) and not re.search("^[0-9]", next_item):
+            print(f"No month or number in next item: {next_item}")
+            break
+        next_data_line.append(next_item)
 
-    if number_in_month:
-        tour_days = month[number_in_month.start():]
-        month = month[:number_in_month.start()]
-    else:
-        tour_days = next(it)
+    tour_data["dates"].append(" ".join(next_data_line))
+    return next_item
 
-    if '-' in tour_days:
-        tour_days = tour_days.split('-')
-        first_day = re.sub(r"[.,]", "", tour_days[0])
-        last_day = re.sub(r"[.,]", "", tour_days[1])
-    else:
-        first_day = re.sub(r"[.,]", "", tour_days)
-
-    return month, first_day, last_day, it
-
-def parse_gross_receipts(gross_receipts):
+def parse_gross_receipts_us(tour_data, next_item):
     """
     Strips the gross receipts value of any symbols/punctuation
     :param gross_receipts:
     :return:
     """
-    gross_receipts = re.sub(r"[$,]", "", gross_receipts)
-    if gross_receipts.isdigit():
-        gross_receipts = int(gross_receipts)
+
+    if next_item and next_item.startswith("$"):
+        try:
+            tour_data["gross_receipts_us"] = float(next_item.replace("$", "").replace(",", ""))
+        except ValueError:
+            pass
+
+def parse_tickets_sold(tour_data, next_item):
+    if next_item and re.match(r"^[\d,]+$", next_item):
+        tour_data["tickets_sold"] = float(next_item.replace(",", ""))
     else:
-        logger.warning(f"Gross receipts = {gross_receipts}, setting it back to None")
-        gross_receipts = None
+        logger.error(f"Attendance = {next_item}, leaving tickets_sold as None")
 
-    return gross_receipts
-
-def parse_tickets_sold(tickets_sold):
-    tickets_sold = re.sub(r"\.", ",", tickets_sold)
-    tickets_sold = re.sub(r",", "", tickets_sold)
-
-    if tickets_sold.isdigit():                                                                      # check that there are no letters or random symbols
-        tickets_sold = int(re.sub(r"[$,]", "", tickets_sold))
-    else:                                                                                           # if any non-numbers, set tickets_sold back to None
-        logger.warning(f"Tickets sold = {tickets_sold}")
-        tickets_sold = None
-
-    return tickets_sold
-
-def parse_artist_2(next_item, it):
+def parse_additional_artist(tour_data, next_item, it):
     """
     Extracts the name of the second artist on the tour
     :param next_item:
     :param it:
     :return:
     """
-    artist_2 = [next_item]
-    next_item = next(it, None)
+    next_artist_line = []
+    next_artist_line.append(next_item)
 
-    while next_item is not None and re.search(r"^[A-Z]+$", next_item):
-        artist_2.append(next_item)
+    while True:
         next_item = next(it, None)
+        if not next_item:
+            break
+        if re.search(r"[a-z\d$]", next_item):
+            break
+        next_artist_line.append(next_item)
 
-    artist_2 = " ".join(artist_2)
+    tour_data["artists"].append(" ".join(next_artist_line))
 
-    return artist_2, next_item, it
+    return next_item
 
-def parse_location(next_item, it):
-    """
-    Extracts the location of the venue, could be the city, state, or country
-    :param next_item:
-    :param it:
-    :return:
-    """
+def parse_ticket_prices(tour_data, ticket_price, it):
+    next_item = next(it, None)
+    if re.search(r"^0-9$,./-", ticket_price):
+        logger.warning(f"Ticket prices = {ticket_price}, setting it back to None")
+    else:
+        if next_item and next_item == "&":
+            ticket_price_2 = next(it, None)
+            tour_data["ticket_prices"].append(ticket_price + " & " + ticket_price_2)
+        else:
+            print("APPENDING TO TICKET PRICES")
+            tour_data["ticket_prices"].append(ticket_price)
+
+    return next_item
+
+def parse_canadian_gross(tour_data, gross_receipts_canadian, it):
+    next_item = next(it, None)
+    print(f"In parse_canadian_gross: next item = {next_item}")
+    if next_item == "Canadian)":
+        tour_data["gross_receipts_canadian"] = int(gross_receipts_canadian.replace("(", "").replace(",", "").replace("$", ""))
+
+    next_item = next(it, None)
+    return next_item
+
+def parse_capacity(tour_data, next_item):
+    capacity = re.sub("[(),]", "", next_item)
+    if capacity.isdigit():
+        if tour_data["tickets_sold"] is not None and int(capacity) < tour_data["tickets_sold"]:
+            logger.warning(f"Capacity = {capacity} but attendance = {tour_data["tickets_sold"]} for tour, setting capacity back to None")
+        else:
+            tour_data["capacity"] = int(capacity)
+    else:
+        logger.warning(f"Capacity = {capacity}, setting it back to None")
+
+def parse_num_sellouts_shows(tour_data, number_text, it):
+    metric = next(it, None)
+    number = w2n.word_to_num(number_text)
+    if metric == "sellouts":
+        tour_data["num_sellouts"] = number
+    elif metric == "shows":
+        tour_data["num_shows"] = number
+    elif levenshtein_distance(metric, "sellouts") <= 2:
+        tour_data["num_sellouts"] = number
+    elif levenshtein_distance(metric, "shows") <= 2:
+        tour_data["num_shows"] = number
+
+    next_item = next(it, None)
+    return next_item
+
+def parse_promoter(tour_data, next_item, it):
+    next_promoter_line = []
+    while next_item and next_item != "|":
+        print(f"In parse_promoter: {next_item}")
+        next_promoter_line.append(next_item)
+        next_item = next(it, None)
+    #if next_item == "|":
+    #    next_item = next(it, None)
+
+    tour_data["promoter"].append(" ".join(next_promoter_line))
+    #return next_item
+
+def new_tour_state(bucket_name, object_key):
+    return {
+        "artists": [],
+        "dates": [],
+        "gross_receipts_us": None,
+        "gross_receipts_canadian": None,
+        "tickets_sold": None,
+        "capacity": None,
+        "num_shows": None,
+        "num_sellouts": None,
+        "promoter": [],
+        "ticket_prices": [],
+        "location": [],
+        "source_id": "billboard",
+        "schema_id": "bb_3",
+        "s3_uri": f"{bucket_name}{object_key}",
+    }
+
+def clean_tour(line):
+    line = line.replace("§", "$")
+    line = re.sub(r"‘", "", line)
+    return line.strip()
+
+def is_number_text(text):
     try:
-        location = [next_item]
-        next_item = next(it)
+        w2n.word_to_num(text)
+        return True
+    except ValueError:
+        return False
 
-        while not re.search(r"\$?[0-9]", next_item):                                             # While the next item doesn't have a dollar sign, keep extracting the location
-            location.append(next_item)
-            next_item = next(it)
+def parse_additional_lines(tour_data, next_item, it):
+    try:
+        if not next_item or next_item == '|':
+            return
 
-        location = " ".join(location)
+        if is_number_text(next_item):
+            parse_num_sellouts_shows(tour_data, next_item, it)
+            return
+        if re.fullmatch(r"^[A-Z:,.]+$", next_item):
+            next_item = parse_additional_artist(tour_data, next_item, it)
+        # if next item has no numbers, it should be additional venue/location data
+        if not re.search("[0-9]", next_item) and levenshtein_distance(next_item, "Promotions") > 2:
+            next_item = parse_location(tour_data, next_item, it)
+        if re.search(months_pattern, next_item) or re.search(r"^[0-9]", next_item):
+            next_item = parse_date(tour_data, next_item, it)
+        # if next item starts with dollar sign, it is ticket prices
+        if re.search(r"^\$", next_item):
+            parse_ticket_prices(tour_data, next_item, it)
+            next_item = next(it, None)
+        if re.search(r"\(\$\d*,\d*", next_item):
+            next_item = parse_canadian_gross(tour_data, next_item, it)
+        if re.search(r"\(?\d+,?.?\d+\)?", next_item):
+            parse_capacity(tour_data, next_item)
+            next_item = next(it, None)
+        if levenshtein_distance(next_item, 'sellout') < 2:
+            tour_data["num_sellouts"] = 1
+            next_item = next(it, None)
+        if is_number_text(next_item):
+            next_item = parse_num_sellouts_shows(tour_data, next_item, it)
+        if not re.search(r"[0-9]", next_item):
+            parse_promoter(tour_data, next_item, it)
 
-        return location, next_item, it
-    except Exception as e:
-        print(f"Exception: {e}")
+    except TypeError as e:
+        print(f"TypeError = {e}")
 
 def parse_tour_lines(tour_lines):
+    tour_objs = []
+
     try:
-        tour_objs = []
-
         for line in tour_lines:
-            line = line.replace("§", "$")
-            line = re.sub(r"‘", "", line)
-            line = re.sub(' & ', '/', line)
-            num_shows = tickets_sold = num_sellouts = capacity = ticket_prices = location = last_day = artist_2 = artist_3 = None
-            artists = []
-            first_lowercase_idx = re.search(r"[a-z]", line).start()
-            artist_1 = line[0:first_lowercase_idx-2]
-            artists.append(artist_1)
+            tour_data = new_tour_state(BUCKET_NAME, object_key)
+            line = clean_tour(line)
 
+            first_lowercase_idx = re.search(r"[a-z]", line).start()
+            tour_data["artists"].append(line[0:first_lowercase_idx-2])
             rest_of_line = line[first_lowercase_idx-1:].split()
             it = iter(rest_of_line)
-            venue, it, next_item = parse_venue([], it)
-            month, first_day, last_day, it = parse_date(next_item, it)
-            next_item = next(it)
-            gross_receipts = parse_gross_receipts(next_item)
-            next_item = next(it)
-            tickets_sold = parse_tickets_sold(next_item)
-            next_item = next(it)
-            promoter = []
-
-            while next_item != '|':
-                promoter.append(next_item)
-                next_item = next(it)
-
-            next_item = next(it)    # skip next it
-
-            if re.fullmatch(r"^[A-Z]+$", next_item):                                  # if next item has multiple uppercase, it is the second artist
-                artist_2, next_item, it = parse_artist_2(next_item, it)
-                artists.append(artist_2)
-
-            if not re.search(r"\$?[0-9]", next_item):                                         # if the next item does not numbers, it is the location
-                location, next_item, it = parse_location(next_item, it)
-
-            if re.search(r"^0-9\$,.\/-", next_item):                                  # if next item
-                logger.warning(f"Ticket prices = {next_item}, setting it back to None")
-            else:
-                ticket_prices = re.sub(r"\$", "", next_item)
-
-            next_item = next(it)
-
-            if re.search(r"\d", next_item):
-                capacity = re.sub("[(),]", "", next_item)
-                if capacity.isdigit():
-                    if tickets_sold is not None and int(capacity) < tickets_sold:
-                        logger.warning(
-                            f"Capacity = {capacity} but attendance = {tickets_sold} for tour, setting capacity back to None")
-                        capacity = None
-                else:
-                    logger.warning(f"Capacity = {capacity}, setting it back to None")
-            elif next_item == 'sellout':
-                num_sellouts = 1
-            else:
-                try:
-                    number = w2n.word_to_num(next_item)
-                    next_item = next(it, None)
-                    if next_item == "sellouts":
-                        num_sellouts = number
-                    elif next_item == "shows":
-                        num_shows = number
-                    elif levenshtein_distance(next_item, "sellouts") <= 2:
-                        num_sellouts = number
-                    elif levenshtein_distance(next_item, "shows") <= 2:
-                        num_shows = number
-
-                except ValueError:
-                    print(f"Next item = {next_item}, not a number")
-
+            next_item = next(it, None)
+            next_item = parse_location(tour_data, next_item, it)
+            next_item = parse_date(tour_data, next_item, it)
+            parse_gross_receipts_us(tour_data, next_item)
+            parse_tickets_sold(tour_data, next(it))
+            parse_promoter(tour_data, next(it), it)
             next_item = next(it, None)
 
-            while next_item is not None:                                                       # any other text preceding the '|' delimiter is overflow of the promoter name
-                if next_item == '|':
-                    break
-                promoter.append(next_item)
+            #print(f"Artist 1 = {tour_data["artists"]}, location = {tour_data["location"]}, date = {tour_data["dates"]}, gross receipts = {tour_data["gross_receipts_us"]}, tickets sold = {tour_data["tickets_sold"]}")
+
+            while next_item:
+                parse_additional_lines(tour_data, next_item, it)
                 next_item = next(it, None)
+                print(f"In parse_tour_lines: {next_item}")
 
-            promoter = " ".join(promoter)
-                                                                          # if there is a pipe delimiter, there likely was a third line with more data
-            while next_item is not None:
-                if re.fullmatch(r"[A-Z]+", next_item):
-                    next_artist, next_item, it = parse_artist_2(next_item, it)
-                    artists.append(next_artist)
-                elif re.search(r"\$?[0-9]", next_item):
-                    ticket_prices += re.sub(r"\$", "", next_item)
-                elif re.search(r"[a-z]+", next_item):
-                    try:
-                        number = w2n.word_to_num(next_item)
-                        next_item = next(it, None)
-                        if next_item == "sellouts":
-                            num_sellouts = number
-                        elif next_item == "shows":
-                            num_shows = number
-                        elif levenshtein_distance(next_item, "sellouts") <= 2:
-                            num_sellouts = number
-                        elif levenshtein_distance(next_item, "shows") <= 2:
-                            num_shows = number
-                    except ValueError:
-                        print(f"Next item = {next_item}, not a number")
-
-                next_item = next(it, None)
-
-            next_tour = {
-                "artists": '/'.join(artists),
-                "venue": venue,
-                "month_1": month,
-                "first_day": first_day,
-                "last_day": last_day,
-                "gross_receipts": gross_receipts,
-                "tickets_sold": tickets_sold,
-                "promoter": promoter,
-                "location": location,
-                "ticket_prices": ticket_prices,
-                "capacity": capacity,
-                "num_shows": num_shows,
-                "num_sellouts": num_sellouts,
-                "source_id": "billboard",
-                "s3_uri": BUCKET_NAME + object_key
-            }
-
-            print(next_tour)
-            tour_objs.append(next_tour)
+            print(tour_data)
+            tour_objs.append(tour_data)
 
         return tour_objs
+
     except Exception as e:
         print(f"Exception: {e}")
     except TourParsingError as e:
@@ -358,12 +373,12 @@ def extract_to_csv():
 
             print(page_text)
 
-            #lines = page_text.splitlines()
+            lines = page_text.splitlines()
 
-            #tour_lines = extract_raw_tour_lines(lines, True)
+            tour_lines = extract_raw_tour_lines(lines, False)
 
-            with open("raw_tour_lines.json", "r") as f:
-                tour_lines = json.load(f)
+            #with open("raw_tour_lines.json", "r") as f:
+            #    tour_lines = json.load(f)
 
             consolidated_tour_lines = consolidate_tours(tour_lines)
 
@@ -373,7 +388,7 @@ def extract_to_csv():
             tour_objs = parse_tour_lines(consolidated_tour_lines)
 
             df_all_tours = pd.DataFrame(tour_objs)
-
+        
             file_name = object_key.split('/')[-1]
             csv_file_name = file_name.replace('.pdf', '.csv')
 
@@ -392,6 +407,7 @@ def extract_to_csv():
                 print("Saved all tours report")
             except Exception as e:
                 print(f"Error uploading file: {e}")
+
 
     except client.exceptions.NoSuchKey:
         print(f"Error: Object '{object_key}' not found in bucket '{BUCKET_NAME}'")
