@@ -23,14 +23,14 @@ class ParsingError(Exception):
 class FileParsingError(ParsingError):
     """Raised when the entire file should be skipped"""
 
-class TourParsingError(ParsingError):
+class EventParsingError(ParsingError):
     """Raised when just the current tour should be skipped"""
 
 pytesseract.pytesseract.tesseract_cmd = r"C:\Users\mquig\AppData\Local\Programs\Tesseract-OCR\tesseract.exe"
 
 directory_prefix = "raw/billboard/pdf/magazines/"
 
-object_key = 'raw/billboard/pdf/magazines/1984/12/BB-1984-12-01.pdf'
+object_key = 'raw/billboard/pdf/magazines/1984/11/BB-1984-11-17.pdf'
 
 '''
     Every tour has:
@@ -49,14 +49,14 @@ months = ["Jan.", "Feb.", "March", "April", "May", "June", "July", "Aug.", "Sept
 
 months_pattern = r'\b(?:Jan|Feb|March|April|May|June|July|Aug|Sept|Oct|Nov|Dec)[\.,\b]?'
 
-def extract_raw_tour_lines(page_lines, should_save):
+def extract_raw_event_lines(page_lines, should_save):
     """
     Extracts the top boxoffice table lines
     :param page_lines:
     :return:
     """
     found_boxscore = False
-    tour_lines = []
+    event_lines = []
 
     for line in page_lines:
         #print(f"Next line = {line}")
@@ -66,44 +66,43 @@ def extract_raw_tour_lines(page_lines, should_save):
         elif line[0:11] == "Copyrighted":
             break
         elif found_boxscore:  # if inside box office section and the next line does not start with the next rank number, it must be overflow of the current tour data
-            tour_lines.append(line)
+            event_lines.append(line)
 
     if should_save:
-        with open("raw_tour_lines.json", "w") as f:
-            json.dump(tour_lines, f)
+        with open("raw_event_lines.json", "w") as f:
+            json.dump(event_lines, f)
 
-    return tour_lines
+    return event_lines
 
-def consolidate_tours(tour_lines):
+def consolidate_events(event_lines):
     """
-    Groups each tour into one String
-    :param tour_lines:
+    Groups each event into one String
+    :param event_lines:
     :return:
     """
     try:
-        tours = []
-        next_tour = []
+        events = []
+        next_event = []
 
-        for line in tour_lines:
+        for line in event_lines:
             if re.search(r"[A-Z]{2,}", line) and re.search(months_pattern, line):           # only the first line of a tour contains the date of the tour
-                print()
-                if len(next_tour) > 0:
-                    tours.append(" | ".join(next_tour))
-                next_tour = []
-                next_tour.append(line)
+                if len(next_event) > 0:
+                    events.append(" | ".join(next_event))
+                next_event = []
+                next_event.append(line)
             else:
-                next_tour.append(line)
+                next_event.append(line)
 
-        tours.append(" | ".join(next_tour))
+        events.append(" | ".join(next_event))
 
-        return tours
+        return events
     except Exception as e:
         print(f"Exception: {e}")
 
-def parse_location(tour_data, next_item, it):
+def parse_location(event_data, next_item, it):
     """
     Pieces together the venue name, stops once it reaches a month name
-    :param tour_data: the tour data dictionary of the current tour being processed
+    :param event_data: the tour data dictionary of the current tour being processed
     :param next_item: the next item in the tour iterator
     :param it: the iterator of tour data
     :return: the updated next_item in the iterator
@@ -116,20 +115,20 @@ def parse_location(tour_data, next_item, it):
     # while no month is in the next item
     while True:
         next_item = next(it, None)                                                                         # if next item is none, reached the end of the tour data
-        if not next_item:
+        if not next_item or next_item == "|":
             break
         if not re.fullmatch("[^0-9-/]+$", next_item) or re.search(months_pattern, next_item):       # if next item has numbers or a month, move on
             print(f"Breaking in parse_location because next_item: {next_item}")
             break
         next_location_line.append(next_item)                                                               # otherwise, add next item to the new location list
 
-    tour_data["location"].append(" ".join(next_location_line))                                             # group the next set of location items and add the string to location
+    event_data["location"].append(" ".join(next_location_line))                                             # group the next set of location items and add the string to location
     return next_item
 
-def parse_date(tour_data, next_item, it):
+def parse_date(event_data, next_item, it):
     """
-    Extracts the month, first, and last day of the tour
-    :param tour_data: the tour data dictionary of the current tour being processed
+    Extracts the month, first, and last day of the event
+    :param event_data: the event data dictionary of the current tour being processed
     :param next_item: the next item in the tour iterator
     :param it: the iterator of tour data
     :return:
@@ -137,6 +136,9 @@ def parse_date(tour_data, next_item, it):
     if not next_item:
         return
     next_data_line = []
+
+    if re.search(r"\d+\.\d+", next_item):
+        return next(it, None)
     next_data_line.append(next_item)
 
     # while there is a month or starts with a number
@@ -148,12 +150,14 @@ def parse_date(tour_data, next_item, it):
         if not re.search(months_pattern, next_item) and not re.search("^[0-9]", next_item):
             print(f"No month or number in next item: {next_item}")
             break
+        if re.search(r"\d+\.\d+", next_item):
+            break
         next_data_line.append(next_item)
 
-    tour_data["dates"].append(" ".join(next_data_line))
+    event_data["dates"].append(" ".join(next_data_line))
     return next_item
 
-def parse_gross_receipts_us(tour_data, next_item):
+def parse_gross_receipts_us(event_data, next_item):
     """
     Strips the gross receipts value of any symbols/punctuation
     :param gross_receipts:
@@ -162,27 +166,27 @@ def parse_gross_receipts_us(tour_data, next_item):
 
     if next_item and next_item.startswith("$"):
         try:
-            tour_data["gross_receipts_us"] = float(next_item.replace("$", "").replace(",", ""))
+            event_data["gross_receipts_us"] = float(next_item.replace("$", "").replace(",", ""))
         except ValueError:
             pass
 
-def parse_tickets_sold(tour_data, next_item):
+def parse_tickets_sold(event_data, next_item):
     '''
     Extracts the number of tickets_sold
-    :param tour_data:
+    :param event_data:
     :param next_item:
     :return:
     '''
     if next_item and re.match(r"^[\d,]+$", next_item):
-        tour_data["tickets_sold"] = float(next_item.replace(",", ""))
+        event_data["tickets_sold"] = float(next_item.replace(",", ""))
     else:
         logger.error(f"Attendance = {next_item}, leaving tickets_sold as None")
 
-def parse_additional_artist(tour_data, next_item, it):
+def parse_additional_artist(event_data, next_item, it):
     """
     Extracts the name of the second artist on the tour
 
-    :param tour_data: the tour data dictionary of the current tour being processed
+    :param event_data: the tour data dictionary of the current tour being processed
     :param next_item: the next item in the tour iterator
     :param it: the iterator of tour data
     :return:
@@ -192,42 +196,44 @@ def parse_additional_artist(tour_data, next_item, it):
 
     while True:
         next_item = next(it, None)
-        if not next_item:
+        if not next_item or next_item == "|":
             break
         if re.search(r"[a-z\d$]", next_item):
             break
         next_artist_line.append(next_item)
 
-    tour_data["artists"].append(" ".join(next_artist_line))
+    event_data["artists"].append(" ".join(next_artist_line))
 
     return next_item
 
-def parse_ticket_prices(tour_data, ticket_price, it):
+def parse_ticket_prices(event_data, ticket_price, it):
     '''
     Extracts the next set of ticket prices for the tour
 
-    :param tour_data:
+    :param event_data:
     :param ticket_price:
     :param it:
     :return:
     '''
+    ticket_price = ticket_price.replace("$", "")
+    print(f"Ticket price: {ticket_price}")
+
     next_item = next(it, None)
-    if re.search(r"^0-9$,./-", ticket_price):
+    if re.search(r"^0-9\$,./-", ticket_price):
         logger.warning(f"Ticket prices = {ticket_price}, setting it back to None")
     else:
         if next_item and next_item == "&":
             ticket_price_2 = next(it, None)
-            tour_data["ticket_prices"].append(ticket_price + " & " + ticket_price_2)
+            event_data["ticket_prices"].append(ticket_price + " & " + ticket_price_2)
         else:
-            print("APPENDING TO TICKET PRICES")
-            tour_data["ticket_prices"].append(ticket_price)
+            event_data["ticket_prices"].append(ticket_price)
 
     return next_item
 
-def parse_canadian_gross(tour_data, gross_receipts_canadian, it):
+def parse_canadian_gross(event_data, gross_receipts_canadian, it):
     '''
     Extracts the Canadian gross revenue for the tour
-    :param tour_data:
+    :param event_data:
     :param gross_receipts_canadian:
     :param it:
     :return:
@@ -235,12 +241,12 @@ def parse_canadian_gross(tour_data, gross_receipts_canadian, it):
     next_item = next(it, None)
     print(f"In parse_canadian_gross: next item = {next_item}")
     if next_item == "Canadian)":
-        tour_data["gross_receipts_canadian"] = int(gross_receipts_canadian.replace("(", "").replace(",", "").replace("$", ""))
+        event_data["gross_receipts_canadian"] = int(gross_receipts_canadian.replace("(", "").replace(",", "").replace("$", ""))
 
     next_item = next(it, None)
     return next_item
 
-def parse_capacity(tour_data, next_item):
+def parse_capacity(event_data, next_item):
     '''
     Extracts the capacity of the tour venue
 
@@ -250,14 +256,14 @@ def parse_capacity(tour_data, next_item):
     '''
     capacity = re.sub("[(),]", "", next_item)
     if capacity.isdigit():
-        if tour_data["tickets_sold"] is not None and int(capacity) < tour_data["tickets_sold"]:
-            logger.warning(f"Capacity = {capacity} but attendance = {tour_data["tickets_sold"]} for tour, setting capacity back to None")
+        if event_data["tickets_sold"] is not None and int(capacity) < event_data["tickets_sold"]:
+            logger.warning(f"Capacity = {capacity} but attendance = {event_data["tickets_sold"]} for tour, setting capacity back to None")
         else:
-            tour_data["capacity"] = int(capacity)
+            event_data["capacity"] = int(capacity)
     else:
         logger.warning(f"Capacity = {capacity}, setting it back to None")
 
-def parse_num_sellouts_shows(tour_data, number_text, it):
+def parse_num_sellouts_shows(event_data, number_text, it):
     '''
     Extracts the number of sellouts or number of shows
 
@@ -269,35 +275,34 @@ def parse_num_sellouts_shows(tour_data, number_text, it):
     metric = next(it, None)
     number = w2n.word_to_num(number_text)
     if metric == "sellouts":
-        tour_data["num_sellouts"] = number
+        event_data["num_sellouts"] = int(number)
     elif metric == "shows":
-        tour_data["num_shows"] = number
+        event_data["num_shows"] = int(number)
     elif levenshtein_distance(metric, "sellouts") <= 2:
-        tour_data["num_sellouts"] = number
+        event_data["num_sellouts"] = int(number)
     elif levenshtein_distance(metric, "shows") <= 2:
-        tour_data["num_shows"] = number
+        event_data["num_shows"] = int(number)
 
     next_item = next(it, None)
     return next_item
 
-def parse_promoter(tour_data, next_item, it):
+def parse_promoter(event_data, next_item, it):
     '''
     Extracts the next set of promoter data in the tour iterator
 
-    :param tour_data:
+    :param event_data:
     :param next_item:
     :param it:
     :return:
     '''
     next_promoter_line = []
     while next_item and next_item != "|":
-        print(f"In parse_promoter: {next_item}")
         next_promoter_line.append(next_item)
         next_item = next(it, None)
 
-    tour_data["promoter"].append(" ".join(next_promoter_line))
+    event_data["promoter"].append(" ".join(next_promoter_line))
 
-def new_tour_state(bucket_name, object_key):
+def new_event_state(bucket_name, object_key):
     '''
     Creates a new dictionary for a tour
 
@@ -322,7 +327,7 @@ def new_tour_state(bucket_name, object_key):
         "s3_uri": f"{bucket_name}{object_key}",
     }
 
-def clean_tour(line):
+def clean_event(line):
     '''
     Removes accidental symbols from a tour string
 
@@ -345,7 +350,7 @@ def is_number_text(text):
     except ValueError:
         return False
 
-def parse_additional_lines(tour_data, next_item, it):
+def parse_additional_lines(event_data, next_item, it):
     '''
     Parses all data for consolidated tour line after the first pipe delimiter
 
@@ -356,38 +361,70 @@ def parse_additional_lines(tour_data, next_item, it):
     try:
         if not next_item or next_item == '|':
             return
-
         if is_number_text(next_item):
-            parse_num_sellouts_shows(tour_data, next_item, it)
+            print(f"Next item is number: {next_item}")
+            parse_num_sellouts_shows(event_data, next_item, it)
             return
         if re.fullmatch(r"^[A-Z:,.]+$", next_item):
-            next_item = parse_additional_artist(tour_data, next_item, it)
+            print(f"Next item is another artist = {next_item}")
+            next_item = parse_additional_artist(event_data, next_item, it)
         # if next item has no numbers, it should be additional venue/location data
-        if not re.search("[0-9]", next_item) and levenshtein_distance(next_item, "Promotions") > 2:
-            next_item = parse_location(tour_data, next_item, it)
+        if next_item != "|" and not re.search("[0-9]", next_item) or levenshtein_distance(next_item, "Promotions") < 2:
+            print(f"Next item is a location: {next_item}")
+            next_item = parse_location(event_data, next_item, it)
         if re.search(months_pattern, next_item) or re.search(r"^[0-9]", next_item):
-            next_item = parse_date(tour_data, next_item, it)
+            print(f"Next item is a date: {next_item}")
+            next_item = parse_date(event_data, next_item, it)
         # if next item starts with dollar sign, it is ticket prices
         if re.search(r"^\$", next_item):
-            parse_ticket_prices(tour_data, next_item, it)
-            next_item = next(it, None)
+            print(f"Next item is ticket prices: {next_item}")
+            next_item = parse_ticket_prices(event_data, next_item, it)
         if re.search(r"\(\$\d*,\d*", next_item):
-            next_item = parse_canadian_gross(tour_data, next_item, it)
+            print(f"Next item is canadian gross: {next_item}")
+            next_item = parse_canadian_gross(event_data, next_item, it)
         if re.search(r"\(?\d+,?.?\d+\)?", next_item):
-            parse_capacity(tour_data, next_item)
+            print(f"Found capacity: {next_item}")
+            parse_capacity(event_data, next_item)
             next_item = next(it, None)
         if levenshtein_distance(next_item, 'sellout') < 2:
-            tour_data["num_sellouts"] = 1
+            print(f"Next item is num_sellouts: {next_item}")
+            event_data["num_sellouts"] = 1
             next_item = next(it, None)
         if is_number_text(next_item):
-            next_item = parse_num_sellouts_shows(tour_data, next_item, it)
-        if not re.search(r"[0-9]", next_item):
-            parse_promoter(tour_data, next_item, it)
-
+            print(f"Next item is number: {next_item}")
+            next_item = parse_num_sellouts_shows(event_data, next_item, it)
+        if re.search(r"[0-9]", next_item):
+            print(f"Next item is promoter: {next_item}")
+            parse_promoter(event_data, next_item, it)
+        print(f"Next item: {next_item}")
     except TypeError as e:
-        print(f"TypeError = {e}")
+        print(f"TypeError = {e}. Next item = {next_item}")
 
-def parse_tour_lines(tour_lines):
+def parse_event(event_str):
+    event_data = new_event_state(BUCKET_NAME, object_key)
+    line = clean_event(event_str)
+
+    first_lowercase_idx = re.search(r"[a-z]", line).start()
+    event_data["artists"].append(line[0:first_lowercase_idx - 2])
+    rest_of_line = line[first_lowercase_idx - 1:].split()
+    print(rest_of_line)
+    it = iter(rest_of_line)
+    next_item = next(it, None)
+    next_item = parse_location(event_data, next_item, it)
+    next_item = parse_date(event_data, next_item, it)
+    parse_gross_receipts_us(event_data, next_item)
+    parse_tickets_sold(event_data, next(it))
+    parse_promoter(event_data, next(it), it)
+    next_item = next(it, None)
+
+    while next_item:
+        parse_additional_lines(event_data, next_item, it)
+        next_item = next(it, None)
+        print(f"In parse_tour_lines: {next_item}")
+
+    return event_data
+
+def parse_events(tour_lines):
     '''
     Takes a string of consolidated tour lines and returns a list with a dictionary for each object
     Each component of the tour is divided into a separate key and value.
@@ -395,41 +432,17 @@ def parse_tour_lines(tour_lines):
     :param tour_lines: a list of consolidated tour lines
     :return: a list of dictionaries with each tour's data broken into separate key and value
     '''
-    tour_objs = []
+    event_objs = []
 
-    try:
-        for line in tour_lines:
-            tour_data = new_tour_state(BUCKET_NAME, object_key)
-            line = clean_tour(line)
+    for line in tour_lines:
+        try:
+            parsed_event = parse_event(line)
+            print(parsed_event)
+            event_objs.append(parsed_event)
+        except EventParsingError as e:
+            logger.warning(f"Skipping tour due to parsing error: {e}")
 
-            first_lowercase_idx = re.search(r"[a-z]", line).start()
-            tour_data["artists"].append(line[0:first_lowercase_idx-2])
-            rest_of_line = line[first_lowercase_idx-1:].split()
-            it = iter(rest_of_line)
-            next_item = next(it, None)
-            next_item = parse_location(tour_data, next_item, it)
-            next_item = parse_date(tour_data, next_item, it)
-            parse_gross_receipts_us(tour_data, next_item)
-            parse_tickets_sold(tour_data, next(it))
-            parse_promoter(tour_data, next(it), it)
-            next_item = next(it, None)
-
-            #print(f"Artist 1 = {tour_data["artists"]}, location = {tour_data["location"]}, date = {tour_data["dates"]}, gross receipts = {tour_data["gross_receipts_us"]}, tickets sold = {tour_data["tickets_sold"]}")
-
-            while next_item:
-                parse_additional_lines(tour_data, next_item, it)
-                next_item = next(it, None)
-                print(f"In parse_tour_lines: {next_item}")
-
-            print(tour_data)
-            tour_objs.append(tour_data)
-
-        return tour_objs
-
-    except Exception as e:
-        print(f"Exception: {e}")
-    except TourParsingError as e:
-        print(f"Tour Parsing Error: {e}")
+    return event_objs
 
 def extract_to_csv():
     '''
@@ -454,20 +467,20 @@ def extract_to_csv():
 
             lines = page_text.splitlines()
 
-            tour_lines = extract_raw_tour_lines(lines, False)
+            event_lines = extract_raw_event_lines(lines, True)
 
-            #with open("raw_tour_lines.json", "r") as f:
-            #    tour_lines = json.load(f)
+            #with open("raw_event_lines.json", "r") as f:
+            #    event_lines = json.load(f)
 
-            consolidated_tour_lines = consolidate_tours(tour_lines)
+            consolidated_event_lines = consolidate_events(event_lines)
 
-            for tour in consolidated_tour_lines:
-                print(tour)
+            for event in consolidated_event_lines:
+                print(event)
 
             '''
-            tour_objs = parse_tour_lines(consolidated_tour_lines)
+            event_objs = parse_tour_lines(consolidated_tour_lines)
 
-            df_all_tours = pd.DataFrame(tour_objs)
+            df_all_event = pd.DataFrame(tour_objs)
         
             file_name = object_key.split('/')[-1]
             csv_file_name = file_name.replace('.pdf', '.csv')

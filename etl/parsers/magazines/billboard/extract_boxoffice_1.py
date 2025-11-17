@@ -77,7 +77,7 @@ def extract_raw_tour_lines(page_lines):
         elif found_boxoffice:  # if inside box office section and the next line does not start with the next rank number, it must be overflow of the current tour data
             tour_lines.append(line)
 
-    with open("raw_tour_lines.json", "w") as f:
+    with open("raw_event_lines.json", "w") as f:
         json.dump(tour_lines, f)
 
 def restructure_tour_pieces(tour_lines):
@@ -583,7 +583,7 @@ def test():
     try:
         lines = []
 
-        with open("raw_tour_lines.json", "r") as f:
+        with open("raw_event_lines.json", "r") as f:
             lines =json.load(f)
 
         print(lines)
