@@ -138,4 +138,41 @@ def test_dates_dollar_sign_misread():
     assert event_data["ticket_prices"] == []
     assert event_data["gross_receipts_canadian"] is None
 
+def test_num_shows_and_sellouts():
+    '''
+        In this case, the OCR misread multiple items Mz is supposed to be "11-12", additional tour dates
+        Additionally, "seven sellouts" is misspelled, so word2number will not be able to convert and realize it is a number
+        '''
+    event_line = "CULTURE CLUB The Centrum Nov. 20-21 $270017 18,351 Frank J, Russo | SCHEMERS Worcester, Mass. $16/$13.50 two shows, | one satlout"
 
+    event_data = parser.parse_event(event_line)
+
+    assert event_data["artists"] == ["CULTURE CLUB", "SCHEMERS"]
+    assert event_data["location"] == ["The Centrum", "Worcester, Mass."]
+    assert event_data["dates"] == ["Nov. 20-21"]
+    assert event_data["gross_receipts_us"] == 270017
+    assert event_data["tickets_sold"] == 18351
+    assert event_data["promoter"] == ["Frank J, Russo"]
+    assert event_data["capacity"] is None
+    assert event_data["num_shows"] == 2
+    assert event_data["num_sellouts"] == 1
+    assert event_data["ticket_prices"] == ["16/13.50"]
+    assert event_data["gross_receipts_canadian"] is None
+
+def test_numeric_num_sellouts():
+    # usually the number of shows or sellouts is in English, like "seven sellouts", but in this case they wrote "11 sellouts"
+    event_line = "DIANA ROSS Radio City Music Halt Sept. 19-25 $1,757,550 64,614 In-House | New York $30/$25/$20 11 sellouts"
+
+    event_data = parser.parse_event(event_line)
+
+    assert event_data["artists"] == ["DIANA ROSS"]
+    assert event_data["location"] == ["Radio City Music Halt", "New York"]
+    assert event_data["dates"] == ["Sept. 19-25"]
+    assert event_data["gross_receipts_us"] == 1757550
+    assert event_data["tickets_sold"] == 64614
+    assert event_data["promoter"] == ["In-House"]
+    assert event_data["capacity"] is None
+    assert event_data["num_shows"] is None
+    assert event_data["num_sellouts"] == 11
+    assert event_data["ticket_prices"] == ["30/25/20"]
+    assert event_data["gross_receipts_canadian"] is None

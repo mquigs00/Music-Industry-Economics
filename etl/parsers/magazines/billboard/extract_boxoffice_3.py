@@ -30,7 +30,7 @@ pytesseract.pytesseract.tesseract_cmd = r"C:\Users\mquig\AppData\Local\Programs\
 
 directory_prefix = "raw/billboard/pdf/magazines/"
 
-object_key = 'raw/billboard/pdf/magazines/1984/11/BB-1984-11-17.pdf'
+object_key = 'raw/billboard/pdf/magazines/1984/10/BB-1984-10-27.pdf'
 
 '''
     Every tour has:
@@ -85,7 +85,7 @@ def consolidate_events(event_lines):
         next_event = []
 
         for line in event_lines:
-            if re.search(r"[A-Z]{2,}", line) and re.search(months_pattern, line):           # only the first line of a tour contains the date of the tour
+            if re.search(r"[A-Z]{2,}", line) and re.search(months_pattern, line):           # only the first line of a tour contains the date of the tour:
                 if len(next_event) > 0:
                     events.append(" | ".join(next_event))
                 next_event = []
@@ -278,9 +278,9 @@ def parse_num_sellouts_shows(event_data, number_text, it):
         event_data["num_sellouts"] = int(number)
     elif metric == "shows":
         event_data["num_shows"] = int(number)
-    elif levenshtein_distance(metric, "sellouts") <= 2:
+    elif levenshtein_distance(metric, "sellouts") <= 3:
         event_data["num_sellouts"] = int(number)
-    elif levenshtein_distance(metric, "shows") <= 2:
+    elif levenshtein_distance(metric, "shows") <= 3:
         event_data["num_shows"] = int(number)
 
     next_item = next(it, None)
@@ -382,7 +382,7 @@ def parse_additional_lines(event_data, next_item, it):
         if re.search(r"\(\$\d*,\d*", next_item):
             print(f"Next item is canadian gross: {next_item}")
             next_item = parse_canadian_gross(event_data, next_item, it)
-        if re.search(r"\(?\d+,?.?\d+\)?", next_item):
+        if re.search(r"\(\d+,?.?\d+\)", next_item):
             print(f"Found capacity: {next_item}")
             parse_capacity(event_data, next_item)
             next_item = next(it, None)
@@ -461,7 +461,7 @@ def extract_to_csv():
             #boxoffice_page = find_boxoffice_table(pdf, pdf_bytes)
 
             # magazine two is page 57
-            page_text = extract_text_ocr(pdf_bytes, 37)
+            page_text = extract_text_ocr(pdf_bytes, 36)
 
             print(page_text)
 
@@ -477,16 +477,15 @@ def extract_to_csv():
             for event in consolidated_event_lines:
                 print(event)
 
+            #event_objs = parse_events(consolidated_event_lines)
             '''
-            event_objs = parse_tour_lines(consolidated_tour_lines)
-
-            df_all_event = pd.DataFrame(tour_objs)
+            events_df = pd.DataFrame(event_objs)
         
             file_name = object_key.split('/')[-1]
             csv_file_name = file_name.replace('.pdf', '.csv')
 
             csv_buffer = io.StringIO()
-            df_all_tours.to_csv(csv_buffer, index=False)
+            events_df.to_csv(csv_buffer, index=False)
 
             year = object_key.split('/')[4]
             month = object_key.split('/')[5]
