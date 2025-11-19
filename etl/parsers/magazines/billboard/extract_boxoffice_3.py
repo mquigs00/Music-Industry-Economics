@@ -30,7 +30,7 @@ pytesseract.pytesseract.tesseract_cmd = r"C:\Users\mquig\AppData\Local\Programs\
 
 directory_prefix = "raw/billboard/pdf/magazines/"
 
-object_key = 'raw/billboard/pdf/magazines/1984/10/BB-1984-10-27.pdf'
+object_key = 'raw/billboard/pdf/magazines/1985/01/BB-1985-01-05.pdf'
 
 '''
     Every tour has:
@@ -48,6 +48,8 @@ object_key = 'raw/billboard/pdf/magazines/1984/10/BB-1984-10-27.pdf'
 months = ["Jan.", "Feb.", "March", "April", "May", "June", "July", "Aug.", "Sept.", "Oct.", "Nov.", "Dec."]
 
 months_pattern = r'\b(?:Jan|Feb|March|April|May|June|July|Aug|Sept|Oct|Nov|Dec)[\.,\b]?'
+
+new_event_pattern = re.compile(r"[^a-z]*\s([^0-9]*\s)*((?:J(?:an|qn)|F(?:eb|eh)|Ma(?:r|rch|rc|rn)|A(?:pr|prl|or|ar)|May|Ju(?:n|u|l|ly)|Au(?:g|gg|uq)|S(?:ep|ept|eph)|O(?:ct|oet|oct)|N(?:ov|ow|no)|D(?:e[ceo]|ec|ee))[.,]?\s?\d+\-?)+\s?[^A-Za-z]*\s[A-Z]")
 
 def extract_raw_event_lines(page_lines, should_save):
     """
@@ -85,7 +87,8 @@ def consolidate_events(event_lines):
         next_event = []
 
         for line in event_lines:
-            if re.search(r"[A-Z]{2,}", line) and re.search(months_pattern, line):           # only the first line of a tour contains the date of the tour:
+            line = clean_event(line)
+            if new_event_pattern.search(line):           # only the first line of a tour contains the date of the tour:
                 if len(next_event) > 0:
                     events.append(" | ".join(next_event))
                 next_event = []
@@ -362,41 +365,30 @@ def parse_additional_lines(event_data, next_item, it):
         if not next_item or next_item == '|':
             return
         if is_number_text(next_item):
-            print(f"Next item is number: {next_item}")
             parse_num_sellouts_shows(event_data, next_item, it)
             return
         if re.fullmatch(r"^[A-Z:,.]+$", next_item):
-            print(f"Next item is another artist = {next_item}")
             next_item = parse_additional_artist(event_data, next_item, it)
         # if next item has no numbers, it should be additional venue/location data
         if next_item != "|" and not re.search("[0-9]", next_item) or levenshtein_distance(next_item, "Promotions") < 2:
-            print(f"Next item is a location: {next_item}")
             next_item = parse_location(event_data, next_item, it)
         if re.search(months_pattern, next_item) or re.search(r"^[0-9]", next_item):
-            print(f"Next item is a date: {next_item}")
             next_item = parse_date(event_data, next_item, it)
         # if next item starts with dollar sign, it is ticket prices
         if re.search(r"^\$", next_item):
-            print(f"Next item is ticket prices: {next_item}")
             next_item = parse_ticket_prices(event_data, next_item, it)
         if re.search(r"\(\$\d*,\d*", next_item):
-            print(f"Next item is canadian gross: {next_item}")
             next_item = parse_canadian_gross(event_data, next_item, it)
         if re.search(r"\(\d+,?.?\d+\)", next_item):
-            print(f"Found capacity: {next_item}")
             parse_capacity(event_data, next_item)
             next_item = next(it, None)
         if levenshtein_distance(next_item, 'sellout') < 2:
-            print(f"Next item is num_sellouts: {next_item}")
             event_data["num_sellouts"] = 1
             next_item = next(it, None)
         if is_number_text(next_item):
-            print(f"Next item is number: {next_item}")
             next_item = parse_num_sellouts_shows(event_data, next_item, it)
         if re.search(r"[0-9]", next_item):
-            print(f"Next item is promoter: {next_item}")
             parse_promoter(event_data, next_item, it)
-        print(f"Next item: {next_item}")
     except TypeError as e:
         print(f"TypeError = {e}. Next item = {next_item}")
 
@@ -407,12 +399,12 @@ def parse_event(event_str):
     first_lowercase_idx = re.search(r"[a-z]", line).start()
     event_data["artists"].append(line[0:first_lowercase_idx - 2])
     rest_of_line = line[first_lowercase_idx - 1:].split()
-    print(rest_of_line)
     it = iter(rest_of_line)
     next_item = next(it, None)
     next_item = parse_location(event_data, next_item, it)
     next_item = parse_date(event_data, next_item, it)
     parse_gross_receipts_us(event_data, next_item)
+    print(f"artists: {event_data['artists']}, location: {event_data['location']}, dates: {event_data['dates']}, gross_receipts: {event_data["gross_receipts_us"]}")
     parse_tickets_sold(event_data, next(it))
     parse_promoter(event_data, next(it), it)
     next_item = next(it, None)
@@ -420,7 +412,6 @@ def parse_event(event_str):
     while next_item:
         parse_additional_lines(event_data, next_item, it)
         next_item = next(it, None)
-        print(f"In parse_tour_lines: {next_item}")
 
     return event_data
 
@@ -461,7 +452,7 @@ def extract_to_csv():
             #boxoffice_page = find_boxoffice_table(pdf, pdf_bytes)
 
             # magazine two is page 57
-            page_text = extract_text_ocr(pdf_bytes, 36)
+            page_text = extract_text_ocr(pdf_bytes, 40)
 
             print(page_text)
 
@@ -477,8 +468,8 @@ def extract_to_csv():
             for event in consolidated_event_lines:
                 print(event)
 
-            #event_objs = parse_events(consolidated_event_lines)
-            '''
+            event_objs = parse_events(consolidated_event_lines)
+
             events_df = pd.DataFrame(event_objs)
         
             file_name = object_key.split('/')[-1]
@@ -499,7 +490,6 @@ def extract_to_csv():
                 print("Saved all tours report")
             except Exception as e:
                 print(f"Error uploading file: {e}")
-            '''
 
     except client.exceptions.NoSuchKey:
         print(f"Error: Object '{object_key}' not found in bucket '{BUCKET_NAME}'")

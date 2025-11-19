@@ -17,6 +17,22 @@ def test_parse_event_basic():
     assert event_data["ticket_prices"] == ["15.50"]
     assert event_data["gross_receipts_canadian"] is None
 
+def test_parse_event_u2():
+    event_line = "u2 San Francisco Cwic Auditorium Dee. 15 $114,780 8.472 Bill Graham Presents | WATERBOYS $15/$13.50 sellout"
+    event_data = parser.parse_event(event_line)
+
+    assert event_data["artists"] == ["u2", "WATERBOYS"]
+    assert event_data["location"] == ["San Francisco Cwic Auditorium"]
+    assert event_data["dates"] == ["Dee. 15"]
+    assert event_data["gross_receipts_us"] == 114780
+    assert event_data["tickets_sold"] == 8472
+    assert event_data["promoter"] == ["Bill Graham Presents"]
+    assert event_data["capacity"] is None
+    assert event_data["num_shows"] is None
+    assert event_data["num_sellouts"] == 1
+    assert event_data["ticket_prices"] == ["15/13.50"]
+    assert event_data["gross_receipts_canadian"] is None
+
 def test_location_four_rows():
     event_line = "GEORGE STRAIT Strahan Coliseum Nov. 3 $46,108 4,062 Ronald & Joy Cotton | Southwest Texas State $12 (8,000) | University | San Marcos"
 
@@ -176,3 +192,13 @@ def test_numeric_num_sellouts():
     assert event_data["num_sellouts"] == 11
     assert event_data["ticket_prices"] == ["30/25/20"]
     assert event_data["gross_receipts_canadian"] is None
+
+def test_consolidate_tours_with_ticks():
+    #
+    raw_tour_lines ="""NIGHT RANGER The Paltadium June 8. $49,561 4377 Avalon Prods.
+                    BLACK & BLUE Hollywood, Calif. $1L75 sellout
+                    HANK WILLIAMS JR. Convention Center June 9. ‘$46,414 a3la ‘Sound Seventy Prods.
+                    DAVID ALLAN COE Pine Bluff, Ark. $11.50 7,900
+                    MOTLEY CRUE Stanley Theater June 12. $44,905 3,522 DiCesare-Engler Prods.
+                    ACCEPT Pittsburgh $12.75 sellout"""
+
