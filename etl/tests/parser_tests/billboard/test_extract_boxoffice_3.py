@@ -193,7 +193,7 @@ def test_numeric_num_sellouts():
     assert event_data["ticket_prices"] == ["30/25/20"]
     assert event_data["gross_receipts_canadian"] is None
 
-def test_consolidate_tours_with_ticks():
+def test_consolidate_events_with_ticks():
     #
     raw_tour_lines ="""NIGHT RANGER The Paltadium June 8. $49,561 4377 Avalon Prods.
                     BLACK & BLUE Hollywood, Calif. $1L75 sellout
@@ -202,3 +202,60 @@ def test_consolidate_tours_with_ticks():
                     MOTLEY CRUE Stanley Theater June 12. $44,905 3,522 DiCesare-Engler Prods.
                     ACCEPT Pittsburgh $12.75 sellout"""
 
+def test_consolidate_events_multiple_months():
+    raw_tour_lines = """IRON MAIDEN Capitol Centre Jan. 28 $197,462 15.797 Cellar Door Prods.
+                    TWISTED SISTER Landover, Md. $12.50 (29,023)
+                    MEL TORME Fox Theater Jan, 29-Feb. 3 $188,595 28,401 Ray Shepardson
+                    HELEN O'CONNELL St. Louis $17-$4.90 (37,096)
+                    MICHEL LEGRAND
+                    HUEY LEWIS & THE NEWS Arizona State Univ. Center Feb. 3 $144,018 10,668 Evening Stat Prods.
+                    Tempe $13.50 sellout"""
+
+def test_consolidate_events_june():
+    raw_tour_lines = """MADONNA Cobo Arena May 25-26 $332,780 24,382 Brass Ring Prods.
+                    BEASTIE BOYS Detroit $15/$12.50 two sellouts
+                    PHIL COLLINS & HIS HOT TUB Compton Terrace June 1 $327,213 23,862 Evening Star Prods.
+                    CLUB Phoenix $15/$13.50 sellout
+                    DIANA ROSS Joe Louis Arena June 1 $284,450 16,296 Brass Ring Prods,
+                    Detroit $17.50/$15 19,590"""
+
+def test_consolidate_events_jun():
+    raw_tour_lines = """TRIUMPH Meadowlands Arena May 10 $151,653 13,489 Monarch Entertainment Bureau/
+                    ACCEPT East Rutherford, NJ. $13.50/$12.50 15,928 WNEW-FM/St. Pauli Girl Concert
+                    Series
+                    TEARS FOR FEARS. Massey Hall May 29-Jun1 $146,384 10,400 Concert Prods. International
+                    IDLE EYES Toronto ($182,980 Canadian) four sellouts
+                    $17.50
+                    REO SPEEDWAGON Rwertront Coliseum May 22 $125,060 9,267 Sunshine Promotions
+                    CHEAP TRICK Cincinnati $15.50/$12.50 16,000"""
+
+def test_consolidate_events_dune():
+    raw_tour_lines="""ALABAMA Thomas & Mack Center May 31 $141,927 8,009 Elks Helladorado
+                    BILL MEDLEY Las Vegas $25/$17.50/$15.50 10,000
+                    PATTI LABELLE Greek Theatre dune 7 $113,026 6,187 Nederlander
+                    CON FUNK SHUN Los Angeles $20/$18/$12.50 sellout
+                    ANNE MURRAY Chastain Park June 2 $94,846 5,685 Alex Cooley/Southern Promotions
+                    Atlanta $18.50/$16.50/$13.50 6,351"""
+
+def test_consolidate_events_not_start():
+    raw_tour_lines = """AMY GRANT Veterans Memorial Auditorium Nov. 2 $54,850 5,520 Jam Prods.
+                    BOS BENNETT Des Moines $12.50/$11.50 7.250
+                    Richmond (Va.) Coliseum Oct. 23 $63,145 45 Callas Door Prods.
+                    $14.50/$13.50 12,500
+                    AMY GRANT ‘Northlands Coliseum Nov. 9 $52,928 5,462 Inside Concert Promotions
+                    BOS BENNETT Edmonton, Alberta ($78,660 Canadian) 6.285 -
+                    $15"""
+
+def test_consolidate_events_additional_month():
+    raw_tour_lines = """GEORGE BENSON Radio City Music Halt May 30- $439,800 16,011 Radio City Music Hall Productions
+                    ROBERTA FLACK New York June L $30/$25/$20 17,538
+                    MADONNA Radio City Music Hail June 6-7 $294,050 17,538 Radio City Music Hall Productions | BEASTIE BOYS New York $17.50/$15.50 three sellouts
+                    MADONNA The Spectrum May 29 $237,047 15511 Stephen Star/The Concert Co. | BEASTIE BOYS Philadelphia $15.50/$13.50 sellout"""
+
+def test_consolidate_events_table_lines():
+    raw_tour_lines = """ARTIST(S) Venue Date(s) Ticket Price(s) Capacity Promoter
+                    _|
+                    BOSTON Alpine Valley Music Theatre Aug 6-9 Ts1us.762 100,812 Joseph Entertainment Group
+                    FARRENHEIT East Troy, Wis. $25/522,50/$15 setiout
+                    MADONNA Anaheim Stadium July 18 $1,417,185 62,986 Avalon Attractions
+                    LEVEL 42 Anaheim, Cali. 2250 sellout"""

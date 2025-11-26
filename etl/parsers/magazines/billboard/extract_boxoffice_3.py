@@ -30,7 +30,8 @@ pytesseract.pytesseract.tesseract_cmd = r"C:\Users\mquig\AppData\Local\Programs\
 
 directory_prefix = "raw/billboard/pdf/magazines/"
 
-object_key = 'raw/billboard/pdf/magazines/1985/01/BB-1985-01-05.pdf'
+object_key = 'raw/billboard/pdf/magazines/1991/02/BB-1991-02-23.pdf'
+page_num = 36
 
 '''
     Every tour has:
@@ -49,7 +50,7 @@ months = ["Jan.", "Feb.", "March", "April", "May", "June", "July", "Aug.", "Sept
 
 months_pattern = r'\b(?:Jan|Feb|March|April|May|June|July|Aug|Sept|Oct|Nov|Dec)[\.,\b]?'
 
-new_event_pattern = re.compile(r"[^a-z]*\s([^0-9]*\s)*((?:J(?:an|qn)|F(?:eb|eh)|Ma(?:r|rch|rc|rn)|A(?:pr|prl|or|ar)|May|Ju(?:n|u|l|ly)|Au(?:g|gg|uq)|S(?:ep|ept|eph)|O(?:ct|oet|oct)|N(?:ov|ow|no)|D(?:e[ceo]|ec|ee))[.,]?\s?\d+\-?)+\s?[^A-Za-z]*\s[A-Z]")
+new_event_pattern = re.compile(r"^[^a-z]*\s([^0-9]*\s)*((?:j|J(?:an|qn)|F(?:eb|eh)|Ma(?:r|rch|rc|rn|vch|tch)|A(?:pr|pril|prl|or|ar)|May|(?:Ju|du|tu)(?:n|ne|u|l|ly)|Au(?:g|gg|uq)|S(?:ep|ept|eph)|O(?:ct|oet|oct)|N(?:ov|ow|no)|D(?:e[ceo]|ec|ee))[.,]?\s?.{1,2}-?){1,2}\s?[^A-Za-z]+\s(in-house|[A-Z])")
 
 def extract_raw_event_lines(page_lines, should_save):
     """
@@ -61,7 +62,6 @@ def extract_raw_event_lines(page_lines, should_save):
     event_lines = []
 
     for line in page_lines:
-        #print(f"Next line = {line}")
         # if the line starts with a number and is at least 15 digits long, it is the first line of a new boxoffice record
         if line == "ARTIST(S) Venue Date(s) Ticket Price(s) Capacity Promoter":
             found_boxscore = True
@@ -219,7 +219,6 @@ def parse_ticket_prices(event_data, ticket_price, it):
     :return:
     '''
     ticket_price = ticket_price.replace("$", "")
-    print(f"Ticket price: {ticket_price}")
 
     next_item = next(it, None)
     if re.search(r"^0-9\$,./-", ticket_price):
@@ -337,8 +336,8 @@ def clean_event(line):
     :param line:
     :return:
     '''
-    line = line.replace("§", "$")
-    line = re.sub(r"‘", "", line)
+    line = line.replace("§", "$").replace("‘", "").replace("—", "")
+
     return line.strip()
 
 def is_number_text(text):
@@ -396,7 +395,10 @@ def parse_event(event_str):
     event_data = new_event_state(BUCKET_NAME, object_key)
     line = clean_event(event_str)
 
-    first_lowercase_idx = re.search(r"[a-z]", line).start()
+    first_lowercase = re.search(r"[a-z]", line)
+    if first_lowercase is None:
+        return None
+    first_lowercase_idx = first_lowercase.start()
     event_data["artists"].append(line[0:first_lowercase_idx - 2])
     rest_of_line = line[first_lowercase_idx - 1:].split()
     it = iter(rest_of_line)
@@ -404,7 +406,6 @@ def parse_event(event_str):
     next_item = parse_location(event_data, next_item, it)
     next_item = parse_date(event_data, next_item, it)
     parse_gross_receipts_us(event_data, next_item)
-    print(f"artists: {event_data['artists']}, location: {event_data['location']}, dates: {event_data['dates']}, gross_receipts: {event_data["gross_receipts_us"]}")
     parse_tickets_sold(event_data, next(it))
     parse_promoter(event_data, next(it), it)
     next_item = next(it, None)
@@ -452,13 +453,13 @@ def extract_to_csv():
             #boxoffice_page = find_boxoffice_table(pdf, pdf_bytes)
 
             # magazine two is page 57
-            page_text = extract_text_ocr(pdf_bytes, 40)
+            page_text = extract_text_ocr(pdf_bytes, page_num)
 
             print(page_text)
 
             lines = page_text.splitlines()
 
-            event_lines = extract_raw_event_lines(lines, True)
+            event_lines = extract_raw_event_lines(lines, False)
 
             #with open("raw_event_lines.json", "r") as f:
             #    event_lines = json.load(f)
