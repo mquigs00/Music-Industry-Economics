@@ -1,0 +1,18 @@
+id,name,slug,reliability
+1,Billboard,"billboard	",2
+2,Pollstar,pollstar,2
+3,Apple,apple,1
+4,Business of Apps,business_of_apps,3
+5,Luminate,luminate,3
+6,Statista,statista,3
+7,Live Nation Entertainment,live_nation_entertainment,1
+8,Ticketmaster,ticketmaster,1
+9,Sony Corporation,sony_corporation,1
+10,Sony Group Corporation,sony_group_corporation,1
+11,Warner Music Group,warner_music_group,1
+12,Universal Music Group,universal_music_group,1
+13,Spotify,spotify,1
+14,Duetti,duetti,3
+15,Music Ally,music_ally,3
+16,New York Times,new_york_times,3
+17,Wall Street Journal,wall_street_journal,3

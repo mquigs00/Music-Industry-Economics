@@ -1,0 +1,30 @@
+id,name,entity_id,slug,parent_id
+1,Other music related products and services,6,other_music_products_services,6
+2,Service and other sales,6,service_other_sales,6
+3,Software,6,software,6
+4,"Software, service, and other sales",6,software_service_other,6
+5,"iTunes, software and services",6,itunes_software_services,6
+6,Services,6,services,
+7,iPhone,6,iphone,1
+8,Mac,6,mac,1
+9,iPad,6,ipad,1
+10,"Wearables, Home, and Accessories",6,wearables_home_accessories,1
+11,Products,6,products,
+12,Entertainment,21,entertainment,
+13,Insurance and Financing,21,finance,
+14,All Other,21,other,
+15,Electronics,21,electronics,
+16,Music,21,music,12
+17,Home Entertainment & Sound,21,home_entertainment_sound,12
+18,Game & Network Services,21,games,12
+19,Pictures,21,pictures,12
+20,Imaging & Sensing Solutions,21,imaging,15
+21,Semiconductors,21,semiconductors,15
+22,Mobile Communications,21,mobile_communicatinos,15
+23,Components,21,components,15
+24,Sony Mobile,21,sony_mobile,15
+25,Consumer Products & Devices,21,consumer_products_devices,15
+26,Networks ,21,networks_products_services,15
+27,B2B & Disk Manufacturing,21,b2b_and_disk_manufacturing,15
+28,Professional Device Solutions,21,professional_device_solutions,15
+29,Devices,21,devices,15

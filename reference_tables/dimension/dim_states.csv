@@ -1,0 +1,63 @@
+id,name,slug,abbr,aliases,country_id
+1,Alabama,alabama,AL,"[""Ala.""]",840
+2,Alaska,alaska,AK,,840
+3,Arizona,arizona,AZ,"[""Ariz.""]",840
+4,Arkansas,arkansas,AR,"[""Ark.""]",840
+5,California,california,CA,"[""Cali."", ""Cal."", ""Calif.""]",840
+6,Colorado,colorado,CO,"[""Colo.""]",840
+7,Connecticut,connecticut,CT,"[""Conn.""]",840
+8,Delaware,delaware,DE,,840
+9,Florida,florida,FL,"[""Fla.""]",840
+10,Georgia,georgia,GA,"[""Ga.""]",840
+11,Hawaii,hawaii,HI,"[""Hawaii""]",840
+12,Idaho,idaho,ID,,840
+13,Illinois,illinois,IL,"[""Ill.""]",840
+14,Indiana,indiana,IN,"[""Ind.""]",840
+15,Iowa,iowa,IA,"[""Iowa""]",840
+16,Kansas,kansas,KS,"[""Kan.""]",840
+17,Kentucky,kentucky,KY,"[""Ky.""]",840
+18,Lousiana,lousiana,LA,"[""La.""]",840
+19,Maine,maine,ME,"[""Me.""]",840
+20,Maryland,maryland,MD,"[""Md.""]",840
+21,Massachusetts,massachusetts,MA,"[""Mass.""]",840
+22,Michigan,michigan,MI,"[""Mich.""]",840
+23,Minnesota,minnesota,MN,"[""Minn.""]",840
+24,Mississippi,mississippi,MS,,840
+25,Missouri,missouri,MO,"[""Mo.""]",840
+26,Montana,montana,MT,"[""Mont.""]",840
+27,Nebraska,nebraska,NE,"[""Neb.""]",840
+28,Nevada,nevada,NV,"[""Nev.""]",840
+29,New Hampshire,new-hampshire,NH,,840
+30,New Jersey,new-jersey,NJ,"[""N.J.""]",840
+31,New Mexico,new-mexico,NM,"[""N.M.""]",840
+32,New York,new-york,NY,"[""N.Y.""]",840
+33,North Carolina,north-carolina,NC,"[""N.C.""]",840
+34,North Dakota,north-dakota,ND,,840
+35,Ohio,ohio,OH,"[""Ohio""]",840
+36,Oklahoma,oklahoma,OK,"[""Okla.""]",840
+37,Oregon,oregon,OR,"[""Oregon""]",840
+38,Pennsylvania,pennsylvania,PA,"[""Pa.""]",840
+39,Rhode Island,rhode-island,RI,"[""R.I.""]",840
+40,South Carolina,south-carolina,SC,"[""S.C.""]",840
+41,South Dakota,south-dakota,SD,,840
+42,Tennessee,tennessee,TN,"[""Tenn.""]",840
+43,Texas,texas,TX,"[""Texas""]",840
+44,Utah,utah,UT,,840
+45,Vermont,vermont,VT,,840
+46,Virginia,virginia,VA,"[""Va.""]",840
+47,Washington,washington,WA,"[""Wash.""]",840
+48,West Virginia,west-virginia,WV,"[""W.Va.""]",840
+49,Wisconsin,wisconsin,WI,"[""Wis.""]",840
+50,Wyoming,wyoming,WY,,840
+51,District of Columbia,district-of-columbia,DC,"[""D.C.""]",840
+52,American Samoa,american-samoa,AS,,840
+53,Guam,guam,GU,,840
+54,Northern Mariana Islands,northern-mariana,MP,,840
+55,Puerto Rico,puerto-rico,PR,,840
+56,United States Minor Outlying Islands,united-states-minor-outlying-islands,UM,,840
+57,Virgin Islands,virgin-islands,VI,,840
+58,Manitoba,manitoba,,,124
+59,Alberta,alberta,,"[""Alberta"", ""Alta.""]",124
+60,Ontario,ontario,,"[""Ontario"", ""Ont.""]",124
+61,Quebec,quebec,,"[""Quebec""]",124
+62,British Columbia,british-columbia,BC,"[""B.C.""]",124

@@ -1,0 +1,26 @@
+id,name,slug,city_id,state_id,verified
+1,Radio City Music Halt,radio-city-music-halt,1,,no
+2,Carnegie Hall,carnegie-hall,1,,no
+3,Civic Auditorium,civic-auditorium,67,,no
+4,Mississippi Coliseum,mississippi-coliseum,100,,no
+5,Reunion Arena,reunion-arena,9,,no
+6,Memorial Auditorium,memorial-auditorium,80,,no
+7,The Omni,the-omni,36,,no
+8,Charlotte Coliseum,charlotte-coliseum,101,33,no
+9,Hirsch Memorial Coliseum,hirsch-memorial-coliseum,102,,no
+10,Fair Grandstand,fair-grandstand,103,5,no
+11,Memorial Coliseum,memorial-coliseum,10,,no
+12,The Centriplex,the-centriplex,109,,no
+13,Municipal Auditorium,municipal-auditorium,104,,no
+14,War Memorial,war-memorial,105,,no
+15,War Memorial,war-memorial,106,32,no
+16,Humphrey Coliseum,humphrey-coliseum,107,21,no
+17,War Memorial,war-memorial,106,,no
+18,Charlotte Coliseum,charlotte-coliseum,15,33,no
+19,Greensboro Coliseum,greensboro-coliseum,68,33,no
+20,Pine Blutf Area Spirit,pine-blutf-area-spirit,,4,no
+21,Civic Arena,civic-arena,67,,no
+22,Lakeland Civic Center,lakeland-civic-center,,9,no
+23,Dayton Arena,dayton-arena,,35,no
+24,Ohio Center,ohio-center,14,,no
+25,Civic Center,civic-center,108,43,no
