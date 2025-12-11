@@ -98,13 +98,12 @@ id,name,slug,aliases,state_id,verified
 97,Richmond,richmond,,46,yes
 98,Fremont,fremont,,5,yes
 99,Huntsville,huntsville,,1,yes
-100,Jackson,jackson,,,no
-101,Bureau,bureau,,,no
-102,Shreveport,shreveport,,,no
-103,Del Mar,del-mar,,5,no
-104,Mobile,mobile,,,no
-105,Syracuse,syracuse,,,no
-106,Rochester,rochester,,32,no
-107,Starkville Spirit,starkville-spirit,,21,no
-108,Beaumont Spirit,beaumont-spirit,,43,no
+100,Jackson,jackson,,24,yes
+102,Shreveport,shreveport,,18,yes
+103,Del Mar,del-mar,,5,yes
+104,Mobile,mobile,,1,yes
+105,Syracuse,syracuse,,32,yes
+106,Rochester,rochester,,32,yes
+107,Starkville,starkville,,24,yes
+108,Beaumont,beaumont,,43,yes
 109,Baton Rouge,baton-rouge,,18,yes

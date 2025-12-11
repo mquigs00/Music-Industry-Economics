@@ -215,6 +215,14 @@ def append_venue(venue_name, dim_venues, city_id, state_id):
 
     return venue_id
 
+def detect_venue_typo(location_tokens):
+    venue_patterns = build_reverse_map(VENUE_PATTERNS_PATH)
+
+    if location_tokens[-1].lower() in venue_patterns:
+        location_tokens[-1] = venue_patterns[location_tokens[-1].lower()].capitalize()
+
+    return location_tokens
+
 def update_locations_dim(event_locations, dimension_tables):
     '''
     Checks each location in the issue to see if it already exists in dim_venues and dim_cities. If not, adds it to the dimension table(s)
@@ -258,6 +266,8 @@ def update_locations_dim(event_locations, dimension_tables):
 
         if city_id is None:
             city_id = match_city_in_venue(location_tokens, dim_cities, state_id)
+
+        location_tokens = detect_venue_typo(location_tokens)
         venue_name = " ".join(location_tokens)
         venue_id = match_existing_venues(venue_name, dim_venues, city_id, state_id)
 
