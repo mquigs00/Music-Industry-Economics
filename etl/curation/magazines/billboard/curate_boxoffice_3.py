@@ -15,13 +15,20 @@ from Levenshtein import distance as levenshtein_distance
 import logging
 import slugify
 from data_cleaning.normalization import build_reverse_map
+from datetime import date
 logger = logging.getLogger()
 
 '''
 This curation script is for the Billboard Boxscore schema that ran from 1984-10-20 to 2001-07-21
 '''
 
-object_key = "processed/billboard/magazines/1984/10/BB-1984-10-20.csv"
+object_key = "processed/billboard/magazines/1984/11/BB-1984-11-24.csv"
+
+MONTH_MAP = {
+    "Jan": 1, "Feb": 2, "Mar": 3, "Apr": 4,
+    "May": 5,"Jun": 6, "Jul": 7, "Aug": 8,
+    "Sept": 9, "Oct": 10, "Nov": 11, "Dec": 12
+}
 
 def append_artists_dim(path, artist_id, name):
     with open(path, "a", newline='', encoding='utf-8') as f:
@@ -318,16 +325,88 @@ def curate_location(events_df, dimension_tables):
 
     return venue_ids
 
+def curate_dates(events_df):
+    event_dates = events_df["dates"].apply(ast.literal_eval)
+    state_date = end_date = None
+    issue_year = object_key.split('/')[-3]
+
+    for dates in event_dates:
+        start_date, end_date, clean_dates = curate_date(dates, issue_year)
+
+def clean_stray_numbers(date_str):
+    date_items = date_str.split()
+    clean_date_items = []
+    last_month_seen = None
+    last_day_seen = None
+
+    for date_item in date_items:
+        if date_item in MONTH_MAP:                                                                                      # if next item is a month
+            clean_date_items.append(date_item)                                                                          # add the month to clean_items
+            last_month_seen = date_item                                                                                 # record that the month was seen
+        elif last_month_seen:                                                                                           # if a month has been found
+            # if the next item is a number and it is less than the previous date seen
+            if date_item.isdigit() and last_day_seen and date_item < last_day_seen:
+                print(f"Found garbage number in date: {date_item}")
+            elif date_item.isdigit() and 1 <= int(date_item) <= 31:
+                clean_date_items.append(date_item)
+                last_day_seen = date_item
+            elif '-' in date_item:
+                clean_date_items.append(date_item)
+
+    return " ".join(clean_date_items)
+
+def clean_date(date_line):
+    cleaned_date = re.sub(r"\d{3,}", "", date_line)
+    cleaned_date = re.sub(r"\b(?!Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Sept|Oct|Nov|Dec)[a-zA-Z]{2,}\b", "", cleaned_date)
+    cleaned_date = re.sub(r"[.,;/]", " ", cleaned_date)
+    cleaned_date = re.sub(r"\s+", " ", cleaned_date).strip()
+
+    cleaned_date = clean_stray_numbers(cleaned_date)
+
+    return cleaned_date
+
+def curate_date(dates, issue_year):
+    for i in range(len(dates)):
+        dates[i] = clean_date(dates[i])
+
+    total_dates = "".join(dates)
+
+    m = re.fullmatch(r"([A-Za-z]+)[.,]? (\d+)", total_dates)
+    if m:
+        m, d1 = m.groups()
+        start_date = end_date = date(int(issue_year), MONTH_MAP[m], int(d1))
+        print(f"Start date: {start_date}, end date: {end_date}")
+        return start_date, end_date, dates
+
+    m = re.match(r"([A-Za-z]+)[.,]? (\d+)-(\d+)", total_dates)
+    if m:
+        m, d1, d2 = m.groups()
+        start_date = date(int(issue_year), MONTH_MAP[m], int(d1))
+        end_date = date(int(issue_year), MONTH_MAP[m], int(d2))
+        print(f"Start date: {start_date}, end date: {end_date}")
+        return start_date, end_date, dates
+
+    m = re.match(r"([A-Za-z]+)[.,]? (\d+)-([A-Za-z]+)[.,]? (\d+)", total_dates)
+    if m:
+        m1, d1, m2, d2 = m.groups()
+        start_date = date(int(issue_year), MONTH_MAP[m1], int(d1))
+        end_date = date(int(issue_year), MONTH_MAP[m2], int(d2))
+        print(f"Start date: {start_date}, end date: {end_date}")
+        return start_date, end_date, dates
+
+    return None, None, None
+
 def curate_events():
     #processed_data = pd.read_csv(f"s3://{BUCKET_NAME}/{object_key}")
-    events_df = pd.read_csv("test_files/BB-1984-10-20.csv")
+    events_df = pd.read_csv("test_files/BB-1984-11-24.csv")
 
     dimension_tables = load_dimension_tables()
 
     #events_df["weekly_rank"] = range(1, len(events_df) + 1)
     #curate_event_name(events_df)
     #curate_artists(events_df, dimension_tables["artists"])
-    venue_id = curate_location(events_df, dimension_tables)
+    #venue_id = curate_location(events_df, dimension_tables)
+    curate_dates(events_df)
     #print(dimension_tables["venues"])
 
     #events_df.to_csv("test_files/BB-1984-10-20_cur.csv", index=False)
