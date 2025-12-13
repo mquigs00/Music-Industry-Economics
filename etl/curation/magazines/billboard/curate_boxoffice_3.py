@@ -326,73 +326,109 @@ def curate_location(events_df, dimension_tables):
     return venue_ids
 
 def curate_dates(events_df):
-    event_dates = events_df["dates"].apply(ast.literal_eval)
+    '''
+
+    :param events_df:
+    :return:
+    '''
+    event_dates = events_df["dates"].apply(ast.literal_eval)                                                            # convert dates string from string to array
     state_date = end_date = None
-    issue_year = object_key.split('/')[-3]
+    issue_year = object_key.split('/')[-3]                                                                              # get issue year from S3 uri
 
     for dates in event_dates:
         start_date, end_date, clean_dates = curate_date(dates, issue_year)
 
-def clean_stray_numbers(date_str):
-    date_items = date_str.split()
-    clean_date_items = []
+def clean_stray_numbers(dates):
+    '''
+    Remove any numbers that don't make sense in the dates
+    Ex. ['Oct. 13', '13']. The second 13 actually comes from the name of the concert and has nothing to do with the dates
+
+    :param dates: (list): a list of unstructured date strings, ex. ['Oct. 27-28/', '30-31/Nov. 2-3']
+    :return: clean_date_items
+    '''
+    clean_date_items = []                                                                                               # only store verified items in clean_date_items
     last_month_seen = None
     last_day_seen = None
 
-    for date_item in date_items:
-        if date_item in MONTH_MAP:                                                                                      # if next item is a month
-            clean_date_items.append(date_item)                                                                          # add the month to clean_items
-            last_month_seen = date_item                                                                                 # record that the month was seen
-        elif last_month_seen:                                                                                           # if a month has been found
-            # if the next item is a number and it is less than the previous date seen
-            if date_item.isdigit() and last_day_seen and date_item < last_day_seen:
-                print(f"Found garbage number in date: {date_item}")
-            elif date_item.isdigit() and 1 <= int(date_item) <= 31:
-                clean_date_items.append(date_item)
-                last_day_seen = date_item
-            elif '-' in date_item:
-                clean_date_items.append(date_item)
+    # loop through each date string, check if it is a month or a valid day
+    for date_str in dates:
+        date_items = date_str.split()
+        for date_item in date_items:
+            if date_item in MONTH_MAP:                                                                                  # if next item is a month
+                clean_date_items.append(date_item)                                                                      # add the month to clean_items
+                last_month_seen = date_item                                                                             # record that the month was seen
+            elif last_month_seen:                                                                                       # if a month has been found
+                # if the next item is a number and it is less or equal to than the previous date seen
+                if date_item.isdigit() and last_day_seen and date_item <= last_day_seen:
+                    continue
+                elif date_item.isdigit() and 1 <= int(date_item) <= 31:
+                    clean_date_items.append(date_item)
+                    last_day_seen = date_item
+                elif '-' in date_item:
+                    clean_date_items.append(date_item)
 
-    return " ".join(clean_date_items)
+    return clean_date_items
 
-def clean_date(date_line):
-    cleaned_date = re.sub(r"\d{3,}", "", date_line)
-    cleaned_date = re.sub(r"\b(?!Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Sept|Oct|Nov|Dec)[a-zA-Z]{2,}\b", "", cleaned_date)
-    cleaned_date = re.sub(r"[.,;/]", " ", cleaned_date)
-    cleaned_date = re.sub(r"\s+", " ", cleaned_date).strip()
+def clean_dates(dates):
+    '''
 
-    cleaned_date = clean_stray_numbers(cleaned_date)
+    :param dates (list): a list of unstructured date strings, ex. ['Oct. 27-28/', '30-31/Nov. 2-3']
+    :return: total_dates (str): a clean string of dates ex. 'Oct 27-28/30-31/Nov 2-3'
+    '''
+    for i, date in enumerate(dates):
+        dates[i] = re.sub(r"\d{3,}", "", dates[i])
+        dates[i] = re.sub(r"\b(?!Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Sept|Oct|Nov|Dec)[a-zA-Z]{2,}\b", "", dates[i])
+        dates[i] = re.sub(r"[.,;]", " ", dates[i])
+        dates[i] = re.sub(r"\s+", " ", dates[i]).strip()
 
-    return cleaned_date
+    cleaned_dates = clean_stray_numbers(dates)                                                                          # remove any garbage numbers that may have gotten mixed in
+    total_dates = "".join(cleaned_dates)                                                                                # join into string with no spaces
+    total_dates = re.sub(r"([a-z])([0-9])", r"\1 \2", total_dates)                                          # add spaces between a number and letter, not /
+
+    return total_dates
 
 def curate_date(dates, issue_year):
-    for i in range(len(dates)):
-        dates[i] = clean_date(dates[i])
+    '''
 
-    total_dates = "".join(dates)
+    :param dates (list) a list of unstructured date strings, ex. ['Oct. 27-28/', '30-31/Nov. 2-3']
+    :param issue_year: the year the current magazine issue was released
+    :return:
+    '''
+    total_dates = clean_dates(dates)
 
+    # Case 1: 'Oct 7'
     m = re.fullmatch(r"([A-Za-z]+)[.,]? (\d+)", total_dates)
     if m:
         m, d1 = m.groups()
         start_date = end_date = date(int(issue_year), MONTH_MAP[m], int(d1))
         print(f"Start date: {start_date}, end date: {end_date}")
-        return start_date, end_date, dates
+        return start_date, end_date, total_dates
 
-    m = re.match(r"([A-Za-z]+)[.,]? (\d+)-(\d+)", total_dates)
+    # Case 2: 'Sept 20-27'
+    m = re.fullmatch(r"([A-Za-z]+)[.,]? (\d+)-(\d+)", total_dates)
     if m:
         m, d1, d2 = m.groups()
         start_date = date(int(issue_year), MONTH_MAP[m], int(d1))
         end_date = date(int(issue_year), MONTH_MAP[m], int(d2))
         print(f"Start date: {start_date}, end date: {end_date}")
-        return start_date, end_date, dates
+        return start_date, end_date, total_dates
 
-    m = re.match(r"([A-Za-z]+)[.,]? (\d+)-([A-Za-z]+)[.,]? (\d+)", total_dates)
+    # Case 3: 'Oct 30-Nov 8'
+    m = re.fullmatch(r"([A-Za-z]+)[.,]? (\d+)-([A-Za-z]+)[.,]? (\d+)", total_dates)
     if m:
         m1, d1, m2, d2 = m.groups()
         start_date = date(int(issue_year), MONTH_MAP[m1], int(d1))
         end_date = date(int(issue_year), MONTH_MAP[m2], int(d2))
         print(f"Start date: {start_date}, end date: {end_date}")
-        return start_date, end_date, dates
+        return start_date, end_date, total_dates
+
+    m = re.fullmatch(r"([A-Za-z]+)[.,]? (\d+)-(\d+)/(\d+)-(\d+)/([A-Za-z]+)[.,]? (\d+)-(\d+)", total_dates)
+    if m:
+        m1, start_day, e1, e2, e3, m2, e4, end_day = m.groups()
+        start_date = date(int(issue_year), MONTH_MAP[m1], int(start_day))
+        end_date = date(int(issue_year), MONTH_MAP[m2], int(end_day))
+        print(f"Start date: {start_date}, end date: {end_date}")
+        return start_date, end_date, total_dates
 
     return None, None, None
 
