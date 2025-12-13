@@ -432,19 +432,57 @@ def curate_date(dates, issue_year):
 
     return None, None, None
 
+def curate_num_sellouts(processed_events_df, curated_events_df):
+    mask = processed_events_df[["num_shows", "num_sellouts"]].dropna()                                                  # drop rows that are empty before validating
+    all_numeric = mask["num_sellouts"].ge(0).all()                                                                      # verify all values are numeric and greater than 0
+    sellouts_less_than_shows = (mask["num_sellouts"] <= mask["num_shows"]).all()                                        # num_sellouts can never be greater than num_shows
+
+    # if both constraints met, copy the data into curated as int
+    if all_numeric and sellouts_less_than_shows:
+        curated_events_df["num_sellouts"] = processed_events_df["num_sellouts"].apply(lambda x: int(x) if pd.notnull(x) else pd.NA)
+
+def validate_numeric_column(df, col_name):
+    all_valid = df[col_name].dropna().ge(0).all()
+    return all_valid
+
+def curate_ticket_prices(processed_events_df, curated_events_df):
+    ticket_prices_org = processed_events_df["ticket_prices"].apply(ast.literal_eval)
+    clean_prices = []
+
+    for row in ticket_prices_org:
+        event_prices = []
+        for prices in row:
+            if "/" in prices:
+                for price in prices.split("/"):
+                    event_prices.append(float(price))
+            elif "-" in prices:
+                for price in prices.split("-"):
+                    event_prices.append(float(price))
+            else:
+                event_prices.append(prices)
+
+        clean_prices.append(event_prices)
+
+    curated_events_df["ticket_prices"] = clean_prices
+
 def curate_events():
     #processed_data = pd.read_csv(f"s3://{BUCKET_NAME}/{object_key}")
     processed_events_df = pd.read_csv("test_files/BB-1984-10-20.csv")
     curated_events_df = pd.DataFrame()
 
     dimension_tables = load_dimension_tables()
-
-    #events_df["weekly_rank"] = range(1, len(events_df) + 1)
+    curated_events_df["weekly_rank"] = range(1, len(processed_events_df) + 1)
     #curate_event_name(events_df)
     curate_artists(processed_events_df, curated_events_df, dimension_tables["artists"])
     curated_events_df["venue_id"] = curate_location(processed_events_df, dimension_tables, curated_events_df)
     curate_dates(processed_events_df, curated_events_df)
+
+    for col in ["gross_receipts_us", "gross_receipts_canadian", "tickets_sold", "capacity", "num_shows"]:
+        if validate_numeric_column(processed_events_df, col):
+            curated_events_df[col] = processed_events_df[col].apply(lambda x: int(x) if pd.notnull(x) else pd.NA)       # copy all original values as integers
+
+    curate_num_sellouts(processed_events_df, curated_events_df)
+    curate_ticket_prices(processed_events_df, curated_events_df)
     print(curated_events_df)
-    #print(dimension_tables["venues"])
 
     #events_df.to_csv("test_files/BB-1984-10-20_cur.csv", index=False)
