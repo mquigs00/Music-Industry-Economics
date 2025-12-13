@@ -22,7 +22,7 @@ logger = logging.getLogger()
 This curation script is for the Billboard Boxscore schema that ran from 1984-10-20 to 2001-07-21
 '''
 
-object_key = "processed/billboard/magazines/1984/11/BB-1984-11-24.csv"
+object_key = "processed/billboard/magazines/1984/10/BB-1984-10-20.csv"
 
 MONTH_MAP = {
     "Jan": 1, "Feb": 2, "Mar": 3, "Apr": 4,
@@ -51,7 +51,9 @@ def curate_event_name(events_df):
     else:
         events_df["event_name"] = None
 
-def replace_artist_names(artist_names, existing_artists, max_artists_id):
+def get_artist_ids(artist_names, dim_artists):
+    existing_artists = dim_artists["data"]
+    max_artist_id = dim_artists["max_id"]
     artist_ids = []
 
     for artist in artist_names:
@@ -61,7 +63,9 @@ def replace_artist_names(artist_names, existing_artists, max_artists_id):
 
     return artist_ids
 
-def update_artists_dim(all_artists, existing_artists, max_artists_id):
+def update_artists_dim(all_artists, dim_artists):
+    max_artists_id = dim_artists["max_id"]
+    existing_artists = dim_artists["data"]
     for artist in all_artists:
         key = slugify.slugify(artist)
         if key not in existing_artists:
@@ -75,20 +79,20 @@ def update_artists_dim(all_artists, existing_artists, max_artists_id):
 
     return max_artists_id
 
-def curate_artists(events_df, existing_artists, max_artists_id):
-    events_df["artists"] = events_df["artists"].apply(ast.literal_eval)
+def curate_artists(processed_events_df, curated_events_df, dim_artists):
+    processed_events_df["artists"] = processed_events_df["artists"].apply(ast.literal_eval)
 
     # create a set of all unique artist names in the current issue
     all_artists = {
         artist
-        for lst in events_df["artists"]
+        for lst in processed_events_df["artists"]
         for artist in lst
     }
 
-    update_artists_dim(all_artists, existing_artists, max_artists_id)
+    update_artists_dim(all_artists, dim_artists)
 
-    events_df["artists"] = events_df["artists"].apply(
-        lambda artist_names: replace_artist_names(artist_names, existing_artists, max_artists_id)
+    curated_events_df["artist_ids"] = processed_events_df["artists"].apply(
+        lambda artist_names: get_artist_ids(artist_names, dim_artists)
     )
 
 def match_city_after_venue(location_tokens, dim_cities):
@@ -278,7 +282,7 @@ def detect_venue_typo(location_tokens):
 
     return location_tokens
 
-def curate_location(events_df, dimension_tables):
+def curate_location(events_df, dimension_tables, curated_events_df):
     '''
 
     :param events_df: a dataframe of all the events in the current Billboard issue
@@ -325,18 +329,18 @@ def curate_location(events_df, dimension_tables):
 
     return venue_ids
 
-def curate_dates(events_df):
+def curate_dates(processed_events_df, curated_events_df):
     '''
 
     :param events_df:
     :return:
     '''
-    event_dates = events_df["dates"].apply(ast.literal_eval)                                                            # convert dates string from string to array
+    event_dates = processed_events_df["dates"].apply(ast.literal_eval)                                                  # convert dates string from string to array
     state_date = end_date = None
     issue_year = object_key.split('/')[-3]                                                                              # get issue year from S3 uri
 
-    for dates in event_dates:
-        start_date, end_date, clean_dates = curate_date(dates, issue_year)
+    curated_dates = [curate_date(dates, issue_year) for dates in event_dates]
+    curated_events_df["start_date"], curated_events_df["end_date"], curated_events_df["dates"] = zip(*curated_dates)
 
 def clean_stray_numbers(dates):
     '''
@@ -401,7 +405,6 @@ def curate_date(dates, issue_year):
     if m:
         m, d1 = m.groups()
         start_date = end_date = date(int(issue_year), MONTH_MAP[m], int(d1))
-        print(f"Start date: {start_date}, end date: {end_date}")
         return start_date, end_date, total_dates
 
     # Case 2: 'Sept 20-27'
@@ -410,7 +413,6 @@ def curate_date(dates, issue_year):
         m, d1, d2 = m.groups()
         start_date = date(int(issue_year), MONTH_MAP[m], int(d1))
         end_date = date(int(issue_year), MONTH_MAP[m], int(d2))
-        print(f"Start date: {start_date}, end date: {end_date}")
         return start_date, end_date, total_dates
 
     # Case 3: 'Oct 30-Nov 8'
@@ -419,7 +421,6 @@ def curate_date(dates, issue_year):
         m1, d1, m2, d2 = m.groups()
         start_date = date(int(issue_year), MONTH_MAP[m1], int(d1))
         end_date = date(int(issue_year), MONTH_MAP[m2], int(d2))
-        print(f"Start date: {start_date}, end date: {end_date}")
         return start_date, end_date, total_dates
 
     m = re.fullmatch(r"([A-Za-z]+)[.,]? (\d+)-(\d+)/(\d+)-(\d+)/([A-Za-z]+)[.,]? (\d+)-(\d+)", total_dates)
@@ -427,22 +428,23 @@ def curate_date(dates, issue_year):
         m1, start_day, e1, e2, e3, m2, e4, end_day = m.groups()
         start_date = date(int(issue_year), MONTH_MAP[m1], int(start_day))
         end_date = date(int(issue_year), MONTH_MAP[m2], int(end_day))
-        print(f"Start date: {start_date}, end date: {end_date}")
         return start_date, end_date, total_dates
 
     return None, None, None
 
 def curate_events():
     #processed_data = pd.read_csv(f"s3://{BUCKET_NAME}/{object_key}")
-    events_df = pd.read_csv("test_files/BB-1984-11-24.csv")
+    processed_events_df = pd.read_csv("test_files/BB-1984-10-20.csv")
+    curated_events_df = pd.DataFrame()
 
     dimension_tables = load_dimension_tables()
 
     #events_df["weekly_rank"] = range(1, len(events_df) + 1)
     #curate_event_name(events_df)
-    #curate_artists(events_df, dimension_tables["artists"])
-    #venue_id = curate_location(events_df, dimension_tables)
-    curate_dates(events_df)
+    curate_artists(processed_events_df, curated_events_df, dimension_tables["artists"])
+    curated_events_df["venue_id"] = curate_location(processed_events_df, dimension_tables, curated_events_df)
+    curate_dates(processed_events_df, curated_events_df)
+    print(curated_events_df)
     #print(dimension_tables["venues"])
 
     #events_df.to_csv("test_files/BB-1984-10-20_cur.csv", index=False)
