@@ -293,6 +293,7 @@ def curate_location(events_df, dimension_tables, curated_events_df):
     dim_venues = dimension_tables["venues"]
     event_locations = events_df["location"].apply(ast.literal_eval)                                                     # convert location values from a string to an array
     venue_ids = []
+    venue_names = []
     venue_id = None
 
     for location in event_locations:
@@ -326,8 +327,9 @@ def curate_location(events_df, dimension_tables, curated_events_df):
         if venue_id is None:
             venue_id = append_venue(venue_name, dim_venues, city_id, state_id)
         venue_ids.append(venue_id)
+        venue_names.append(venue_name)
 
-    return venue_ids
+    return venue_ids, venue_names
 
 def curate_dates(processed_events_df, curated_events_df):
     '''
@@ -491,39 +493,48 @@ def update_dim_promoters(promoter_names, dim_promoters):
             }
             dim_promoters["max_id"] = max_promoter_id
 
-def curate_promoters(processed_events_df, curated_events_df, dim_promoters):
-    promoters_list = processed_events_df["promoter"].apply(ast.literal_eval)
-    promoters = []
-    promoter_names = set()
-    promoter_ids = []
+def parse_promoters(promoters_list, venue_names):
+    promoters_per_event = []
+    unique_promoters = set()
 
     # loop through the list of promoter strings for each event
-    for event_promoters in promoters_list:
-        event_promoters_str = "".join(event_promoters)                                                                  # join all promoter lines to one string
-        individual_promoters = event_promoters_str.split('/')                                                           # split by '/' to clean each promoter separately
+    for event_idx, event_promoters in enumerate(promoters_list):
+        event_promoters_str = "".join(event_promoters)  # join all promoter lines to one string
+        individual_promoters = event_promoters_str.split('/')  # split by '/' to clean each promoter separately
         cleaned_event_promoters = []
 
         for promoter in individual_promoters:
             next_promoter = []
-            promoter_tokens = promoter.split()                                                                          # the next promoter by whitespaces
+            promoter_tokens = promoter.split()  # the next promoter by whitespaces
             for token in promoter_tokens:
                 if validate_promoter(token):
-                    next_promoter.append(token)
-            next_promoter = " ".join(next_promoter)                                                                     # combine validated tokens to get promoter name
+                    if levenshtein_distance("in-house", token.lower()) < 2:
+                        next_promoter.append(venue_names[event_idx])
+                    else:
+                        next_promoter.append(token)
+            next_promoter = " ".join(next_promoter)  # combine validated tokens to get promoter name
             if next_promoter:
-                promoter_names.add(next_promoter)
+                unique_promoters.add(next_promoter)
                 cleaned_event_promoters.append(next_promoter)
 
-        promoters.append(cleaned_event_promoters)
+        promoters_per_event.append(cleaned_event_promoters)
 
-    update_dim_promoters(promoter_names, dim_promoters)                                                                 # add any new promoters to dim_promoters
+    return promoters_per_event, unique_promoters
 
-    for promoters in promoters:
-        event_promoter_ids = []
+def curate_promoters(processed_events_df, curated_events_df, dim_promoters, venue_names):
+    promoters_list = processed_events_df["promoter"].apply(ast.literal_eval)
+
+    promoters_names_per_event, unique_promoters = parse_promoters(promoters_list, venue_names)
+
+    update_dim_promoters(unique_promoters, dim_promoters)                                                                 # add any new promoters to dim_promoters
+
+    promoter_ids = []
+    for promoters in promoters_names_per_event:
+        promoter_ids_per_event = []
         for promoter in promoters:
             promoter_slug = slugify.slugify(promoter)
-            event_promoter_ids.append(dim_promoters["data"][promoter_slug]["id"])
-        promoter_ids.append(event_promoter_ids)
+            promoter_ids_per_event.append(dim_promoters["data"][promoter_slug]["id"])
+        promoter_ids.append(promoter_ids_per_event)
 
     curated_events_df["promoters"] = promoter_ids
 
@@ -534,12 +545,11 @@ def curate_events():
 
     dimension_tables = load_dimension_tables()
     curated_events_df["weekly_rank"] = range(1, len(processed_events_df) + 1)
-    curate_promoters(processed_events_df, curated_events_df, dimension_tables["promoters"])
+    curated_events_df["venue_id"], venue_names = curate_location(processed_events_df, dimension_tables, curated_events_df)
+    curate_promoters(processed_events_df, curated_events_df, dimension_tables["promoters"], venue_names)
     '''
     curate_artists(processed_events_df, curated_events_df, dimension_tables["artists"])
-    curated_events_df["venue_id"] = curate_location(processed_events_df, dimension_tables, curated_events_df)
     curate_dates(processed_events_df, curated_events_df)
-
     for col in ["gross_receipts_us", "gross_receipts_canadian", "tickets_sold", "capacity", "num_shows"]:
         if validate_numeric_column(processed_events_df, col):
             curated_events_df[col] = processed_events_df[col].apply(lambda x: int(x) if pd.notnull(x) else pd.NA)       # copy all original values as integers
