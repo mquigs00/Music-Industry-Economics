@@ -4,7 +4,7 @@ import ast
 from botocore.exceptions import ClientError
 from utils.s3_utils import list_s3_files, client
 from config import BUCKET_NAME
-from config.paths import DIM_ARTISTS_PATH, STATE_ALIASES_PATH, VENUE_PATTERNS_PATH, DIM_CITIES_PATH, DIM_VENUES_PATH
+from config.paths import DIM_ARTISTS_PATH, STATE_ALIASES_PATH, VENUE_PATTERNS_PATH, DIM_CITIES_PATH, DIM_VENUES_PATH, DIM_PROMOTERS_PATH
 from utils.utils import load_dimension_tables
 from utils.utils import *
 import pandas as pd
@@ -465,6 +465,68 @@ def curate_ticket_prices(processed_events_df, curated_events_df):
 
     curated_events_df["ticket_prices"] = clean_prices
 
+def validate_promoter(token):
+    is_valid = not token.isnumeric() and not '$' in token
+
+    return is_valid
+
+def append_dim_promoters(name, slug, next_id):
+    with open(DIM_PROMOTERS_PATH, 'a', newline='', encoding='utf-8') as f:
+        writer = csv.writer(f)
+        writer.writerow([next_id, name, slug, None])
+
+def update_dim_promoters(promoter_names, dim_promoters):
+    existing_promoters = dim_promoters["data"]
+    max_promoter_id = dim_promoters["max_id"]
+
+    for name in promoter_names:
+        slug = slugify.slugify(name)
+        if slug not in existing_promoters:
+            max_promoter_id += 1
+            append_dim_promoters(name, slug, max_promoter_id)
+            dim_promoters["data"][slug] = {
+                "id": max_promoter_id,
+                "name": name,
+                "slug": slug
+            }
+            dim_promoters["max_id"] = max_promoter_id
+
+def curate_promoters(processed_events_df, curated_events_df, dim_promoters):
+    promoters_list = processed_events_df["promoter"].apply(ast.literal_eval)
+    promoters = []
+    promoter_names = set()
+    promoter_ids = []
+
+    # loop through the list of promoter strings for each event
+    for event_promoters in promoters_list:
+        event_promoters_str = "".join(event_promoters)                                                                  # join all promoter lines to one string
+        individual_promoters = event_promoters_str.split('/')                                                           # split by '/' to clean each promoter separately
+        cleaned_event_promoters = []
+
+        for promoter in individual_promoters:
+            next_promoter = []
+            promoter_tokens = promoter.split()                                                                          # the next promoter by whitespaces
+            for token in promoter_tokens:
+                if validate_promoter(token):
+                    next_promoter.append(token)
+            next_promoter = " ".join(next_promoter)                                                                     # combine validated tokens to get promoter name
+            if next_promoter:
+                promoter_names.add(next_promoter)
+                cleaned_event_promoters.append(next_promoter)
+
+        promoters.append(cleaned_event_promoters)
+
+    update_dim_promoters(promoter_names, dim_promoters)                                                                 # add any new promoters to dim_promoters
+
+    for promoters in promoters:
+        event_promoter_ids = []
+        for promoter in promoters:
+            promoter_slug = slugify.slugify(promoter)
+            event_promoter_ids.append(dim_promoters["data"][promoter_slug]["id"])
+        promoter_ids.append(event_promoter_ids)
+
+    curated_events_df["promoters"] = promoter_ids
+
 def curate_events():
     #processed_data = pd.read_csv(f"s3://{BUCKET_NAME}/{object_key}")
     processed_events_df = pd.read_csv("test_files/BB-1984-10-20.csv")
@@ -472,7 +534,8 @@ def curate_events():
 
     dimension_tables = load_dimension_tables()
     curated_events_df["weekly_rank"] = range(1, len(processed_events_df) + 1)
-    #curate_event_name(events_df)
+    curate_promoters(processed_events_df, curated_events_df, dimension_tables["promoters"])
+    '''
     curate_artists(processed_events_df, curated_events_df, dimension_tables["artists"])
     curated_events_df["venue_id"] = curate_location(processed_events_df, dimension_tables, curated_events_df)
     curate_dates(processed_events_df, curated_events_df)
@@ -483,6 +546,7 @@ def curate_events():
 
     curate_num_sellouts(processed_events_df, curated_events_df)
     curate_ticket_prices(processed_events_df, curated_events_df)
+    '''
     print(curated_events_df)
 
     #events_df.to_csv("test_files/BB-1984-10-20_cur.csv", index=False)
