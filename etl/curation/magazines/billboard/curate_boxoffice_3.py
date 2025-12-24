@@ -4,7 +4,7 @@ import ast
 from botocore.exceptions import ClientError
 from utils.s3_utils import list_s3_files, client
 from config import BUCKET_NAME
-from config.paths import DIM_ARTISTS_PATH, STATE_ALIASES_PATH, VENUE_PATTERNS_PATH, DIM_CITIES_PATH, DIM_VENUES_PATH, DIM_PROMOTERS_PATH
+from config.paths import DIM_ARTISTS_PATH, STATE_ALIASES_PATH, VENUE_PATTERNS_PATH, DIM_CITIES_PATH, DIM_VENUES_PATH, DIM_PROMOTERS_PATH, EVENT_CORRECTIONS_PATH
 from utils.utils import *
 import pandas as pd
 import os
@@ -77,6 +77,12 @@ def update_artists_dim(all_artists, dim_artists):
             append_artists_dim(DIM_ARTISTS_PATH, max_artists_id, artist, key)
 
     return max_artists_id
+
+def identify_first_artist(processed_events_df):
+    processed_events_df["artists"] = processed_events_df["artists"].apply(ast.literal_eval)
+    processed_events_df["first_artist"] = processed_events_df["artists"].apply(
+        lambda artists: artists[0] if artists else None
+    )
 
 def curate_artists(processed_events_df, curated_events_df, dim_artists):
     processed_events_df["artists"] = processed_events_df["artists"].apply(ast.literal_eval)
@@ -235,8 +241,8 @@ def match_existing_venues(venue_name, dim_venues, city_name, dim_cities):
 
     :param venue_name (str)
     :param dim_venues (dict)
-    :param city_id (int)
-    :param state_id (int)
+    :param city_name (int)
+    :param dim_cities (dict)
     :return: venue_id
     '''
     venue_slug = slugify.slugify(venue_name)
@@ -252,15 +258,15 @@ def match_existing_venues(venue_name, dim_venues, city_name, dim_cities):
     print(candidates)
 
     for candidate in candidates:
-        print(f"Next candidate: {candidate}")
+        #print(f"Next candidate: {candidate}")
         candidate_city_id = candidate["city_id"]
-        print(f"Candidate city id: {candidate_city_id}")
+        #print(f"Candidate city id: {candidate_city_id}")
 
         candidate_city_name = existing_cities_by_id[int(candidate_city_id)]["name"]
-        print(f"Incoming city name = {city_name}, Candidate city name: {candidate_city_name}")
+        #print(f"Incoming city name = {city_name}, Candidate city name: {candidate_city_name}")
         if city_name == candidate_city_name:
             venue_id = candidate["id"]
-            print(f"Found existing venue id = {venue_id}")
+            #print(f"Found existing venue id = {venue_id}")
             break
 
     return venue_id, candidate_city_id
@@ -302,6 +308,44 @@ def detect_venue_typo(location_tokens):
         location_tokens[-1] = venue_patterns[location_tokens[-1].lower()].capitalize()
 
     return location_tokens
+
+def identify_venue(processed_events_df, dimension_tables):
+    '''
+    Identifies the state, city, and venue name without writing to any dimension tables
+
+    :param processed_events_df: a dataframe of all the events in the current Billboard issue
+    :param dimension_tables:
+    :return:
+    '''
+    dim_cities = dimension_tables["cities"]
+    dim_venues = dimension_tables["venues"]
+    event_locations = processed_events_df["location"].apply(ast.literal_eval)                                                     # convert location values from a string to an array
+    venue_names = []
+
+    for location in event_locations:
+        city_id = city_index = city_candidate = None
+        location_tokens = [token for part in location for token in part.split()]                                        # split every word/item into a token
+        state_id = match_state_after_venue(location_tokens)
+
+        # only check for an existing city if a state was provided, can't compare cities without knowing state
+        if state_id is not None:
+            city_id, city_index = match_city_after_venue(location_tokens, state_id, dim_cities)
+
+        # if existing city was found, everything before the city should be the venue name
+        if city_id is not None:
+            location_tokens = location_tokens[:city_index]
+        # if no existing city was found, check for a possible city to be recorded
+        else:
+            city_candidate, venue_type_idx = find_city_candidate(location_tokens)                                       # find what looks like a city name
+
+            if venue_type_idx:                                                                                          # remove city candidate from location tokens
+                location_tokens = location_tokens[:venue_type_idx+1]
+
+        venue_name = " ".join(location_tokens)
+
+        venue_names.append(venue_name)
+
+    processed_events_df["venue_name"] = venue_names
 
 def curate_location(events_df, dimension_tables, curated_events_df):
     '''
@@ -347,7 +391,7 @@ def curate_location(events_df, dimension_tables, curated_events_df):
 
         location_tokens = detect_venue_typo(location_tokens)
         venue_name = " ".join(location_tokens)
-        venue_id, city_id = match_existing_venues(venue_name, dim_venues, city_candidate, dim_cities)                          # check if the venue already exists in dim_venues
+        venue_id, city_id = match_existing_venues(venue_name, dim_venues, city_candidate, dim_cities)                   # check if the venue already exists in dim_venues
 
         # if it is a new venue
         if venue_id is None:
@@ -357,6 +401,20 @@ def curate_location(events_df, dimension_tables, curated_events_df):
 
     return venue_ids, venue_names
 
+def identify_start_date(processed_events_df):
+    '''
+
+    :param processed_events_df:
+    :return:
+    '''
+    event_dates = processed_events_df["dates"].apply(ast.literal_eval)                                                  # convert dates string from string to array
+    issue_year = object_key.split('/')[-3]                                                                              # get issue year from S3 uri
+
+    processed_events_df["start_date"] = [
+        curate_date(dates, issue_year)[0]
+        for dates in event_dates
+    ]
+
 def curate_dates(processed_events_df, curated_events_df):
     '''
 
@@ -364,7 +422,6 @@ def curate_dates(processed_events_df, curated_events_df):
     :return:
     '''
     event_dates = processed_events_df["dates"].apply(ast.literal_eval)                                                  # convert dates string from string to array
-    state_date = end_date = None
     issue_year = object_key.split('/')[-3]                                                                              # get issue year from S3 uri
 
     curated_dates = [curate_date(dates, issue_year) for dates in event_dates]
@@ -568,19 +625,55 @@ def curate_promoters(processed_events_df, curated_events_df, dim_promoters, venu
 
     curated_events_df["promoters"] = promoter_ids
 
-def get_first_artist_name(artist_ids):
+def get_first_artist_name_by_id(artist_ids):
     if not artist_ids:
         return None
     return get_artist_name(artist_ids[0])
 
+def add_raw_event_signature(processed_events_df):
+    processed_events_df["signature"] = processed_events_df.apply(
+        lambda row:
+            f"{row['first_artist'].lower().replace(' ', '-')}-"
+            f"{row['venue_name'].lower().replace(' ', '-')}-"
+            f"{row['start_date']}",
+            axis=1
+    )
+
 def curate_event_signature(curated_events_df):
     curated_events_df["signature"] = curated_events_df.apply(
         lambda row:
-            f"{get_first_artist_name(row['artist_ids']).lower().replace(' ', '-')}-"
+            f"{row['artists'][0].lower().replace(' ', '-')}-"
             f"{get_venue_name(row['venue_id']).lower().replace(' ', '-')}-"
             f"{row['start_date']}",
             axis=1
         )
+
+def implement_corrections(processed_events_df):
+    '''
+    Update any fields that were misread by OCR and do not have the context to autocorrect
+
+    :param processed_events_df:
+    :return:
+    '''
+    correction_dict = load_corrections_table(EVENT_CORRECTIONS_PATH)
+    current_event_signatures = processed_events_df["signature"].to_list()
+
+    # corrections_per_event = {'journey-civic-center-1984-10-20': [{'event_signature': 'journey-civic-center-1984-10-20', 'field': 'tickets_sold', 'true_value': 10000]...}
+    corrections_per_event = {
+        sig: correction_dict[sig]
+        for sig in current_event_signatures
+        if sig in correction_dict
+    }
+
+    for event_signature in corrections_per_event:
+        mask = processed_events_df["signature"] == event_signature                                                      # get row with the current event signature
+
+        for correction in corrections_per_event[event_signature]:                                                       # make each correction for the current event
+            field_to_correct = correction["field"]
+            true_value = correction["true_value"]
+            if true_value.isdigit():
+                true_value = int(true_value)
+            processed_events_df.loc[mask, field_to_correct] = true_value                                                # update field with its correct value
 
 def curate_events():
     #processed_data = pd.read_csv(f"s3://{BUCKET_NAME}/{object_key}")
@@ -588,19 +681,24 @@ def curate_events():
     curated_events_df = pd.DataFrame()
 
     dimension_tables = load_dimension_tables()
-    #curated_events_df["weekly_rank"] = range(1, len(processed_events_df) + 1)
+    identify_venue(processed_events_df, dimension_tables)
+    identify_first_artist(processed_events_df)
+    identify_start_date(processed_events_df)
+    add_raw_event_signature(processed_events_df)
+    implement_corrections(processed_events_df)
+
+    curated_events_df["weekly_rank"] = range(1, len(processed_events_df) + 1)
+    curate_artists(processed_events_df, curated_events_df, dimension_tables["artists"])
     curated_events_df["venue_id"], venue_names = curate_location(processed_events_df, dimension_tables, curated_events_df)
     curate_promoters(processed_events_df, curated_events_df, dimension_tables["promoters"], venue_names)
-    curate_artists(processed_events_df, curated_events_df, dimension_tables["artists"])
     curate_dates(processed_events_df, curated_events_df)
+    curated_events_df["artists"] = processed_events_df["artists"].apply(ast.literal_eval)
     curate_event_signature(curated_events_df)
-    print(curated_events_df)
-    '''
+    
     for col in ["gross_receipts_us", "gross_receipts_canadian", "tickets_sold", "capacity", "num_shows"]:
         if validate_numeric_column(processed_events_df, col):
             curated_events_df[col] = processed_events_df[col].apply(lambda x: int(x) if pd.notnull(x) else pd.NA)       # copy all original values as integers
     curate_num_sellouts(processed_events_df, curated_events_df)
     curate_ticket_prices(processed_events_df, curated_events_df)
-    '''
 
-    #events_df.to_csv("test_files/BB-1984-10-20_cur.csv", index=False)
+    curated_events_df.to_csv("test_files/BB-1984-10-20_cur.csv", index=False)
