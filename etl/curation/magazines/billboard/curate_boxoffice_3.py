@@ -85,8 +85,6 @@ def identify_first_artist(processed_events_df):
     )
 
 def curate_artists(processed_events_df, curated_events_df, dim_artists):
-    processed_events_df["artists"] = processed_events_df["artists"].apply(ast.literal_eval)
-
     # create a set of all unique artist names in the current issue
     all_artists = {
         artist
@@ -110,18 +108,23 @@ def match_city_after_venue(location_tokens, state_id, dim_cities):
     '''
     city_id = city_index = None
     dim_cities_by_key = dim_cities["by_key"]
+    dim_cities_by_slug = dim_cities["by_slug"]
 
     # start by checking if the last 3 words in the location are a city, then the last 2, then the last word
     for n in range(-1, -3, -1):
         candidate = " ".join(location_tokens[n:])
         candidate_slug = slugify.slugify(candidate)                                                                     # make a slug of the next n words
-        candidate_key = (candidate_slug, state_id)
+        if state_id is not None:
+            candidate_key = (candidate_slug, state_id)
+            if candidate_key in dim_cities_by_key:
+                city_id = dim_cities_by_key[candidate_key]["id"]                                                            # get the existing city id
+                city_index = location_tokens.index(candidate.split()[0])                                                    # get the index of the first word in the city
+                break  # break once a match is found
 
-        # if a city already exists in the dimension table with the given slug and same state id
-        if candidate_key in dim_cities_by_key:
-            city_id = dim_cities_by_key[candidate_key]["id"]                                                            # get the existing city id
-            city_index = location_tokens.index(candidate.split()[0])                                                    # get the index of the first word in the city
-            break  # break once a match is found
+        city_name_matches = dim_cities_by_slug.get(candidate_slug, [])
+        if len(city_name_matches) == 1:
+            city_id = city_name_matches[0]["id"]
+            city_index = location_tokens.index(candidate.split()[0])
 
     return city_id, city_index
 
@@ -223,19 +226,24 @@ def match_city_in_venue(location_tokens, dim_cities, state_id):
     :return: city_id (int)
     '''
     city_id = None
+    dim_cities_by_key = dim_cities["by_key"]
+    print(f"In match_city_in_venue(). State_id = {state_id}")
 
     for i in range(len(location_tokens)):
         # check all combinations of words from left to right length 1 to 3 to see if any of them are in the existing city slugs
         for window_size in range(1, 4):
             candidate_slug = slugify.slugify(" ".join(location_tokens[i:i+window_size]).lower())
             candidate_key = (candidate_slug, state_id)
+            print(candidate_slug)
 
-            if candidate_key in dim_cities:
-                city_id = dim_cities[candidate_key]["id"]
+            if candidate_key in dim_cities_by_key:
+                print(f"Found city {candidate_slug} in venue name!")
+                city_id = dim_cities_by_key[candidate_key]["id"]
+                break
 
     return city_id
 
-def match_existing_venues(venue_name, dim_venues, city_name, dim_cities):
+def match_existing_venues(venue_name, dim_venues, city_id, city_name, dim_cities):
     '''
     Checks if the given venue is already in dim_venues
 
@@ -255,21 +263,28 @@ def match_existing_venues(venue_name, dim_venues, city_name, dim_cities):
 
     venue_id = candidate_city_id = None
     candidates = existing_venues_by_slug[venue_slug]                                                                    # get all venues that have the given name
-    print(candidates)
 
     for candidate in candidates:
         #print(f"Next candidate: {candidate}")
         candidate_city_id = candidate["city_id"]
-        #print(f"Candidate city id: {candidate_city_id}")
+        print(f"Incoming city id = {city_id}, Candidate city id: {candidate_city_id}")
 
         candidate_city_name = existing_cities_by_id[int(candidate_city_id)]["name"]
-        #print(f"Incoming city name = {city_name}, Candidate city name: {candidate_city_name}")
-        if city_name == candidate_city_name:
-            venue_id = candidate["id"]
-            #print(f"Found existing venue id = {venue_id}")
-            break
+        print(f"Incoming city name = {city_name}, candidate city name = {candidate_city_name}")
 
-    return venue_id, candidate_city_id
+        # if the city of the current venue has already been verified, make sure it is the same as the city id of the potential match
+        if city_id == candidate_city_id:
+            venue_id = candidate["id"]
+            print(f"Incoming venue has matching slug and city id, venue id = {venue_id}")
+            break
+        elif city_name == candidate_city_name:                                                                          # check if potential city name matches
+            venue_id = candidate["id"]
+            print(f"Incoming venue has no id but matching city name, venue id = {venue_id}")
+            break
+        else:
+            print(f"No matching venue for {venue_name}. City id = {city_id}, city name = {city_name}")
+
+    return venue_id
 
 def append_venue(venue_name, dim_venues, city_id, state_id):
     '''
@@ -366,9 +381,7 @@ def curate_location(events_df, dimension_tables, curated_events_df):
         location_tokens = [token for part in location for token in part.split()]                                        # split every word/item into a token
         state_id = match_state_after_venue(location_tokens)
 
-        # only check for an existing city if a state was provided, can't compare cities without knowing state
-        if state_id is not None:
-            city_id, city_index = match_city_after_venue(location_tokens, state_id, dim_cities)
+        city_id, city_index = match_city_after_venue(location_tokens, state_id, dim_cities)
 
         # if existing city was found, everything before the city should be the venue name
         if city_id is not None:
@@ -388,13 +401,16 @@ def curate_location(events_df, dimension_tables, curated_events_df):
 
         if city_id is None:
             city_id = match_city_in_venue(location_tokens, dim_cities, state_id)                                        # check if there is a city in the venue name
+            print(f"Called match_city_in_venue() for {location}, found city_id = {city_id}")
 
         location_tokens = detect_venue_typo(location_tokens)
         venue_name = " ".join(location_tokens)
-        venue_id, city_id = match_existing_venues(venue_name, dim_venues, city_candidate, dim_cities)                   # check if the venue already exists in dim_venues
+        #print(f"Venue name = {venue_name}")
+        venue_id = match_existing_venues(venue_name, dim_venues, city_id, city_candidate, dim_cities)                   # check if the venue already exists in dim_venues
 
         # if it is a new venue
         if venue_id is None:
+            print(f"Appending new venue {venue_name}, city id = {city_id}")
             venue_id = append_venue(venue_name, dim_venues, city_id, state_id)                                          # add it to the dim_venues table
         venue_ids.append(venue_id)
         venue_names.append(venue_name)
@@ -642,7 +658,7 @@ def add_raw_event_signature(processed_events_df):
 def curate_event_signature(curated_events_df):
     curated_events_df["signature"] = curated_events_df.apply(
         lambda row:
-            f"{row['artists'][0].lower().replace(' ', '-')}-"
+            f"{get_artist_name(row['artist_ids'][0]).lower().replace(' ', '-')}-"
             f"{get_venue_name(row['venue_id']).lower().replace(' ', '-')}-"
             f"{row['start_date']}",
             axis=1
@@ -692,7 +708,6 @@ def curate_events():
     curated_events_df["venue_id"], venue_names = curate_location(processed_events_df, dimension_tables, curated_events_df)
     curate_promoters(processed_events_df, curated_events_df, dimension_tables["promoters"], venue_names)
     curate_dates(processed_events_df, curated_events_df)
-    curated_events_df["artists"] = processed_events_df["artists"].apply(ast.literal_eval)
     curate_event_signature(curated_events_df)
     
     for col in ["gross_receipts_us", "gross_receipts_canadian", "tickets_sold", "capacity", "num_shows"]:
