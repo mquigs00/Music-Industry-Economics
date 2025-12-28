@@ -30,8 +30,8 @@ pytesseract.pytesseract.tesseract_cmd = r"C:\Users\mquig\AppData\Local\Programs\
 
 directory_prefix = "raw/billboard/pdf/magazines/"
 
-object_key = 'raw/billboard/pdf/magazines/1991/02/BB-1991-02-23.pdf'
-page_num = 36
+object_key = 'raw/billboard/pdf/magazines/1984/11/BB-1984-11-03.pdf'
+page_num = 55
 
 '''
     Every tour has:
@@ -173,7 +173,7 @@ def parse_gross_receipts_us(event_data, next_item):
         except ValueError:
             pass
 
-def parse_tickets_sold(event_data, next_item):
+def parse_attendance(event_data, next_item):
     '''
     Extracts the number of tickets_sold
     :param event_data:
@@ -181,9 +181,9 @@ def parse_tickets_sold(event_data, next_item):
     :return:
     '''
     if next_item and re.match(r"^[\d,]+$", next_item):
-        event_data["tickets_sold"] = float(next_item.replace(",", ""))
+        event_data["attendance"] = float(next_item.replace(",", ""))
     else:
-        logger.error(f"Attendance = {next_item}, leaving tickets_sold as None")
+        logger.error(f"Attendance = {next_item}, leaving attendance as None")
 
 def parse_additional_artist(event_data, next_item, it):
     """
@@ -258,8 +258,8 @@ def parse_capacity(event_data, next_item):
     '''
     capacity = re.sub("[(),]", "", next_item)
     if capacity.isdigit():
-        if event_data["tickets_sold"] is not None and int(capacity) < event_data["tickets_sold"]:
-            logger.warning(f"Capacity = {capacity} but attendance = {event_data["tickets_sold"]} for tour, setting capacity back to None")
+        if event_data["attendance"] is not None and int(capacity) < event_data["attendance"]:
+            logger.warning(f"Capacity = {capacity} but attendance = {event_data["attendance"]} for tour, setting capacity back to None")
         else:
             event_data["capacity"] = int(capacity)
     else:
@@ -317,7 +317,7 @@ def new_event_state(bucket_name, object_key):
         "dates": [],
         "gross_receipts_us": None,
         "gross_receipts_canadian": None,
-        "tickets_sold": None,
+        "attendance": None,
         "capacity": None,
         "num_shows": None,
         "num_sellouts": None,
@@ -406,7 +406,7 @@ def parse_event(event_str):
     next_item = parse_location(event_data, next_item, it)
     next_item = parse_date(event_data, next_item, it)
     parse_gross_receipts_us(event_data, next_item)
-    parse_tickets_sold(event_data, next(it))
+    parse_attendance(event_data, next(it))
     parse_promoter(event_data, next(it), it)
     next_item = next(it, None)
 

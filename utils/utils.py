@@ -138,3 +138,12 @@ def add_slugs_to_csv(path):
     df["slug"] = df["name"].apply(slugify.slugify)
 
     df.to_csv(path, index=False)
+
+def clean_location(location_tokens):
+    NOISE = {"Productions", "Promotions", "Presents", "Prods.", "Concerts", "Inc.", "Entertainment", "sellout", "Jam", "~"}
+    clean_tokens = []
+    for token in location_tokens:
+        token = token.replace(',', '')
+        if token not in NOISE:
+            clean_tokens.append(token)
+    return clean_tokens

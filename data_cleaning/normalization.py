@@ -1,5 +1,5 @@
 import json
-from config.paths import VENUE_PATTERNS_PATH
+from config.paths import VENUE_TYPES_PATH
 from config.paths import STATE_ALIASES_PATH
 
 def build_reverse_map(path):
