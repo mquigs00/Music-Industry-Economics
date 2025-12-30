@@ -1,4 +1,5 @@
 id,name,slug,aliases,state_id,verified
+-1,Unknown,unknown,,-1,
 1,New York,new-york,,32,yes
 2,Los Angeles,los-angeles,,5,yes
 3,Chicago,chicago,,13,yes
@@ -52,7 +53,7 @@ id,name,slug,aliases,state_id,verified
 51,Aurora,aurora,,6,yes
 52,New Orleans,new-orleans,,18,yes
 53,Cleveland,cleveland,,35,yes
-54,Urban Honolulu,urban-honolulu,,11,yes
+54,Honolulu,honolulu,,11,yes
 55,Anaheim,anaheim,,5,yes
 56,Henderson,henderson,,29,yes
 57,Orlando,orlando,,9,yes
@@ -107,3 +108,20 @@ id,name,slug,aliases,state_id,verified
 107,Starkville,starkville,,24,yes
 108,Beaumont,beaumont,,43,yes
 109,Baton Rouge,baton-rouge,,18,yes
+110,Pine Bluff,pine-bluff,,4,yes
+111,Lakeland,lakeland,,9,yes
+112,Dayton,dayton,,35,yes
+113,Ann Arbor,ann-arbor,,22,yes
+114,Laguna Hills,laguna-hills,,5,yes
+115,Berkeley,berkeley,,5,yes
+116,Nanaimo,nanaimo,,62,yes
+117,Little Rock,little-rock,,4,yes
+118,Kalamazoo,kalamazoo,,22,yes
+119,Toronto,toronto,,60,yes
+120,Hollywood,hollywood,,9,yes
+121,Concord,concord,,5,yes
+122,Inglewood,inglewood,,5,yes
+123,Nagcogdoches,nagcogdoches,,43,yes
+124,Laguna Hilts,laguna-hilts,,5,no
+125,College Station,college-station,,43,yes
+126,Royal Oak,royal-oak,,22,yes

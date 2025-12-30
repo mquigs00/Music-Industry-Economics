@@ -2,6 +2,7 @@
   "hall": ["hall", "halt", "kall", "hail", "hat!"],
   "auditorium": ["auditorium", "auditoriurn", "auditorism"],
   "coliseum": ["coliseum", "colseum", "coltseum", "cohseum"],
+  "college": ["college"],
   "arena": ["arena"],
   "memorial": ["memorial"],
   "theater": ["theater"],
@@ -26,5 +27,6 @@
   "fair": ["fair"],
   "fairgrounds": ["fairgrounds"],
   "silverdome": ["silverdome"],
-  "grandstand": ["grandstand"]
+  "grandstand": ["grandstand"],
+  "sportatorium": ["sportatorium"]
 }
