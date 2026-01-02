@@ -7,7 +7,8 @@ import csv
 import pandas as pd
 import slugify
 from config.config import DIMENSION_TABLES
-from config.paths import DIM_VENUES_PATH
+from config.paths import *
+import json
 
 def load_list_from_file(path):
     text_list = []
@@ -147,3 +148,9 @@ def clean_location(location_tokens):
         if token not in NOISE:
             clean_tokens.append(token)
     return clean_tokens
+
+def load_event_keywords(path):
+    with open(path, "r") as f:
+        event_keywords = set(json.load(f))
+
+    return event_keywords

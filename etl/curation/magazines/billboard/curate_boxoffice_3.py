@@ -4,7 +4,7 @@ import ast
 from botocore.exceptions import ClientError
 from utils.s3_utils import list_s3_files, client
 from config import BUCKET_NAME
-from config.paths import DIM_ARTISTS_PATH, STATE_ALIASES_PATH, VENUE_TYPES_PATH, DIM_CITIES_PATH, DIM_VENUES_PATH, DIM_PROMOTERS_PATH, EVENT_CORRECTIONS_PATH
+from config.paths import *
 from utils.utils import *
 import pandas as pd
 import os
@@ -21,7 +21,7 @@ logger = logging.getLogger()
 This curation script is for the Billboard Boxscore schema that ran from 1984-10-20 to 2001-07-21
 '''
 
-object_key = "processed/billboard/magazines/1984/10/BB-1984-10-20.csv"
+object_key = "processed/billboard/magazines/1984/11/BB-1984-11-24.csv"
 
 MONTH_MAP = {
     "Jan": 1, "Feb": 2, "Mar": 3, "Apr": 4,
@@ -29,40 +29,105 @@ MONTH_MAP = {
     "Sept": 9, "Oct": 10, "Nov": 11, "Dec": 12
 }
 
+ORDINAL_FIX = re.compile(r"\b(\d+)(St|Nd|Rd|Th)\b")
+APOSTROPHE_FIX = re.compile(r"(['’])S\b")
+
 def append_artists_dim(path, artist_id, name, slug):
+    """
+    Adds the new artist to the dimension table csv file
+    :param path (str)
+    :param artist_id (int)
+    :param name (str) the name of the artist
+    :param slug (str)
+    """
     with open(path, "a", newline='', encoding='utf-8') as f:
         writer = csv.writer(f)
         writer.writerow([artist_id, name, slug])
 
 def append_venues_dim(path, venue_id, name, city_id):
+    """
+    Adds the new venue to the dimension table csv file
+    :param path (str)
+    :param venue_id (int)
+    :param name (str)
+    :param city_id (int)
+    """
     with open(path, "a", newline='', encoding='utf-8') as f:
         writer = csv.writer(f)
         writer.writerow([venue_id, name, slugify.slugify(name), city_id])
 
-def curate_event_name(events_df):
-    first_artist_line = ast.literal_eval(events_df["artists"])[0]
+def normalize_event_name(event_name):
+    """
 
-    if ":" in first_artist_line:
-        events_df["event_name"] = first_artist_line[:first_artist_line.index(":")]
-    else:
-        events_df["event_name"] = None
+    :param event_name:
+    :return:
+    """
+    event_name = event_name.title()
+    event_name = ORDINAL_FIX.sub(lambda m: m.group(1) + m.group(2).lower(), event_name)
+    event_name = APOSTROPHE_FIX.sub(r"\1s", event_name)
+    return event_name
+
+def parse_event_name(artist_lines):
+    """
+    Detects a
+    :param artist_lines:
+    :return:
+    """
+    event_name_parts = []
+    updated_artists = []
+    event_keywords = load_event_keywords(EVENT_KEYWORDS_PATH)
+
+    for i, line in enumerate(artist_lines):
+        contains_event_keyword = any(keyword in line for keyword in event_keywords)
+        if contains_event_keyword:
+            if ':' in line:
+                before, after = line.split(":", 1)                                                                      # split string on colon
+                event_name_parts.append(before.strip())                                                                 # add text before colon to event name
+
+                if after.strip():                                                                                       # if there is any text after the colon
+                    updated_artists.append(after.strip())                                                               # add it to the updated artists list
+            else:
+                event_name_parts.append(line)                                                                           # assume event keyword always is at the end of the line
+
+            updated_artists.extend(artist_lines[i + 1:])                                                                # put all remaining lines in the updated artists list
+            event_name = normalize_event_name(" ".join(event_name_parts))                                               # join event name and fix casing
+            return event_name, updated_artists
+        else:
+            event_name_parts.append(line)
+
+    return None, artist_lines
 
 def get_artist_ids(artist_names, dim_artists):
+    """
+    Convert a list of artist names to their corresponding id numbers
+    :param artist_names (list)
+    :param dim_artists (dict)
+    :return: artist_ids (list)
+    """
     existing_artists = dim_artists["by_slug"]
-    max_artist_id = dim_artists["max_id"]
     artist_ids = []
 
     for artist in artist_names:
         key = slugify.slugify(artist)
+        print(existing_artists[key])
         artist_id = existing_artists[key][0]["id"]
         artist_ids.append(artist_id)
 
     return artist_ids
 
 def update_artists_dim(all_artists, dim_artists):
+    '''
+    Add any new artists to the artists dimension table
+
+    :param all_artists: a set of all artists in the current issue
+    :param dim_artists: the dictionary of existing artists
+    :return: max_artist_id
+    '''
+
     max_artists_id = dim_artists["max_id"]
     existing_artists = dim_artists["by_slug"]
     for artist in all_artists:
+        artist_name_proper = artist.title()
         key = slugify.slugify(artist)
         if key not in existing_artists:
             max_artists_id += 1
@@ -71,23 +136,39 @@ def update_artists_dim(all_artists, dim_artists):
                 "name": artist,
                 "slug": key,
             }
-            append_artists_dim(DIM_ARTISTS_PATH, max_artists_id, artist, key)
+            append_artists_dim(DIM_ARTISTS_PATH, max_artists_id, artist_name_proper, key)
 
     return max_artists_id
 
 def identify_first_artist(processed_events_df):
-    processed_events_df["artists"] = processed_events_df["artists"].apply(ast.literal_eval)
+    """
+    Adds a new column to the dataframe with the name of the first artist for the event
+    :param processed_events_df (dataframe)
+    """
+    processed_events_df["artists"] = processed_events_df["artists"].apply(ast.literal_eval)                             # convert artist list from string to list
     processed_events_df["first_artist"] = processed_events_df["artists"].apply(
         lambda artists: artists[0] if artists else None
     )
 
 def curate_artists(processed_events_df, curated_events_df, dim_artists):
+    """
+    Transforms the list of artist strings into a series of artist id numbers
+
+    :param processed_events_df:
+    :param curated_events_df:
+    :param dim_artists:
+    :return:
+    """
+
     # create a set of all unique artist names in the current issue
     all_artists = {
         artist
-        for lst in processed_events_df["artists"]
-        for artist in lst
+        for artists in processed_events_df["artists"]
+        for artist in artists
     }
+
+    for artist in all_artists:
+        print(f"Artist: {artist}")
 
     update_artists_dim(all_artists, dim_artists)
 
@@ -135,7 +216,7 @@ def match_city_after_venue(location_tokens, state_id, dim_cities):
             if state_id:
                 candidate_key = (candidate_slug, state_id)
                 if candidate_key in dim_cities_by_key:
-                    city_id = dim_cities_by_key[candidate_key]["id"]                                                            # get the existing city id
+                    city_id = dim_cities_by_key[candidate_key]["id"]                                                                     # get the existing city id
                     city_name = dim_cities_by_key[candidate_key]["name"]
                     city_index = start+difference                                                                                        # get the index of the first word in the city
                     return city_id, city_name, city_index
@@ -251,14 +332,15 @@ def match_state_in_venue(location_tokens):
     '''
     state_aliases = build_reverse_map(STATE_ALIASES_PATH)
     state_id = None
-    state_chars = set("(){}|")                                              # state should be explicitly surrounded by (), could be {, }, or | due to OCR error
-    remove_chars = "(){}|"
+    state_chars = set("(){}")                                              # state should be explicitly surrounded by (), could be {, }, or | due to OCR error
+    remove_chars = "(){}."
     translator = str.maketrans("", "", remove_chars)
 
     for index, token in enumerate(location_tokens):
         # if any of the bracket chars are in the next token
         if any(char in state_chars for char in token):
             state = token.translate(translator).lower()                     # remove the brackets
+            print(f"State keyword in {token}: {state}")
             state_id = state_aliases[state]                                 # get the states id number
             del location_tokens[index]
 
@@ -326,7 +408,6 @@ def match_existing_venues(venue_name, dim_venues, city_id, city_name, dim_cities
 
     if venue_slug not in existing_venues_by_slug:
         # if there are no venues with the same name, check for typos
-        print(f"{venue_slug} is not in dim_venues")
         if city_id:
             venues_with_matching_city = [
                 venue
@@ -337,7 +418,6 @@ def match_existing_venues(venue_name, dim_venues, city_id, city_name, dim_cities
             if not venues_with_matching_city:
                 return None
             else:
-                print(venues_with_matching_city)
                 for existing_venue in venues_with_matching_city:
                     if len(venue_name) > 7 and levenshtein_distance(existing_venue["name"], venue_name) <= 2:
                         venue_slug = existing_venue["slug"]
@@ -354,7 +434,6 @@ def match_existing_venues(venue_name, dim_venues, city_id, city_name, dim_cities
         #print(f"Found potential match for {city_name}")
         candidate_city_id = candidate["city_id"]
         candidate_city_name = existing_cities_by_id[int(candidate_city_id)]["name"]
-        print(f"Incoming city name = {city_name}, candidate city id = {candidate_city_name}")
 
         # if the city of the current venue has already been verified, make sure it is the same as the city id of the potential match
         if city_id == candidate_city_id:
@@ -428,10 +507,10 @@ def identify_venue(processed_events_df, dimension_tables):
     '''
     dim_cities = dimension_tables["cities"]
     dim_venues = dimension_tables["venues"]
-    event_locations = processed_events_df["location"].apply(ast.literal_eval)                                                     # convert location values from a string to an array
+    processed_events_df["location"] = processed_events_df["location"].apply(ast.literal_eval)                           # convert location values from a string to an array
     venue_names = []
 
-    for location in event_locations:
+    for location in processed_events_df["location"]:
         city_id = city_index = city_candidate = None
         location_tokens = [token for part in location for token in part.split()]                                        # split every word/item into a token
         state_id = match_state_after_venue(location_tokens)
@@ -456,21 +535,20 @@ def identify_venue(processed_events_df, dimension_tables):
 
     processed_events_df["venue_name"] = venue_names
 
-def curate_location(events_df, dimension_tables, curated_events_df):
+def curate_location(processed_events_df, dimension_tables):
     '''
 
-    :param events_df: a dataframe of all the events in the current Billboard issue
+    :param processed_events_df: a dataframe of all the events in the current Billboard issue
     :param dimension_tables:
     :return:
     '''
     dim_cities = dimension_tables["cities"]
     dim_venues = dimension_tables["venues"]
-    event_locations = events_df["location"].apply(ast.literal_eval)                                                     # convert location values from a string to an array
     venue_ids = []
     venue_names = []
     venue_id = None
 
-    for location in event_locations:
+    for location in processed_events_df["location"]:
         city_id = city_index = city_candidate = None
         location_tokens = [token for part in location for token in part.split()]                                        # split every word/item into a token
         location_tokens = clean_location(location_tokens)
@@ -641,10 +719,9 @@ def validate_numeric_column(df, col_name):
     return all_valid
 
 def curate_ticket_prices(processed_events_df, curated_events_df):
-    ticket_prices_org = processed_events_df["ticket_prices"].apply(ast.literal_eval)
     clean_prices = []
 
-    for row in ticket_prices_org:
+    for row in processed_events_df["ticket_prices"]:
         event_prices = []
         for prices in row:
             if "/" in prices:
@@ -767,38 +844,57 @@ def implement_corrections(processed_events_df):
     correction_dict = load_corrections_table(EVENT_CORRECTIONS_PATH)
     current_event_signatures = processed_events_df["signature"].to_list()
 
-    # corrections_per_event = {'journey-civic-center-1984-10-20': [{'event_signature': 'journey-civic-center-1984-10-20', 'field': 'tickets_sold', 'true_value': 10000]...}
+    # one event can need corrections for multiple fields
+    # {'journey-civic-center-1984-10-20': [{'event_signature': 'journey-civic-center-1984-10-20', 'field': 'tickets_sold', 'true_value': 10000},
+    #                                      {'event_signature': 'journey-civic-center-1984-10-20', 'field': 'capacity', 'true_value': 12200}]
     corrections_per_event = {
-        sig: correction_dict[sig]
-        for sig in current_event_signatures
-        if sig in correction_dict
+        signature: correction_dict[signature]
+        for signature in current_event_signatures
+        if signature in correction_dict
     }
 
-    for event_signature in corrections_per_event:
-        mask = processed_events_df["signature"] == event_signature                                                      # get row with the current event signature
+    for event_signature, corrections in corrections_per_event.items():
+        event = processed_events_df.index[
+            processed_events_df["signature"] == event_signature
+        ]
 
-        for correction in corrections_per_event[event_signature]:                                                       # make each correction for the current event
-            field_to_correct = correction["field"]
-            true_value = correction["true_value"]
-            if true_value.isdigit():
-                true_value = int(true_value)
-            processed_events_df.loc[mask, field_to_correct] = true_value                                                # update field with its correct value
+        row_idx = event[0]
+
+        for correction in corrections:
+            field = correction["field"]
+            raw_value = correction["true_value"]
+
+            if isinstance(raw_value, str):
+                try:
+                    true_value = ast.literal_eval(raw_value)
+                    print(f"{true_value} converted to {type(true_value)}")
+                except (ValueError, SyntaxError):
+                    true_value = raw_value
+            else:
+                true_value = raw_value
+
+            processed_events_df.at[row_idx, field] = true_value
 
 def curate_events():
     #processed_data = pd.read_csv(f"s3://{BUCKET_NAME}/{object_key}")
-    processed_events_df = pd.read_csv("test_files/BB-1984-11-03.csv")
+    processed_events_df = pd.read_csv("test_files/BB-1984-11-24.csv")
     curated_events_df = pd.DataFrame()
 
     dimension_tables = load_dimension_tables()
     identify_venue(processed_events_df, dimension_tables)
     identify_first_artist(processed_events_df)
     identify_start_date(processed_events_df)
+    processed_events_df["ticket_prices"] = processed_events_df["ticket_prices"].apply(ast.literal_eval)
     add_raw_event_signature(processed_events_df)
     implement_corrections(processed_events_df)
 
     curated_events_df["weekly_rank"] = range(1, len(processed_events_df) + 1)
+    event_name_results = processed_events_df["artists"].apply(parse_event_name)
+    #print(event_name_results.apply(lambda x: x[0]))
+    curated_events_df["event_name"] = event_name_results.apply(lambda x: x[0])
+    processed_events_df["artists"] = event_name_results.apply(lambda x: x[1])
     curate_artists(processed_events_df, curated_events_df, dimension_tables["artists"])
-    curated_events_df["venue_id"], venue_names = curate_location(processed_events_df, dimension_tables, curated_events_df)
+    curated_events_df["venue_id"], venue_names = curate_location(processed_events_df, dimension_tables)
     curate_promoters(processed_events_df, curated_events_df, dimension_tables["promoters"], venue_names)
     curate_dates(processed_events_df, curated_events_df)
     curate_event_signature(curated_events_df)
@@ -809,4 +905,4 @@ def curate_events():
     curate_num_sellouts(processed_events_df, curated_events_df)
     curate_ticket_prices(processed_events_df, curated_events_df)
 
-    curated_events_df.to_csv("test_files/BB-1984-11-03_cur.csv", index=False)
+    curated_events_df.to_csv("test_files/BB-1984-11-24_cur.csv", index=False)

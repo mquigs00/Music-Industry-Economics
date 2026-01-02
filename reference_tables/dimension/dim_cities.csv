@@ -125,3 +125,5 @@ id,name,slug,aliases,state_id,verified
 124,Laguna Hilts,laguna-hilts,,5,no
 125,College Station,college-station,,43,yes
 126,Royal Oak,royal-oak,,22,yes
+127,Landover,landover,,20,no
+128,South Bend,south-bend,,14,no

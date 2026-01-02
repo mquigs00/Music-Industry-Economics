@@ -30,8 +30,8 @@ pytesseract.pytesseract.tesseract_cmd = r"C:\Users\mquig\AppData\Local\Programs\
 
 directory_prefix = "raw/billboard/pdf/magazines/"
 
-object_key = 'raw/billboard/pdf/magazines/1984/11/BB-1984-11-03.pdf'
-page_num = 55
+object_key = 'raw/billboard/pdf/magazines/1984/11/BB-1984-11-24.pdf'
+page_num = 37
 
 '''
     Every tour has:

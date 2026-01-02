@@ -1,18 +1,61 @@
-id,name,slug,type,genres,size,member_ids,parent_id
-1,DIANA ROSS,diana-ross,,,,,
-2,BILLY SATELLITE,billy-satellite,,,,,
-3,ALAN KAYE,alan-kaye,,,,,
-4,BILL MEDLEY,bill-medley,,,,,
-5,FASTWAY,fastway,,,,,
-6,PETER ALLEN,peter-allen,,,,,
-7,EDDIE RABBITT,eddie-rabbitt,,,,,
-8,JEFFERSON STARSHIP,jefferson-starship,,,,,
-9,GRATEFUL DEAD,grateful-dead,,,,,
-10,HELEN REDDY,helen-reddy,,,,,
-11,CHICAGO,chicago,,,,,
-12,ALABAMA,alabama,,,,,
-13,RUSH,rush,,,,,
-14,A FLOCK OF SEAGULLS,a-flock-of-seagulls,,,,,
-15,KENNY ROGERS,kenny-rogers,,,,,
-16,THOMPSON TWINS,thompson-twins,,,,,
-17,ROD STEWART,rod-stewart,,,,,
+id,name,slug,verified,type,genres,size,member_ids,parent_id
+1,Helix,helix
+2,Quiet Rio,quiet-rio
+3,Lionel Richie,lionel-richie
+4,Sammy Hagar,sammy-hagar
+5,Rick Springfield,rick-springfield
+6,Fixx,fixx
+7,Berlin,berlin
+8,Billy Squier,billy-squier
+9,Oak Ridge Boys,oak-ridge-boys
+10,Doug Henning,doug-henning
+11,Ratt,ratt
+12,Whitesnake,whitesnake
+13,Jethro Tull,jethro-tull
+14,David Copperfield,david-copperfield
+15,Quiet Riot,quiet-riot
+16,Juice Newton,juice-newton
+17,Lee Greenwood,lee-greenwood
+18,George Benson,george-benson
+19,Ronnie Hayes & The Wild,ronnie-hayes-the-wild
+20,Thompson Twins,thompson-twins
+21,Amy Grant,amy-grant
+22,Rick Springfield Nbc,rick-springfield-nbc
+23,Rod Stewart,rod-stewart
+24,Corey Hart,corey-hart
+25,Bruce Springsteen,bruce-springsteen
+26,Honeymoon Suite,honeymoon-suite
+27,Combo,combo
+28,Krokus.,krokus
+29,Alabama,alabama
+30,Chicago,chicago
+31,Barry Manilow,barry-manilow
+32,Charley Pride,charley-pride
+33,Patti Labelle,patti-labelle
+34,Armored Saints,armored-saints
+35,Lou Reed,lou-reed
+36,George Wallace,george-wallace
+37,"Peabo Bryson, Kool &",peabo-bryson-kool
+38,Ronnie James Dio,ronnie-james-dio
+39,"Crosby, Stills & Nash",crosby-stills-nash
+40,Gallagher,gallagher
+41,Nelsons,nelsons
+42,Crystal Gayle,crystal-gayle
+43,Royal New York Doo Wopp,royal-new-york-doo-wopp
+44,Swimming Pool Qs,swimming-pool-qs
+45,Anne Murray,anne-murray
+46,Allan Kaye.,allan-kaye
+47,Vol.,vol
+48,Tommy Shaw _,tommy-shaw
+49,Kenny Rogers.,kenny-rogers
+50,Dokken,dokken
+51,Culture Club,culture-club
+52,Grateful Dead,grateful-dead
+53,"The Gang, Whispers,",the-gang-whispers
+54,Krokos,krokos
+55,Julio Iglesias.,julio-iglesias
+56,Rush,rush
+57,"Mtume, Patti Labelle",mtume-patti-labelle
+58,Sawyer Brown,sawyer-brown
+59,Alan Kaye,alan-kaye
+60,Tom Jones:,tom-jones
