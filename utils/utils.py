@@ -3,6 +3,7 @@ from collections import defaultdict
 from pdf2image import convert_from_bytes
 import pytesseract
 import os
+import re
 import csv
 import pandas as pd
 import slugify
@@ -141,7 +142,7 @@ def add_slugs_to_csv(path):
     df.to_csv(path, index=False)
 
 def clean_location(location_tokens):
-    NOISE = {"Productions", "Promotions", "Presents", "Prods.", "Concerts", "Inc.", "Entertainment", "sellout", "Jam", "~"}
+    NOISE = {"Productions", "Promotions", "Presents", "Presentations", "Prods.", "Concerts", "Inc.", "Entertainment", "sellout", "Jam", "~"}
     clean_tokens = []
     for token in location_tokens:
         token = token.replace(',', '')
@@ -154,3 +155,33 @@ def load_event_keywords(path):
         event_keywords = set(json.load(f))
 
     return event_keywords
+
+def parse_ocr_int(value):
+    if pd.isna(value):
+        return pd.NA
+    if isinstance(value, (int,)):
+        return value
+    if isinstance(value, float):
+        value = str(value)
+        value = re.sub(r'\.0$', '', value)
+        value = value.replace('.', '')
+        return int(value)
+    if isinstance(value, str):
+        v = value.strip()
+        v = v.replace(' ', '')
+        if '.' in v and ',' in v:
+            v = v.replace('.', '').replace(',', '')
+        else:
+            v = v.replace('.', '').replace(',', '')
+
+    v = re.sub("[^\d]", "", v)
+
+    if  v == "":
+        return pd.NA
+
+    return int(v)
+
+def clean_artist_name(artist):
+    artist = artist.strip()
+    artist = re.sub(r"[._:|{}\[\]]", "", artist)
+    return artist

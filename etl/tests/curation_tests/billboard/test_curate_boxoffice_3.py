@@ -1,6 +1,8 @@
 import pandas as pd
 from etl.curation.magazines.billboard import curate_boxoffice_3 as curator
 from datetime import date
+
+from etl.curation.magazines.billboard.curate_boxoffice_3 import parse_artist_names
 from utils.utils import *
 import pytest
 
@@ -17,6 +19,26 @@ def test_curate_noise_in_dates():
     assert start_date == date(1984, 9, 30)
     assert end_date == date(1984, 9, 30)
 
+# ARTISTS
+@pytest.mark.only
+def test_curate_artists_festival():
+    # if there is an event name, artists should be split by commas, and ampersands at the end of lines should signal to join adjacent artists
+    orig_artists = ['BUDWEISER SUPERFEST:', 'PEABO BRYSON, KOOL &', 'THE GANG, WHISPERS,', 'MTUME, PATTI LABELLE']
+    event_name, artists = curator.parse_event_name(orig_artists)
+    has_event_name = event_name is not None
+    artists = parse_artist_names(artists, has_event_name)
+    assert event_name == 'Budweiser Superfest'
+    assert artists == ['PEABO BRYSON', 'KOOL & THE GANG', 'WHISPERS', 'MTUME', 'PATTI LABELLE']
+
+def test_curate_artists_with_comma():
+    # if there is no event name, commas should not be used to split artist names
+    artists = ['CROSBY, STILLS & NASH']
+    event_name, artists = curator.parse_event_name(artists)
+    has_event_name = event_name is not None
+    artists = parse_artist_names(artists, has_event_name)
+    assert event_name is None
+    assert artists == ['CROSBY, STILLS & NASH']
+
 #LOCATION
 def test_curate_location_clean():
     test_data = [["['Oakland Coliseum', 'Calif.']"]]
@@ -32,6 +54,17 @@ def test_curate_location_promoter():
     test_df["venue_id"], venue_names = curator.curate_location(test_df, dimension_tables, test_df)
 
     assert venue_names == ['Reunion Arena']
+
+def test_match_state_after_venue():
+    location_data = ['Byrne', 'Meadowlands', 'Arena', 'East', 'Ruthertord,', 'NJ.']
+    state_id = curator.match_state_after_venue(location_data)
+
+    assert state_id == 30
+
+def test_match_state_in_venue_ambiguous():
+    location_data = ['Casper', '(Wya.)', 'Events', 'Center']
+    state_id = curator.match_state_in_venue(location_data)
+    assert state_id == -1
 
 def test_match_city_after_venue():
     # although Dallas is in the location, it should not match it because there is no state provided
@@ -77,7 +110,6 @@ def test_match_existing_venues():
     test_data = ['Reunion', 'Arena', 'Dallas', 'Productions']
 
 # EVENT NAME
-@pytest.mark.only
 def test_parse_event_name_no_event_name():
     artist_lines = ['FIXX', 'RONNIE HAYES & THE WILD', 'COMBO D']
     event_name, updated_artists = curator.parse_event_name(artist_lines)

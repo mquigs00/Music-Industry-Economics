@@ -109,7 +109,6 @@ def get_artist_ids(artist_names, dim_artists):
 
     for artist in artist_names:
         key = slugify.slugify(artist)
-        print(existing_artists[key])
         artist_id = existing_artists[key][0]["id"]
         artist_ids.append(artist_id)
 
@@ -150,6 +149,49 @@ def identify_first_artist(processed_events_df):
         lambda artists: artists[0] if artists else None
     )
 
+def parse_artist_names(artists, has_event_name):
+    '''
+    Processed artist list can contain multiple artists in one token. This function separates every artist into a separate token
+    :param artists:
+    :param has_event_name:
+    :return:
+    '''
+    separated_artists = []
+    final_artists = []
+
+    # if there is event name that signifies a festival separate artists that are on the same line and have a comma between them
+    # if there is no event name, Billboard does not use commas to separate ar
+    if has_event_name:
+        for artist_line in artists:
+            if ',' in artist_line:
+                print(f'Comma in {artist_line}')
+                artist_set = artist_line.split(',')
+                for artist in artist_set:
+                    if artist:
+                        artist = clean_artist_name(artist)
+                        separated_artists.append(artist)
+            else:
+                artist_line = clean_artist_name(artist_line)
+                separated_artists.append(artist_line)
+    else:
+        for artist_line in artists:
+            separated_artists.append(clean_artist_name(artist_line))
+
+    i = 0
+
+    while i < len(separated_artists):
+        token = separated_artists[i]
+
+        if token.endswith('&'):
+            merged_artist = f"{token} {separated_artists[i+1]}".strip()
+            final_artists.append(merged_artist)
+            i += 2
+        else:
+            final_artists.append(token)
+            i += 1
+
+    return final_artists
+
 def curate_artists(processed_events_df, curated_events_df, dim_artists):
     """
     Transforms the list of artist strings into a series of artist id numbers
@@ -159,20 +201,24 @@ def curate_artists(processed_events_df, curated_events_df, dim_artists):
     :param dim_artists:
     :return:
     """
+    processed_events_df["artists_clean"] = processed_events_df.apply(
+        lambda row: parse_artist_names(
+            artists=row["artists"],
+            has_event_name=row["event_name"] is not None
+        ),
+        axis=1
+    )
 
     # create a set of all unique artist names in the current issue
     all_artists = {
         artist
-        for artists in processed_events_df["artists"]
-        for artist in artists
+        for artist_list in processed_events_df["artists_clean"]
+        for artist in artist_list
     }
-
-    for artist in all_artists:
-        print(f"Artist: {artist}")
 
     update_artists_dim(all_artists, dim_artists)
 
-    curated_events_df["artist_ids"] = processed_events_df["artists"].apply(
+    curated_events_df["artist_ids"] = processed_events_df["artists_clean"].apply(
         lambda artist_names: get_artist_ids(artist_names, dim_artists)
     )
 
@@ -291,7 +337,7 @@ def append_city(city_candidate, dim_cities, state_id):
         writer = csv.writer(f)
         writer.writerow([city_id, city_candidate, city_slug, None, state_id, "no"])
 
-    dim_cities[city_slug] = {'id': city_id, 'name': city_candidate, 'slug': city_slug, 'aliases': None, 'state_id': state_id, 'verified': "no"}
+    dim_cities[city_slug] = {'id': city_id, 'name': city_candidate, 'slug': city_slug, 'aliases': None, 'state_id': state_id, 'verified': 0}
     dim_cities["max_id"] += 1
 
     return city_id
@@ -300,7 +346,7 @@ def match_state_after_venue(location_tokens):
     '''
     Searches for a state from the end of the location tokens until it finds a venue type like 'hall' or 'auditorium'
 
-    :param location_tokens:
+    :param location_tokens: each remaining word in the location data broken into separate strings
     :return: state_id
     '''
     state_aliases = build_reverse_map(STATE_ALIASES_PATH)
@@ -309,7 +355,7 @@ def match_state_after_venue(location_tokens):
 
     # loop through each in the rest of the location strings
     for index, token in reversed(list(enumerate(location_tokens))):
-        token_clean = token.lower()
+        token_clean = token.lower().strip('.')
         # this function is only meant to find states that come after the venue
         # if a venue pattern like "hall", "auditorium", etc... is found then there is no state after the venue, just break
         if token_clean in venue_patterns:
@@ -340,9 +386,12 @@ def match_state_in_venue(location_tokens):
         # if any of the bracket chars are in the next token
         if any(char in state_chars for char in token):
             state = token.translate(translator).lower()                     # remove the brackets
-            print(f"State keyword in {token}: {state}")
-            state_id = state_aliases[state]                                 # get the states id number
-            del location_tokens[index]
+            try:
+                state_id = state_aliases[state]                                 # get the states id number
+                del location_tokens[index]
+            except KeyError:
+                state_id = -1                                               # if there is a state present, but it doesn't match any existing states, return -1 for unknown state id
+                del location_tokens[index]
 
     return state_id
 
@@ -470,7 +519,7 @@ def append_venue(venue_name, dim_venues, city_id, state_id):
             writer = csv.writer(f)
             writer.writerow([venue_id, venue_name, venue_slug, city_id, state_id, "no"])
 
-        dim_venues[venue_slug] = {'id': city_id, 'name': venue_name, 'slug': venue_slug, 'city_id': city_id, state_id: state_id, 'verified': "no"}
+        dim_venues[venue_slug] = {'id': city_id, 'name': venue_name, 'slug': venue_slug, 'city_id': city_id, state_id: state_id, 'verified': 0}
         dim_venues["max_id"] += 1
         return venue_id
     else:
@@ -715,7 +764,13 @@ def curate_num_sellouts(processed_events_df, curated_events_df):
         curated_events_df["num_sellouts"] = processed_events_df["num_sellouts"].apply(lambda x: int(x) if pd.notnull(x) else pd.NA)
 
 def validate_numeric_column(df, col_name):
-    all_valid = df[col_name].dropna().ge(0).all()
+    '''
+
+    :param df:
+    :param col_name:
+    :return:
+    '''
+    all_valid = df[col_name].dropna().ge(0).all()                                                                       # verify all financial values are all greater than 0
     return all_valid
 
 def curate_ticket_prices(processed_events_df, curated_events_df):
@@ -726,11 +781,14 @@ def curate_ticket_prices(processed_events_df, curated_events_df):
         for prices in row:
             if "/" in prices:
                 for price in prices.split("/"):
+                    price = price.replace(',', '.')
                     event_prices.append(float(price))
             elif "-" in prices:
                 for price in prices.split("-"):
+                    price = price.replace(',', '.')
                     event_prices.append(float(price))
             else:
+                prices = prices.replace(',', '.')
                 event_prices.append(prices)
 
         clean_prices.append(event_prices)
@@ -825,10 +883,22 @@ def add_raw_event_signature(processed_events_df):
             axis=1
     )
 
+def normalize_event_or_artists(row):
+    '''
+    Returns either the slugified version of the event name or the name of the first artist
+    :param row:
+    :return:
+    '''
+    if row["event_name"]:
+        return slugify.slugify(row["event_name"])
+
+    artist_ids = row["artist_ids"]
+    return slugify.slugify(get_artist_name(artist_ids[0]))
+
 def curate_event_signature(curated_events_df):
     curated_events_df["signature"] = curated_events_df.apply(
         lambda row:
-            f"{get_artist_name(row['artist_ids'][0]).lower().replace(' ', '-')}-"
+            f"{normalize_event_or_artists(row)}-"
             f"{get_venue_name(row['venue_id']).lower().replace(' ', '-')}-"
             f"{row['start_date']}",
             axis=1
@@ -891,6 +961,7 @@ def curate_events():
     curated_events_df["weekly_rank"] = range(1, len(processed_events_df) + 1)
     event_name_results = processed_events_df["artists"].apply(parse_event_name)
     #print(event_name_results.apply(lambda x: x[0]))
+    processed_events_df["event_name"] = event_name_results.apply(lambda x: x[0])
     curated_events_df["event_name"] = event_name_results.apply(lambda x: x[0])
     processed_events_df["artists"] = event_name_results.apply(lambda x: x[1])
     curate_artists(processed_events_df, curated_events_df, dimension_tables["artists"])
@@ -901,7 +972,7 @@ def curate_events():
     
     for col in ["gross_receipts_us", "gross_receipts_canadian", "attendance", "capacity", "num_shows"]:
         if validate_numeric_column(processed_events_df, col):
-            curated_events_df[col] = processed_events_df[col].apply(lambda x: int(x) if pd.notnull(x) else pd.NA)       # copy all original values as integers
+            curated_events_df[col] = processed_events_df[col].apply(parse_ocr_int)       # copy all original values as integers
     curate_num_sellouts(processed_events_df, curated_events_df)
     curate_ticket_prices(processed_events_df, curated_events_df)
 
