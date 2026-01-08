@@ -1,7 +1,7 @@
 event_signature,issue_date,field,original_value,true_value
-thompson-twins-fair-grandstand-1984-09-30,10/20/1984,gross_receipts_us,,144214
-thompson-twins-fair-grandstand-1984-09-30,10/20/1984,tickets_sold,,10894
-diana-ross-war-memorial-1984-10-03,10/20/1984,tickets_sold,,8248
+thompson-twins-fair-grandstand-1984-09-30,10/20/1984,gross_receipts_us_us,,144214
+thompson-twins-fair-grandstand-1984-09-30,10/20/1984,attendance,,10894
+diana-ross-war-memorial-1984-10-03,10/20/1984,attendance,,8248
 rod-stewart-the-omni-atlanta-ring-promotions-1984-09-28,10/20/1984,location,"['The Omni', 'Atlanta', 'Ring Promotions']","['The Omni', 'Atlanta']"
 alabama-the-centriplex-baton-rouge-spint-1984-09-29,10/20/1984,location,"['The Centriplex', 'Baton Rouge', 'Spint']","['The Centriplex', 'Baton Rouge']"
 alabama-humphrey-coliseum-1984-10-04,10/20/1984,location,"['Humphrey Coliseum', 'Starkville, Miss.', 'Spirit']","['Humphrey Coliseum', 'Starkville, Miss.']"
@@ -13,6 +13,220 @@ lionel-richie-bsu-pavilion-1984-10-10,11/3/1984,location,"['Pavilion', 'Boise, I
 lionel-richie-bsu-pavilion-1984-10-10,11/3/1984,artists,['LIONEL RICHIE BSU'],['LIONEL RICHIE']
 "alabama-g.-rollie-white-coliseum,-college-1984-10-21",11/3/1984,artists,['ALABAMA G.'],['ALABAMA']
 "alabama-g.-rollie-white-coliseum,-college-1984-10-21",11/3/1984,location,"['Rollie White Coliseum,', 'College Station, Tex.', 'Promotions']","['G. Rollie White Coliseum,', 'College Station, Tex.', 'Promotions']"
+rush-the-spectrum-y&t-philadelphia-1984-11-05,11/24/1984,artists,['RUSH'],"['RUSH', 'Y&T']"
+rush-the-spectrum-y&t-philadelphia-1984-11-05,11/24/1984,location,"['The Spectrum', 'Y&T Philadelphia']","['The Spectrum', 'Philadelphia']"
+rush-the-spectrum-y&t-philadelphia-1984-11-05,11/24/1984,ticket_prices,['13.50/11.50/89.50'],['13.50/11.50/9.50']
+rush-providence-(r.|.)-civic-center-1984-11-07,11/24/1984,artists,['RUSH'],"['RUSH', 'Y & T']"
+rush-providence-(r.|.)-civic-center-1984-11-07,11/24/1984,location,"['Providence (R.|.) Civic Center', 'Y&T']",['Providence (R.|.) Civic Center']
+kenny-rogers-memorial-coliseum-1984-10-31,11/24/1984,ticket_prices,['16/813.50'],['16/13.50']
+rick-springfield-casper-(wya.)-events-center-1984-11-10,11/24/1984,ticket_prices,['175'],['11.75']
+"chicago-hearns-columbia,-mo,-None",11/24/1984,dates,['Multt-Purpose'],['Nov. 7']
+"chicago-hearns-columbia,-mo,-None",11/24/1984,gross_revenue_us,,88802
+"chicago-hearns-columbia,-mo,-None",11/24/1984,attendance,,7091
+lou-reed-beacon-theatre-1984-10-17,11/24/1984,artists,"['LOU REED', 'SWIMMING POOL']","['LOU REED', 'SWIMMING POOL Qs']"
+rick-springfield-nbc-arena-1984-10-12,,artists,['RICK SPRINGFIELD NBC'],['RICK SPRINGFIELD']
+royal-new-york-doo-wopp-radio-city-music-hall-1984-10-13,11/24/1984,artists,"['ROYAL NEW YORK DOO WOPP', 'VOL.']","['ROYAL NEW YORK DOO WOPP', 'VOL. 13']"
+royal-new-york-doo-wopp-radio-city-music-hall-1984-10-13,11/24/1984,location,"['Radio City Music Hall', 'York']","['Radio City Music Hall', 'New York']"
+"crosby,-stills-&-nash-memorial-union-fowa-city-concerts-1984-11-04",11/24/1984,location,"['Memorial Union', 'fowa City', 'Concerts']","['Memorial Union', 'Iowa City', 'Concerts']"
+"chicago-hearns-columbia,-mo,-None",11/24/1984,location,"['Hearns', 'Columbia, Mo,']","['Hearns Multi-Purpose Building', 'Columbia, Mo,']"
+prince-joe-louis-arena-1984-11-4,12/1/1984,dates,"['Nov. 4-5,7-9']","['Nov. 4-5,7-9', '11-12']"
+prince-joe-louis-arena-1984-11-4,12/1/1984,ticket_prices,,['17.50']
+rick-springfield-reunion-arena-1984-11-15,12/1/1984,ticket_prices,['15'],['Nov. 15']
+swatch-watch-baltimore-civic-center-1984-11-09,12/1/1984,ticket_prices,[],['11']
+culture-club-univ-of-tennessee-at-chattanooga-arena-1984-11-03,12/1/1984,gross_receipts_us,,89704
+culture-club-univ-of-tennessee-at-chattanooga-arena-1984-11-03,12/1/1984,attendance,,5867
+kiss-stabler-arena-lehigh-unv,12/1/1984,ticket_prices,['1'],['11']
+george-strait-civic-auditorium-1984-11-16,12/1/1984,attendance,,3200
+neil-diamond-market-square-arena-1984-12-20,,ticket_prices,[],['17/15']
+neil-diamon-houston-summit-1984-12-10,,ticket_prices,,['17/15']
+huey-lewis-and-the-news-oakland-coliseum-dee-1984-12-31,,dates,['31'],['Dee. 31']
+kenny-rodgers-selland-arena-1985-01-20,2/9/1985,gross_receipts_us_us,,381341
+kenny-rodgers-selland-arena-1985-01-20,2/9/1985,attendance,,22130
+oak-ridge-boys-carlton-west-1985-01-10,2/9/1985,ticket_prices,['36/330'],['36/33']
+alabama-1985-01-26,2/9/1985,dates,['26'],['Jan. 26']
+alabama-1985-01-26,2/9/1985,ticket_prices,[],['15']
+iron-maiden-ohio-center-1985-01-00,2/9/1985,dates,['Jan.'],['Jan. 5']
+iron-maiden-ohio-center-1985-01-00,2/9/1985,gross_receipts_us,,66688
+iron-maiden-ohio-center-1985-01-00,2/9/1985,attendance,,5281
+dio-met-center-1985-01-27,2/9/1985,attendance,,5256
+dio-met-center-1985-01-27,2/9/1985,ticket_prices,['12/511'],['12/11']
+dio-dane-county-memorial-coliseum-1985-01-25,2/9/1985,gross_receipts_us_us,,47850
+dio-dane-county-memorial-coliseum-1985-01-25,2/9/1985,attendance,,4200
+dio-dane-county-memorial-coliseum-1985-01-25,2/9/1985,promoter,[''],['Stardate Prods.']
+johnny-cash-frank-crane-arena-1985-01-22,2/9/1985,gross_receipts_us_us,,42072
+johnny-cash-frank-crane-arena-1985-01-22,2/9/1985,attendance,,2812
+johnny-cash-frank-crane-arena-1985-01-22,2/9/1985,promoter,"['Prods.', '3,509)']",['Artists Consultants Prods.']
+george-jones-stabler-arena-1985-01-25,2/9/1985,attendance,,1791
+wasp-mid-hudson-civic-center-1985-01-23,2/9/1985,attendance,,2051
+wasp-mid-hudson-civic-center-1985-01-23,2/9/1985,promoters,['& Corky Concert Prods.'],"['Harvey & Corky Concert Prods.', 'International Donald K. Donald']"
+billy_ocean-the-copa-1985-01-23,2/9/1985,ticket_prices,['4'],['14']
+deep-purple-the-centrum-1985-02-28,3/16/1985,ticket_prices,['13'],['13.50/12.50']
+kenny-rodgers-freedom-hall-1985-03-16,3/16/1985,attendance,,14263
+kenny-rodgers-freedom-hall-1985-03-16,3/16/1985,ticket_prices,['17'],['17.50/15.50']
+alabama-south-florida-fairgrounds-1985-02-24,3/16/1985,ticket_prices,,['15']
+chicago-mid-south-coliseum-1985-03-03,3/16/1985,attendance,,11171
+statler-brothers-holiday-star-theater-1985-02-00,3/16/1985,dates,"['Feb,']",['Feb 24-24']
+statler-brothers-holiday-star-theater-1985-02-00,3/16/1985,gross_receipts_us_us,,167050
+statler-brothers-holiday-star-theater-1985-02-00,3/16/1985,attendance,,13296
+reo-speedwagon-greensboro-nc-coliseum-1985-03-01,3/16/1985,artists,['REO SPEEDWAGON'],"['REO SPEEDWAGON', 'SURVIVOR']"
+alabama-jacksonville-fla-coliseum-1985-02-22,3/16/1985,ticket_prices,[],['15']
+reo-speedwagon-rochester-ny-community-war-1985-02-19,3/16/1985,ticket_prices,['13.50/312.50'],['13.50/12.50']
+eddie-murphy-leon-county-civic-center-1985-02-26,3/16/1985,ticket_prices,[],['14']
+new-edition-augusta-ga-civic-center-1985-02-28,3/16/1985,ticket_prices,[],['11/10']
+temptation-fox-theatre-1985-02-21,3/16/1985,gross_receipts_us,26949,86949
+ronnie-millsap-albany-crve-center-1985-03-01,3/16/1985,artists,"['RONNIE MILSAP', 'JERRY REED']","['RONNIE MILSAP', 'JUDDS', 'JERRY REED']"
+tears-for-fears-ottawa-ont-civic-center-1985-06-03,6/15/1985,promoter,['Concert Prods. International/Donald'],"['Concert Prods. International/Donald', 'K. Donald/Bass Clef']"
+van-morrison-capitol-theatre-1985-05-18,6/15/1985,promoter,"['Monarch Entertainment Bureau/St,']","['Monarch Entertainment Bureau/St.', 'Pauli Girl Concert Series]"
+frankie-goes-tohollywood-fox-theater-1985-05-26,6/15/1985,gross_receipts_us_us,,37221
+frankie-goes-tohollywood-fox-theater-1985-05-26,6/15/1985,attendance,,2707
+frankie-goes-tohollywood-fox-theater-1985-05-26,6/15/1985,promoter,"['Prods.', '3,985']",['Alex Cooley Prods.']
+george-benson-radio-city-music-halt-1985-05-30,6/22/1985,dates,"['May 30-', 'June']","['May 30-', 'June 1']"
+alabama-sandstone-1985-06-02,6/22/1985,attendance,,15102
+patti-labelle-greek-theatre-1985-06-07,6/22/1985,dates,['7'],['June 7']
+fresh-fest-two-carolina-coliseum-1985-06-22,6/22/1985,attendance,,7715
+fresh-fest-two-carolina-coliseum-1985-06-22,6/22/1985,ticket_prices,,['11']
+kenny-loggins-market-square-arena-1985-06-04,6/22/1985,artists,"['KENNY LOGGINS', 'MARK']","['KENNY LOGGINS', 'MARK McCOLLUM']"
+kenny-loggins-market-square-arena-1985-06-04,6/22/1985,gross_revenue_us,,79540
+kenny-loggins-market-square-arena-1985-06-04,6/22/1985,attendance,,5892
+luther-vandross-lakeland-civic-center-1985-06-02,6/22/1985,dates,['2'],['June 2']
+happy-together-tour-audobon-zoo-1985-06-00,6/22/1985,dates,['June'],['June 5']
+happy-together-tour-audobon-zoo-1985-06-00,6/22/1985,gross_receipts_us,,49746
+happy-together-tour-audobon-zoo-1985-06-00,6/22/1985,attendance,,4609
+luther-vandross-the-aladdin-1985-06-07,6/22/1985,ticket_prices,['18/516'],['18/16']
+jimmy-stur-band-garden-state-arts-center-1985-06-02,6/22/1985,ticket_prices,[],['11/9/7']
+petra-market-square-auditorium-1985-05-25,6/22/1985,ticket_prices,['10.50/48.50'],['10.50/8.50']
+santana-fox-theatre-1985-06-00,6/22/1985,dates,['June'],['June 4']
+santana-fox-theatre-1985-06-00,6/22/1985,gross_receipts_us,,36231
+santana-fox-theatre-1985-06-00,6/22/1985,attendance,,2635
+jimmy-stur-band-vernon-valley-action-park-1985-05-26,6/22/1985,ticket_prices,[],['7']
+petra-prairie-capital-convention-center-1985-05-30,6/22/1985,ticket_prices,['11/99.50'],['11/9.50']
+jeffrey-osborne-celebrity-theater-1985-06-22,6/22/1985,ticket_prices,[],['15']
+jeffrey-osborne-celebrity-theater-1985-06-22,6/22/1985,attendance,,1726
+petra-mecca-arena-1985-05-27,6/22/1985,artists,"['PETRA MECCA', 'RANDY STONEHILL']","['PETRA', 'RANDY STONEHILL']"
+petra-mecca-arena-1985-05-27,6/22/1985,location,"['Arena', 'Milwaukee']","['MECCA Arena', 'Milwaukee']"
+petra-mecca-arena-1985-05-27,6/22/1985,ticket_prices,['10.50/58.50'],['10.50/8.50']
+smiths-royal-oak-music-theater-1985-06-08,6/22/1985,ticket_prices,[],['14']
+phil-collins-and-his-hot-tub-mcnichols-sports-arena-1985-06-13,7/6/1985,artists,['PHIL COLLINS & HIS HOT TUB'],"['PHIL COLLINS & HIS HOT TUB', 'CLUB]"
+phil-collins-and-his-hot-tub-mcnichols-sports-arena-1985-06-13,7/6/1985,location,"['McNichols Sports Arena', 'cLuB Denver']","['McNichols Sports Arena', 'Denver']"
+kenny-loggins-radio-city-music-hall-dune-1985-06-14,7/6/1985,dates,['14-15'],['June 14-15']
+kenny-loggins-radio-city-music-hall-dune-1985-06-14,7/6/1985,artists,"['KENNY LOGGINS', 'MARK']","['KENNY LOGGINS', 'MARK McCOLLUM']"
+kenny-loggins-radio-city-music-hall-dune-1985-06-14,7/6/1985,location,"['Radio City Music Hall dune', 'McCOLLUM New York']","['Radio City Music Hall', 'New York']"
+howard-jones-red-rocks-amphitheatre-1985-06-12,7/6/1985,ticket_prices,[],['13.75/12.65']
+howard-jones-red-rocks-amphitheatre-1985-06-12,7/6/1985,artists,['HOWARD JONES'],"['HOWARD JONES', 'RED 7']"
+howard-jones-red-rocks-amphitheatre-1985-06-12,7/6/1985,location,['Red Rocks Amphitheatre'],"['Red Rocks Amphitheatre', 'Denver']"
+howard-jones-red-rocks-amphitheatre-1985-06-12,7/6/1985,promoter,"['Feyline Presents', 'RED7 Denver $13.75/$12.65 sellout']",['Feyline Presents']
+ratt-great-plains-coliseum-1985-06-19,7/6/1985,artists,['RATT'],"['RATT', ""MAMA'S BOYS""]"
+ratt-great-plains-coliseum-1985-06-19,7/6/1985,location,"['Great Plains Coliseum', ""MAMA'S BOYS Lawton, Okla.""]","['Great Plains Coliseum', 'Lawton, Okla.']"
+ratt-bicentennial-center-1985-06-18,7/6/1985,artists,['RATT'],"['RATT', ""MAMA'S BOYS""]"
+ratt-bicentennial-center-1985-06-18,7/6/1985,location,"['Bicentennial Center', ""MAMA'S BOYS Salina, Kan."", 'Presentations', '—']","['Bicentennial Center', 'Salina, Kan.', 'Presentations', '—']"
+kenny-loggins-mesker-music-theater-1985-06-22,7/6/1985,artists,"['KENNY LOGGINS', 'MARK']","['KENNY LOGGINS', 'MARK McCOLLUM']"
+kenny-loggins-mesker-music-theater-1985-06-22,7/6/1985,location,"['Mesker Music Theater', 'McCOLLUM Evansville, Ind.']","['Mesker Music Theater', 'Evansville, Ind.']"
+ratt-memorial-hall-1985-06-20,7/6/1985,artists,['RATT'],"['RATT', ""MAMA'S BOYS""]"
+ratt-memorial-hall-1985-06-20,7/6/1985,location,"['Memorial Hall', ""MAMA'S BOYS Joplin, Mo.""]","['Memorial Hall', 'Joplin, Mo.']"
+ratt-memorial-hall-1985-06-20,7/6/1985,ticket_prices,['l2sil'],['12/11']
+paco-de-lucia-sextet-warfield-theater-1985-06-18,7/6/1985,ticket_prices,['14.50/23.50'],['14.50/13.50']
+violent-femmes-rainbow-music-hall-1985-06-19,7/6/1985,ticket_prices,['19/39'],['19/9']
+stanley-clarke-the-moonshadow-1985-06-19,7/6/1985,attendance,338,838
+live-aid-jfk-stadium-1985-07-13,1985-07-27,artists,['LIVE AID JFK'],['LIVE AID']
+live-aid-jfk-stadium-1985-07-13,1985-07-27,artists,"['Stadium', 'Philadelphia', 'Factory Concerts']","['JFK Stadium', 'Philadelphia']"
+live-aid-jfk-stadium-1985-07-13,1985-07-27,promoter,['Bob Geldof/Bill Graham Presents/'],"['Bob Geldof/Bill Graham Presents/', 'Electric Factory Concerts']"
+grateful-dead-merriweather-post-pavilion-1985-06-30,1985-07-27,ticket_prices,['l6/1l'],['16/11']
+robert-plant-reunion-arena-1985-06-24,1985-07-27,ticket_prices,[],['15']
+alabama-astrodome-1985-07-06,1985-07-27,ticket_prices,[],['7']
+al-jarreau-blossom-music-festival-1985-07-00,1985-07-27,dates,['July'],['July 8']
+al-jarreau-blossom-music-festival-1985-07-00,1985-07-27,gross_receipts_us,,164558
+al-jarreau-blossom-music-festival-1985-07-00,1985-07-27,attendance,,13951
+rick-springfield-lsu-assembly-center-1985-07-06,,,,
+david-copperfield-sunrise-musical-theatre-1987-01-31,,attendance,,11777
+david-copperfield-sunrise-musical-theatre-1987-01-31,,ticket_prices,[],['18']
+david-lee-roth-duluth-arena-1987-02-07,,ticket_prices,[],['15']
+david-lee-roth-duluth-arena-1987-02-07,,ticket_prices,[],['15']
+david-lee-roth-duluth-arena-1987-02-07,,ticket_prices,[],['15']
+conway-twitty-greenville-memorial-auditorium-1987-02-06,,gross_receipts_us,78611,6171
+conway-twitty-greenville-memorial-auditorium-1987-02-06,,promoter,[''],['Varnell Enterprises']
+beach-boys-providence-civic-center-1987-02-05,,ticket_prices,[],['7.92']
+david-copperfield-lakeland-civic-center-1987-02-08,,gross_receipts_us,,57340
+david-copperfield-lakeland-civic-center-1987-02-08,,ticket_sold,,3573
+hank-williams-jr-barnhill-arena-1987-02-01,,ticket_prices,[],['13.50']
+george-carlin-westport-playhouse-1987-01-31,,ticket_prices,[],['16']
+pretenders-memphis-convention-center-1987-01-24,,ticket_prices,['5.'],['15']
+lionel-richie-neal-s-blaisdell-center-1987-02-19,,ticket_prices,[],['18.50']
+lionel-richie-neal-s-blaisdell-center-1987-02-19,,attendance,235871,25871
+iron-maiden-oakland-alameda-county-1987-02-21,,ticket_prices,,['18.50/16.50']
+bob-seger-and-the-silver-bullet-band-myriad-convention-center-1987-02-05,,ticket_prices,[],['16/15']
+bon-jovi-sportatorium-1987-02-14,,ticket_prices,[],['14']
+huey-lewis-and-the-news-lee-civic-center-1987-01-31,,ticket_prices,[],['15']
+bon-jovi-lee-civic-center-1987-01-31,,ticket_prices,[],['15']
+bon-jovi-bayfront-center-1987-02-15,,ticket_prices,[],['15']
+hank-williams-jr-richmond-coliseum-1987-02-13,,ticket_prices,[],['15']
+genesis-orange-bowl-1987-03-14,,ticket_prices,[],['17.75']
+iron-maiden-long-beach-convention-and-entertainment-center-arena-1987-02-16,,attendance,3556,33956
+neil-diamond-pensacola-civic-center-1987-02-20,,attendance,[],['17.50/15']
+bon-jovi-barton-coliseum-1982-02-28,,attendance,[],['15']
+dio-dane-county-memorial-coliseum-1985-01-25,,gross_receipts_us,,47850
+dio-dane-county-memorial-coliseum-1985-01-25,,attendance,,4200
+johnny-cash-frank-crane-arena-1985-01-22,,gross_receipts_us,,42072
+johnny-cash-frank-crane-arena-1985-01-22,,attendance,,2812
+billy_ocean-the-copa-1985-01-23,,ticket_prices,['4'],['4']
+deep-purple-the-centrum-1985-02-28,,ticket_prices,['13'],['13.50/12.50']
+kenny-rodgers-freedom-hall-1985-03-16,,attendance,,14263
+kenny-rodgers-freedom-hall-1985-03-16,,ticket_prices,['17'],['17.50/15.50']
+alabama-south-florida-fairgrounds-1985-02-24,,ticket_prices,,['15']
+chicago-mid-south-coliseum-1985-03-03,,attendance,,11171
+statler-brothers-holiday-star-theater-1985-02-00,,dates,"['Feb,']",['Feb 24-24']
+statler-brothers-holiday-star-theater-1985-02-00,,gross_receipts_us,,167050
+statler-brothers-holiday-star-theater-1985-02-00,,attendance,,13296
+reo-speedwagon-greensboro-nc-coliseum-1985-03-01,,artists,['REO SPEEDWAGON'],"['REO SPEEDWAGON', 'SURVIVOR']"
+alabama-jacksonville-fla-coliseum-1985-02-22,,ticket_prices,[],['15']
+eddie-murphy-leon-county-civic-center-1985-02-26,,ticket_prices,[],['14']
+new-edition-augusta-ga-civic-center-1985-02-28,,ticket_prices,[],['11/10']
+temptation-fox-theatre-1985-02-21,,gross_receipts_us,26949,86949
+frankie-goes-to-hollywood-fox-theater-1985-05-26,,gross_receipts_us,,37221
+frankie-goes-to-hollywood-fox-theater-1985-05-26,,attendance,,2707
+george-benson-radio-city-music-hall-1985-06-22,,dates,"['May 30-', 'June']","['May 30-', 'June 1']"
+alabama-sandstone-1985-06-02,,attendance,,15102
+patti-labelle-greek-theatre-1985-06-07,,dates,['7'],['June 7']
+fresh-fest-two-carolina-coliseum-1985-06-22,,attendance,,7715
+fresh-fest-two-carolina-coliseum-1985-06-22,,ticket_prices,,['11']
+luther-vandross-lakeland-civic-center-1985-06-02,,dates,['2'],['June 2']
+happy-together-tour-audobon-zoo-1985-06,,dates,['June'],['June 5']
+happy-together-tour-audobon-zoo-1985-06,,gross_receipts_us,,49746
+happy-together-tour-audobon-zoo-1985-06,,attendance,,4609
+jimmy-stur-band-garden-state-arts-center-1985-06-02,,ticket_prices,[],['11/9/7']
+santana-fox-theatre-1985-06-04,,gross_receipts_us,,36231
+santana-fox-theatre-1985-06-04,,attendance,,2635
+jimmy-stur-band-vernon-valley-action-park-1985-05-26,,ticket_prices,[],['7']
+jeffrey-osborne-celebrity-theater-1985-06-22,,ticket_prices,[],['15']
+jeffrey-osborne-celebrity-theater-1985-06-22,,attendance,,1726
+smiths-royal-oak-music-theater-1985-06-08,,ticket_prices,[],['14']
+kenny-loggins-radio-city-music-hall-1985-06-14,,dates,['14-15'],['June 14-15']
+howard-jones-red-rocks-amphitheatre-1985-06-12,,ticket_prices,[],['13.75/12.65']
+david-copperfield-sunrise-musical-theatre-1987-01-31,,attendance,,11777
+david-copperfield-sunrise-musical-theatre-1987-01-31,,ticket_prices,[],['18']
+david-lee-roth-duluth-arena-1987-02-07,,ticket_prices,[],['15']
+david-lee-roth-duluth-arena-1987-02-07,,ticket_prices,[],['15']
+david-lee-roth-duluth-arena-1987-02-07,,ticket_prices,[],['15']
+conway-twitty-greenville-memorial-auditorium-1987-02-06,,gross_receipts_us,78611,6171
+conway-twitty-greenville-memorial-auditorium-1987-02-06,,promoter,[''],['Varnell Enterprises']
+beach-boys-providence-civic-center-1987-02-05,,ticket_prices,[],['7.92']
+david-copperfield-lakeland-civic-center-1987-02-08,,gross_receipts_us,,57340
+david-copperfield-lakeland-civic-center-1987-02-08,,ticket_sold,,3573
+hank-williams-jr-barnhill-arena-1987-02-01,,ticket_prices,[],['13.50']
+george-carlin-westport-playhouse-1987-01-31,,ticket_prices,[],['16']
+pretenders-memphis-convention-center-1987-01-24,,ticket_prices,['5.'],['15']
+lionel-richie-neal-s-blaisdell-center-1987-02-19,,ticket_prices,[],['18.50']
+lionel-richie-neal-s-blaisdell-center-1987-02-19,,attendance,235871,25871
+iron-maiden-oakland-alameda-county-1987-02-21,,ticket_prices,,['18.50/16.50']
+bob-seger-and-the-silver-bullet-band-myriad-convention-center-1987-02-05,,ticket_prices,[],['16/15']
+bon-jovi-sportatorium-1987-02-14,,ticket_prices,[],['14']
+huey-lewis-and-the-news-lee-civic-center-1987-01-31,,ticket_prices,[],['15']
+bon-jovi-lee-civic-center-1987-01-31,,ticket_prices,[],['15']
+bon-jovi-bayfront-center-1987-02-15,,ticket_prices,[],['15']
+hank-williams-jr-richmond-coliseum-1987-02-13,,ticket_prices,[],['15']
+genesis-orange-bowl-1987-03-14,,ticket_prices,[],['17.75']
+iron-maiden-long-beach-convention-and-entertainment-center-arena-1987-02-16,,attendance,3556,33956
+neil-diamond-pensacola-civic-center-1987-02-20,,attendance,[],['17.50/15']
+bon-jovi-barton-coliseum-1982-02-28,,attendance,[],['15']
 rick-springfield-nbc-arena-1984-10-12,,artists,['RICK SPRINGFIELD NBC'],['RICK SPRINGFIELD']
 fixx-san-francisco-civic-auditorium-1984-10-20,,artists,"['FIXX', 'RONNIE HAYES & THE WILD', 'COMBO D']","['FIXX', 'RONNIE HAYES & THE WILD', 'COMBO']"
 tom-jones-fox-theater-1984-11-24,,artists,"['TOM JONES:', 'GEORGE WALLACE']","['TOM JONES', 'GEORGE WALLACE']"
@@ -25,43 +239,38 @@ night-ranger-cow-palace-1984-12-31,,artists,"['NIGHT RANGER', 'MICHAEL FURLONG']
 bruce-springsteen-providence-civic-center-1985-01-23,,artists,['BRUCE SPRINGSTEEN'],"['BRUCE SPRINGSTEEN', '& THE E STREET BAND']"
 bill-cosby-mid-hudson-civic-center-1985-01-18,,artists,"['BILL COSBY', 'K.']",['BILL COSBY']
 temptations-fox-theatre-1985-02-21,,artists,['TEMPTATIONS'],"['TEMPTATIONS', 'SOS', 'ONE WAY']"
-ronnie-millsap-albany-crve-center-1985-03-01,,artists,"['RONNIE MILSAP', 'JERRY REED']","['RONNIE MILSAP', 'JUDDS', 'JERRY REED']"
-kenny-loggins-market-square-arena-1985-06-04,,artists,"['KENNY LOGGINS', 'MARK']","['KENNY LOGGINS', 'MARK McCOLLUM']"
 kenny-loggins-radio-city-music-hall-dune-,,artists,"['KENNY LOGGINS', 'MARK']","['KENNY LOGGINS', 'MARK McCOLLUM']"
 temptations-fox-theater-1985-06-22,,artists,['TEMPTATIONS'],"['TEMPTATIONS', 'FOUR TOPS']"
-howard-jones-red-rocks-amphitheatre-1985-06-12,,artists,['HOWARD JONES'],"['HOWARD JONES', 'RED 7']"
-ratt-great-plains-coliseum-1985-06-19,,artists,['RATT'],"['RATT', ""MAMA'S BOYS""]"
-ratt-bicentennial-center-1985-06-18,,artists,['RATT'],"['RATT', ""MAMA'S BOYS""]"
-kenny-loggins-mesker-music-theater-1985-06-22,,artists,"['KENNY LOGGINS', 'MARK']","['KENNY LOGGINS', 'MARK McCOLLUM']"
-ratt-memorial-hall-1985-06-20,,artists,['RATT'],"['RATT', ""MAMA'S BOYS""]"
-rick-springfield-lsu-assembly-center-1985-07-06,,location,"['Assembly Center', '""TIL TUESDAY Baton Rouge, La.']","['LSU Assembly Center', 'Baton Rouge, La.']"
-new-york-fresh-festival-mecca-arena-1985-06-26,,artists,['NEW YORK FRESH FESTIVAL MECCA'],['NEW YORK FRESH FESTIVAL']
-new-york-fresh-festival-mecca-arena-1985-06-26,,tickets_sold,,8692
-new-york-fresh-festival-mecca-arena-1985-06-26,,ticket_prices,,['12/8.50']
-new-york-fresh-festival-mecca-arena-1985-06-26,,location,"['Arena', 'Milwaukee a sellout']","['MECCA Arena', 'Milwaukee']"
-grateful-dead-merriweather-post-pavilion-1985-06-30,,ticket_prices,['l6/1l'],['16/11']
-robert-plant-reunion-arena-1985-06-24,,dates,"['June 24', '35']",['June 24']
-robert-plant-reunion-arena-1985-06-24,,ticket_prices,[],['15']
-al-jarreau-blossom-music-festival-1985-07-00,,dates,['July'],['July 8']
-al-jarreau-blossom-music-festival-1985-07-00,,gross_receipts,,164558
-al-jarreau-blossom-music-festival-1985-07-00,,tickets_sold,,13951
-huey-lewis-and-the-news-cne-grandstand-1985-07-20,,location,"['Grandstand', 'Toronto']","['CNE Grandstand', 'Toronto']"
-huey-lewis-and-the-news-meriweather-post-pavilion-1985-07-27,,promoter,[''],['Nederlander Organization']
-bryan-adams-rushmore-plaza-civic-center-1985-07-21,,ticket_prices,['.0.'],['13.50']
-willie-nelson-the-spectrum-1985-07-25,,tickets_sold,,8311
-new-edition-washington-1985-00-00,,dates,['(0.C.)'],['July 19']
-al-jarreau-meriweather-post-pavilion-1985-07-21,,ticket_prices,[],['14/9']
-eric-clapton-compton-terrace-1985-07-21,,gross_receipts,,88599
-eric-clapton-compton-terrace-1985-07-21,,tickets_sold,,6573
-eric-clapton-compton-terrace-1985-07-21,,promoter,"['Prods.', '10,000']",['Evening Star Prods.']
-oak-ridge-boys-glen-county-fairgrounds-1985-07-15,,promoter,"[""Rock 'N’ Chair Prods. /American"", '7,500 Oream Presents']","[""Rock 'N’ Chair Prods. /American"", 'Dream Presents']"
-scorpions-compton-terrace-1985-09-02,,tickets_sold,,35868
-kenny-rodgers-nassau-veterans-1985-08-29,,tickets_sold,,16826
-willie-nelson-and-family-minnesota-state-fair-1985-08-22,,artists,"['WILLIE NELSON & FAMILY', 'WAYLON JENNINGS', 'COLTER']","['WILLIE NELSON & FAMILY', 'WAYLON JENNINGS', 'JESSI COLTER']"
-neil-young-minnesota-state-fair-1985-09-01,,ticket_prices,[],['14/8']
-ratt-nashvine-municipal-auditorium-1985-08-22,,artists,"['RATT', 'BON JOV)']","['RATT', 'BON JOVI', 'Y & T']"
-statler-brothers-indiana-state-faur-1985-08-25,,ticket_prices,[],['11/9']
-oak-ridge-boys-minnesota-state-fair-1985-08-25,,ticket_prices,['9/54.50'],['9/4.50']
+rick-springfield-lsu-assembly-center-1985-07-06,1985-07-27,location,"['Assembly Center', '""TIL TUESDAY Baton Rouge, La.']","['LSU Assembly Center', 'Baton Rouge, La.']"
+tom-petty-and-the-sun-dome-1985-07-12,1985-07-27,ticket_prices,[],['14']
+new-york-fresh-festival-mecca-arena-1985-06-26,1985-07-27,artists,['NEW YORK FRESH FESTIVAL MECCA'],['NEW YORK FRESH FESTIVAL']
+new-york-fresh-festival-mecca-arena-1985-06-26,1985-07-27,attendance,,8692
+new-york-fresh-festival-mecca-arena-1985-06-26,1985-07-27,ticket_prices,,['12/8.50']
+new-york-fresh-festival-mecca-arena-1985-06-26,1985-07-27,location,"['Arena', 'Milwaukee a sellout']","['MECCA Arena', 'Milwaukee']"
+huey-lewis-and-the-news-meriweather-post-pavilion-1985-07-27,1985-08-10,promoter,[''],['Nederlander Organization']
+huey-lewis-and-the-news-cne-grandstand-1985-07-20,1985-08-10,location,"['Grandstand', 'Toronto']","['CNE Grandstand', 'Toronto']"
+huey-lewis-and-the-news-cne-grandstand-1985-07-20,1985-08-10,artists,"['HUEY LEWIS & THE NEWS CNE', 'NEVILLE BROTHERS']","['HUEY LEWIS & THE NEWS', 'NEVILLE BROTHERS']"
+bryan-adams-rushmore-plaza-civic-center-1985-07-21,1985-08-10,ticket_prices,['.0.'],['13.50']
+willie-nelson-the-spectrum-1985-07-25,1985-08-10,attendance,,8311
+new-edition-washington-None,1985-08-10,dates,['(0.C.)'],['July 19']
+new-edition-washington-None,1985-08-10,gross_receipts_us,,132000
+new-edition-washington-None,1985-08-10,attendance,,11000
+new-edition-washington-None,1985-08-10,location,"['Washington', 'Center']","['Washington (D.C.) Convention', 'Center']"
+al-jarreau-meriweather-post-pavilion-1985-07-21,1985-08-10,ticket_prices,[],['14/9']
+eric-clapton-compton-terrace-1985-07-21,1985-08-10,gross_receipts_us,,88599
+eric-clapton-compton-terrace-1985-07-21,1985-08-10,attendance,,6573
+eric-clapton-compton-terrace-1985-07-21,1985-08-10,promoter,"['Prods.', '10,000']",['Evening Star Prods.']
+scorpions-compton-terrace-1985-09-02,1985-09-21,attendance,,35868
+kenny-rodgers-nassau-veterans-1985-08-29,1985-09-21,attendance,,16826
+willie-nelson-and-family-minnesota-state-fair-1985-08-22,1985-09-21,artists,"['WILLIE NELSON & FAMILY', 'WAYLON JENNINGS', 'COLTER']","['WILLIE NELSON & FAMILY', 'WAYLON JENNINGS', 'JESSI COLTER']"
+willie-nelson-and-family-minnesota-state-fair-1985-08-22,1985-09-21,ticket_prices,['9/84.50'],['9/4.50']
+power-station-meadowlands-arena-1985-08-28,1985-09-21,ticket_prices,['15.50/813.50'],['15.50/13.50']
+reo-speedwagon-red-rocks-amphitheatre-1985-09-02,1985-09-21,ticket_prices,"['14,85/813.75']","['14,85/13.75']"
+neil-young-minnesota-state-fair-1985-09-01,1985-09-21,ticket_prices,[],['14/8']
+tears-for-fears-red-rocks-amphitheatre-1985-09-08,1985-09-21,ticket_prices,['13.75/812.65'],['13.75/812.65']
+ratt-nashvine-municipal-auditorium-1985-08-22,1985-09-21,artists,"['RATT', 'BON JOV)']","['RATT', 'BON JOVI', 'Y & T']"
+statler-brothers-indiana-state-faur-1985-08-25,1985-09-21,ticket_prices,[],['11/9']
+oak-ridge-boys-minnesota-state-fair-1985-08-25,1985-09-21,ticket_prices,['9/54.50'],['9/4.50']
 luciano-pavarotti-freedom-hall-1986-01-30,,ticket_prices,['500-815'],['500-15']
 pat-benatar-alameda-county-coliseum-arena-1986-02-02,,ticket_prices,[],['15']
 rush-cow-palace-1986-01-30,,ticket_prices,[],['15']
@@ -69,39 +278,39 @@ zztop-barton-cohseum,,ticket_prices,[],['15']
 alabama-wheeling-w-va-civic-center-1986-02-01,,ticket_prices,[],['17.50']
 loverboy-mid-south-coliseum-1986-01-28,,ticket_prices,['4'],['14']
 zztop-lake-charles-la-civic-center-1986-01-30,,promoter,[''],['Beaver Prods']
-zztop-lake-charles-la-civic-center-1986-01-30,,gross_receipts,,124635
-zztop-lake-charles-la-civic-center-1986-01-30,,tickets_sold,,8309
-alabama-saginaw-mich-civic-center-1986-01-31,,gross_receipts,,117057
-alabama-saginaw-mich-civic-center-1986-01-31,,tickets_sold,,6689
-hank-williams-and-the-bama-sun-dome-univ-of-south-fla-1986-01-24,,gross_receipts,,"95,805"
-hank-williams-and-the-bama-sun-dome-univ-of-south-fla-1986-01-24,,tickets_sold,,6181
+zztop-lake-charles-la-civic-center-1986-01-30,,gross_receipts_us,,124635
+zztop-lake-charles-la-civic-center-1986-01-30,,attendance,,8309
+alabama-saginaw-mich-civic-center-1986-01-31,,gross_receipts_us,,117057
+alabama-saginaw-mich-civic-center-1986-01-31,,attendance,,6689
+hank-williams-and-the-bama-sun-dome-univ-of-south-fla-1986-01-24,,gross_receipts_us,,"95,805"
+hank-williams-and-the-bama-sun-dome-univ-of-south-fla-1986-01-24,,attendance,,6181
 loverboy-albany-ga-civie-center-1986-02-02,,ticket_prices,['14.50/513.50'],['14.50/13.50']
 jerry-garcia-orpheum-theater-1986-02-01,,artists,['JERRY GARCIA'],"['JERRY GARCIA', 'JOHN KAHN']"
 twisted-sister-met-center-1986-02-03,,ticket_prices,['4'],['14']
 kiss-mckale-center-1986-02-02,,ticket_prices,[],['12.50']
 jerry-garcia-the-ritz-1986-01-27,,ticket_prices,"['17.50/815,']",['17.50/15']
-elton-john-the-spectrum-1986-09-02,,tickets_sold,,34222
+elton-john-the-spectrum-1986-09-02,,attendance,,34222
 dokken-irvine-meadows-amphitheater-1986-09-13,,ticket_prices,['17.50/816'],['17.50/16']
 manhattan-transfer-great-woods-center-for-the-1986-08-12,,ticket_prices,['17.50/815/12.50'],['17.50/15/12.50']
 anne-murray-riverbend-music-theater-1986-09-27,,ticket_prices,['16/59'],['16/9']
 george-thorogood-and-the-concord-pavilion-1986-09-12,,ticket_prices,['15.50/813.50'],['15.50/13.50']
 amy-grant-starwood-amphitheater-1986-09-27,,ticket_prices,['15.50/813'],['15.50/13']
-genesis-the-forum-1986-10-13,,tickets_sold,5739,85739
+genesis-the-forum-1986-10-13,,attendance,5739,85739
 journey-the-spectrum-1986-10-14,,artists,"['JOURNEY', 'GLASS']","['JOURNEY', 'GLASS TIGER']"
 bob-seger-and-the-silver-hartford-civic-center-1986-10-19,,ticket_prices,[],['16/14']
-uza-minnelli-front-row-theater-1986-10-07,,gross_receipts,2327,342327
-neil-young-and-crazy-horse-rosemont-horizontal-1986-10-18,,gross_receipts,24549,234549
-neil-young-and-crazy-horse-rosemont-horizontal-1986-10-18,,tickets_sold,1349,13449
-stevie-wonder-maple-leaf-gardens-1986-10-10,,tickets_sold,,12840
+uza-minnelli-front-row-theater-1986-10-07,,gross_receipts_us,2327,342327
+neil-young-and-crazy-horse-rosemont-horizontal-1986-10-18,,gross_receipts_us,24549,234549
+neil-young-and-crazy-horse-rosemont-horizontal-1986-10-18,,attendance,1349,13449
+stevie-wonder-maple-leaf-gardens-1986-10-10,,attendance,,12840
 the-monkees-the-omni-1986-10-18,,artists,"['THE MONKEES', 'THE GRASS ROOTS', 'GARY PUCKETT & THE UNION']","['THE MONKEES', 'THE GRASS ROOTS', 'GARY PUCKETT & THE UNION', 'GAP', ""HERMAN'S HERMITS""]"
-james-taylor-pacific-amphitheatre-1986-10-07,,tickets_sold,,11225
+james-taylor-pacific-amphitheatre-1986-10-07,,attendance,,11225
 the-oak-ridge-boys-concerts-in-the-country-1986-10-17,,ticket_prices,['3'],['13']
-bob-seger-and-the-silver-bullet-band-the-forum-1987-01-05,,tickets_sold,214,46214
+bob-seger-and-the-silver-bullet-band-the-forum-1987-01-05,,attendance,214,46214
 kenny-rodgers-arco-arena-1987-01-04,,artists,"['KENNY ROGERS ARCO', 'EDDIE RABBITT', 'T. GRAHAM BROWN:']","['KENNY ROGERS', 'EDDIE RABBITT', 'T. GRAHAM BROWN']"
 huey-lewis-and-the-news-thomas-and-mack-center-1987-01-11,,artists,"['HUEY LEWIS & THE NEWS', 'BONNIE HAYES & THE WILD']","['HUEY LEWIS & THE NEWS', 'BONNIE HAYES & THE WILD', 'COMBO']"
 huey-lewis-and-the-news-thomas-and-mack-center-1987-01-11,,ticket_prices,[],['16.50']
 cyndi-lauper-cumberland-county-civic-center-1986-12-17,,ticket_prices,[],['14']
-cyndi-lauper-music-hall-1987-01-08,,gross_receipts,37895,87895
+cyndi-lauper-music-hall-1987-01-08,,gross_receipts_us,37895,87895
 cyndi-lauper-lakeland-civic-center-1986-12-28,,ticket_sold,1252,7252
 cyndi-lauper-lakeland-civic-center-1986-12-28,,artists,"['CYNDI LAUPER', 'EDDIE MONEY', 'LL']","['CYNDI LAUPER', 'EDDIE MONEY']"
 stryper-santa-monica-civic-auditorium-1987-01-03,,ticket_prices,[],['14']
@@ -112,101 +321,11 @@ ratt-richfield-coliseum-1987-01-04,,ticket_prices,[],['15/14']
 bon-jovi-el-paso-county-coliseum-1987-01-01,,location,"['Paso County Coliseum', 'Texas']","['El Paso County Coliseum', 'Texas']"
 george-strait-augusta-civic-center-1987-01-17,,ticket_prices,[],['14']
 run-dmc-univ-of-nevada-at-las-vegas-1986-12-30,,dates,['30'],['Dec. 30']
-cyndi-lauper-frank-erwin-center-1987-01-10,,gross_receipts,,77935
-statler-bros-cumberland-county-memorial-1987-01-17,,tickets_sold,,5109
+cyndi-lauper-frank-erwin-center-1987-01-10,,gross_receipts_us,,77935
+statler-bros-cumberland-county-memorial-1987-01-17,,attendance,,5109
 new-order-james-l-knight-international-center-1986-12-15,,ticket_prices,[],['15']
 marshall-tucker-band-contemporary-prods-1986-12-27,,ticket_prices,[],['15']
 robert-cray-starry-knight-1987-01-10,,artists,"['ROBERT CRAY', 'CURTIS SALGADO & THE']","['ROBERT CRAY', ""CURTIS SALGADO & THE STILLETO'S""]"
 bad-brains-the-ritz-1987-01-17,,ticket_prices,[],['12/10']
-robert-cray-band-erb-memorial-union-ballroom-1987-01-11,,gross_receipts,,10770
-robert-cray-band-erb-memorial-union-ballroom-1987-01-11,,tickets_sold,,1350
-doug-henning-fox-theater-1984-10-16,,tickets_sold,,34224
-rod-steward-hollywood-fta-sportatorium-1984-10-07,,tickets_prices,['4'],['14']
-sammy-hagar-market-square-arena-1984-10-17,,tickets_sold,,13151
-billy-squier-barton-coliseum-1984-10-16,,ticket_prices,['2'],['12']
-david-copperfield-royal-oak-mich-music-theater,,ticket_prices,[],['15']
-quiet-riot-levine-meadows-amphitheatre-1984-09-30,,ticket_prices,,['16/14']
-chicago-hearns-multi-purpose-building-1984-00-00,,dates,['Multt-Purpose'],['Nov. 7']
-chicago-hearns-multi-purpose-building-1984-00-00,,gross_receipts,,88802
-chicago-hearns-multi-purpose-building-1984-00-00,,tickets_sold,,7091
-chicago-hearns-multi-purpose-building-1984-00-01,,location,"['Hearns', 'Columbia, Mo,']","['Hearns Multi-Purpose Building', 'Columbia, Mo,']"
-prince-joe-louis-arena-1984-11-4,,dates,"['Nov. 4-5,7-9']","['Nov. 4-5,7-9', '11-12']"
-prince-joe-louis-arena-1984-11-4,,ticket_prices,,['17.50']
-rick-springfield-reunion-arena-1984-11-15,,ticket_prices,['15'],['Nov. 15']
-swatch-watch-baltimore-civic-center-1984-11-09,,ticket_prices,[],['11']
-culture-club-univ-of-tennessee-at-chattanooga-arena-1984-11-03,,gross_receipts,,89704
-culture-club-univ-of-tennessee-at-chattanooga-arena-1984-11-03,,tickets_sold,,5867
-kiss-stabler-arena-lehigh-unv,,ticket_prices,['1'],['11']
-neil-diamond-market-square-arena-1984-12-20,,ticket_prices,[],['17/15']
-neil-diamon-houston-summit-1984-12-10,,ticket_prices,,['17/15']
-huey-lewis-and-the-news-oakland-coliseum-dee-1984-12-31,,dates,['31'],['Dee. 31']
-kenny-rodgers-selland-arena-1985-01-20,,gross_receipts,,
-alabama-1985-01-26,,dates,['26'],['Jan. 26']
-iron-maiden-ohio-center-1985-01-00,,dates,['Jan.'],['Jan. 5']
-iron-maiden-ohio-center-1985-01-00,,gross_receipts,,66688
-iron-maiden-ohio-center-1985-01-00,,tickets_sold,,5281
-dio-met-center-1985-01-27,,tickets_sold,,5256
-dio-dane-county-memorial-coliseum-1985-01-25,,gross_receipts,,47850
-dio-dane-county-memorial-coliseum-1985-01-25,,tickets_sold,,4200
-johnny-cash-frank-crane-arena-1985-01-22,,gross_receipts,,42072
-johnny-cash-frank-crane-arena-1985-01-22,,tickets_sold,,2812
-billy_ocean-the-copa-1985-01-23,,ticket_prices,['4'],['4']
-deep-purple-the-centrum-1985-02-28,,ticket_prices,['13'],['13.50/12.50']
-kenny-rodgers-freedom-hall-1985-03-16,,tickets_sold,,14263
-kenny-rodgers-freedom-hall-1985-03-16,,ticket_prices,['17'],['17.50/15.50']
-alabama-south-florida-fairgrounds-1985-02-24,,ticket_prices,,['15']
-chicago-mid-south-coliseum-1985-03-03,,tickets_sold,,11171
-statler-brothers-holiday-star-theater-1985-02-00,,dates,"['Feb,']",['Feb 24-24']
-statler-brothers-holiday-star-theater-1985-02-00,,gross_receipts,,167050
-statler-brothers-holiday-star-theater-1985-02-00,,tickets_sold,,13296
-reo-speedwagon-greensboro-nc-coliseum-1985-03-01,,artists,['REO SPEEDWAGON'],"['REO SPEEDWAGON', 'SURVIVOR']"
-alabama-jacksonville-fla-coliseum-1985-02-22,,ticket_prices,[],['15']
-eddie-murphy-leon-county-civic-center-1985-02-26,,ticket_prices,[],['14']
-new-edition-augusta-ga-civic-center-1985-02-28,,ticket_prices,[],['11/10']
-temptation-fox-theatre-1985-02-21,,gross_receipts,26949,86949
-frankie-goes-to-hollywood-fox-theater-1985-05-26,,gross_receipts,,37221
-frankie-goes-to-hollywood-fox-theater-1985-05-26,,tickets_sold,,2707
-george-benson-radio-city-music-hall-1985-06-22,,dates,"['May 30-', 'June']","['May 30-', 'June 1']"
-alabama-sandstone-1985-06-02,,tickets_sold,,15102
-patti-labelle-greek-theatre-1985-06-07,,dates,['7'],['June 7']
-fresh-fest-two-carolina-coliseum-1985-06-22,,tickets_sold,,7715
-fresh-fest-two-carolina-coliseum-1985-06-22,,ticket_prices,,['11']
-luther-vandross-lakeland-civic-center-1985-06-02,,dates,['2'],['June 2']
-happy-together-tour-audobon-zoo-1985-06,,dates,['June'],['June 5']
-happy-together-tour-audobon-zoo-1985-06,,gross_receipts,,49746
-happy-together-tour-audobon-zoo-1985-06,,tickets_sold,,4609
-jimmy-stur-band-garden-state-arts-center-1985-06-02,,ticket_prices,[],['11/9/7']
-santana-fox-theatre-1985-06-04,,gross_receipts,,36231
-santana-fox-theatre-1985-06-04,,tickets_sold,,2635
-jimmy-stur-band-vernon-valley-action-park-1985-05-26,,ticket_prices,[],['7']
-jeffrey-osborne-celebrity-theater-1985-06-22,,ticket_prices,[],['15']
-jeffrey-osborne-celebrity-theater-1985-06-22,,tickets_sold,,1726
-smiths-royal-oak-music-theater-1985-06-08,,ticket_prices,[],['14']
-kenny-loggins-radio-city-music-hall-1985-06-14,,dates,['14-15'],['June 14-15']
-howard-jones-red-rocks-amphitheatre-1985-06-12,,ticket_prices,[],['13.75/12.65']
-david-copperfield-sunrise-musical-theatre-1987-01-31,,tickets_sold,,11777
-david-copperfield-sunrise-musical-theatre-1987-01-31,,ticket_prices,[],['18']
-david-lee-roth-duluth-arena-1987-02-07,,ticket_prices,[],['15']
-david-lee-roth-duluth-arena-1987-02-07,,ticket_prices,[],['15']
-david-lee-roth-duluth-arena-1987-02-07,,ticket_prices,[],['15']
-conway-twitty-greenville-memorial-auditorium-1987-02-06,,gross_receipts,78611,6171
-conway-twitty-greenville-memorial-auditorium-1987-02-06,,promoter,[''],['Varnell Enterprises']
-beach-boys-providence-civic-center-1987-02-05,,ticket_prices,[],['7.92']
-david-copperfield-lakeland-civic-center-1987-02-08,,gross_receipts,,57340
-david-copperfield-lakeland-civic-center-1987-02-08,,ticket_sold,,3573
-hank-williams-jr-barnhill-arena-1987-02-01,,ticket_prices,[],['13.50']
-george-carlin-westport-playhouse-1987-01-31,,ticket_prices,[],['16']
-pretenders-memphis-convention-center-1987-01-24,,ticket_prices,['5.'],['15']
-lionel-richie-neal-s-blaisdell-center-1987-02-19,,ticket_prices,[],['18.50']
-lionel-richie-neal-s-blaisdell-center-1987-02-19,,tickets_sold,235871,25871
-iron-maiden-oakland-alameda-county-1987-02-21,,ticket_prices,,['18.50/16.50']
-bob-seger-and-the-silver-bullet-band-myriad-convention-center-1987-02-05,,ticket_prices,[],['16/15']
-bon-jovi-sportatorium-1987-02-14,,ticket_prices,[],['14']
-huey-lewis-and-the-news-lee-civic-center-1987-01-31,,ticket_prices,[],['15']
-bon-jovi-lee-civic-center-1987-01-31,,ticket_prices,[],['15']
-bon-jovi-bayfront-center-1987-02-15,,ticket_prices,[],['15']
-hank-williams-jr-richmond-coliseum-1987-02-13,,ticket_prices,[],['15']
-genesis-orange-bowl-1987-03-14,,ticket_prices,[],['17.75']
-iron-maiden-long-beach-convention-and-entertainment-center-arena-1987-02-16,,tickets_sold,3556,33956
-neil-diamond-pensacola-civic-center-1987-02-20,,tickets_sold,[],['17.50/15']
-bon-jovi-barton-coliseum-1982-02-28,,tickets_sold,[],['15']
+robert-cray-band-erb-memorial-union-ballroom-1987-01-11,,gross_receipts_us,,10770
+robert-cray-band-erb-memorial-union-ballroom-1987-01-11,,attendance,,1350

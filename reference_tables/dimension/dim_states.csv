@@ -1,4 +1,5 @@
 id,name,slug,abbr,aliases,country_id
+-1,Unknown,unknown,,,
 1,Alabama,alabama,AL,"[""Ala.""]",840
 2,Alaska,alaska,AK,,840
 3,Arizona,arizona,AZ,"[""Ariz.""]",840

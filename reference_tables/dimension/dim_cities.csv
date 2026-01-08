@@ -1,129 +1,142 @@
-id,name,slug,aliases,state_id,verified
--1,Unknown,unknown,,-1,
-1,New York,new-york,,32,yes
-2,Los Angeles,los-angeles,,5,yes
-3,Chicago,chicago,,13,yes
-4,Houston,houston,,43,yes
-5,Phoenix,phoenix,,3,yes
-6,Philadelphia,philadelphia,,38,yes
-7,San Antonio,san-antonio,,43,yes
-8,San Diego,san-diego,,5,yes
-9,Dallas,dallas,,43,yes
-10,Jacksonville,jacksonville,,9,yes
-11,Austin,austin,,43,yes
-12,Fort Worth,fort-worth,,43,yes
-13,San Jose,san-jose,,5,yes
-14,Columbus,columbus,,35,yes
-15,Charlotte,charlotte,,33,yes
-16,Indianapolis,indianapolis,,14,yes
-17,San Francisco,san-francisco,,5,yes
-18,Seattle,seattle,,47,yes
-19,Denver,denver,,6,yes
-20,Oklahoma City,oklahoma-city,,36,yes
-21,Nashville,nashville,,42,yes
-22,Washington,washington,,51,yes
-23,El Paso,el-paso,,43,yes
-24,Las Vegas,las-vegas,,28,yes
-25,Boston,boston,,21,yes
-26,Detroit,detroit,,22,yes
-27,Portland,portland,,37,yes
-28,Memphis,memphis,,42,yes
-29,Baltimore,baltimore,,20,yes
-30,Milwaukee,milwaukee,,49,yes
-31,Albuquerque,albuquerque,,31,yes
-32,Tucson,tucson,,2,yes
-33,Fresno,fresno,,5,yes
-34,Sacramento,sacramento,,5,yes
-35,Mesa,mesa,,3,yes
-36,Atlanta,atlanta,,10,yes
-37,Kansas City,kansas-city,,25,yes
-38,Colorado Springs,colorado-springs,,6,yes
-39,Omaha,omaha,,27,yes
-40,Raleigh,raleigh,,33,yes
-41,Miami,miami,,9,yes
-42,Virginia Beach,virginia-beach,,46,yes
-43,Long Beach,long-beach,,5,yes
-44,Oakland,oakland,,5,yes
-45,Minneapolis,minneapolis,,23,yes
-46,Bakersfield,bakersfield,,5,yes
-47,Tulsa,tulsa,,36,yes
-48,Tampa,tampa,,9,yes
-49,Arlington,arlington,,43,yes
-50,Wichita,wichita,,16,yes
-51,Aurora,aurora,,6,yes
-52,New Orleans,new-orleans,,18,yes
-53,Cleveland,cleveland,,35,yes
-54,Honolulu,honolulu,,11,yes
-55,Anaheim,anaheim,,5,yes
-56,Henderson,henderson,,29,yes
-57,Orlando,orlando,,9,yes
-58,Lexington,lexington,,17,yes
-59,Stockton,stockton,,5,yes
-60,Riverside,riverside,,5,yes
-61,Corpus Christi,corpus-christi,,43,yes
-62,Irvine,irvine,,5,yes
-63,Cincinnati,cincinnati,,35,yes
-64,Santa Ana,santa-ana,,5,yes
-65,Newark,newark,,30,yes
-66,Saint Paul,saint-paul,,23,yes
-67,Pittsburgh,pittsburgh,,38,yes
-68,Greensboro,greensboro,,33,yes
-69,Durham,durham,,33,yes
-70,Lincoln,lincoln,,27,yes
-71,Jersey City,jersey-city,,30,yes
-72,Plano,plano,,43,yes
-73,Anchorage,anchorage,,2,yes
-74,Las Vegas,las-vegas,,28,yes
-75,St. Louis,st-louis,,25,yes
-76,Madison,madison,,49,yes
-77,Chandler,chandler,,3,yes
-78,Gilbert,gilbert,,3,yes
-79,Reno,reno,,28,yes
-80,Buffalo,buffalo,,32,yes
-81,Chula Vista,chula-vista,,5,yes
-82,Fort Wayne,fort-wayne,,14,yes
-83,Lubbock,lubbock,,43,yes
-84,Toledo,toledo,,35,yes
-85,St. Petersburg,st-petersburg,,9,yes
-86,Laredo,laredo,,43,yes
-87,Irving,irving,,43,yes
-88,Chesapeake,chesapeake,,46,yes
-89,Glendale,glendale,,3,yes
-90,Winston-Salem,winston-salem,,33,yes
-91,Port St. Lucie,port-st-lucie,,9,yes
-92,Scottsdale,scottsdale,,3,yes
-93,Garland,garland,,43,yes
-94,Boise,boise,,12,yes
-95,Norfolk,norfolk,,46,yes
-96,Spokane,spokane,,47,yes
-97,Richmond,richmond,,46,yes
-98,Fremont,fremont,,5,yes
-99,Huntsville,huntsville,,1,yes
-100,Jackson,jackson,,24,yes
-102,Shreveport,shreveport,,18,yes
-103,Del Mar,del-mar,,5,yes
-104,Mobile,mobile,,1,yes
-105,Syracuse,syracuse,,32,yes
-106,Rochester,rochester,,32,yes
-107,Starkville,starkville,,24,yes
-108,Beaumont,beaumont,,43,yes
-109,Baton Rouge,baton-rouge,,18,yes
-110,Pine Bluff,pine-bluff,,4,yes
-111,Lakeland,lakeland,,9,yes
-112,Dayton,dayton,,35,yes
-113,Ann Arbor,ann-arbor,,22,yes
-114,Laguna Hills,laguna-hills,,5,yes
-115,Berkeley,berkeley,,5,yes
-116,Nanaimo,nanaimo,,62,yes
-117,Little Rock,little-rock,,4,yes
-118,Kalamazoo,kalamazoo,,22,yes
-119,Toronto,toronto,,60,yes
-120,Hollywood,hollywood,,9,yes
-121,Concord,concord,,5,yes
-122,Inglewood,inglewood,,5,yes
-123,Nagcogdoches,nagcogdoches,,43,yes
-124,Laguna Hilts,laguna-hilts,,5,no
-125,College Station,college-station,,43,yes
-126,Royal Oak,royal-oak,,22,yes
-127,Landover,landover,,20,no
-128,South Bend,south-bend,,14,no
+id,name,slug,aliases,state_id
+-1,Unknown,unknown,,-1
+1,New York,new-york,,32
+2,Los Angeles,los-angeles,,5
+3,Chicago,chicago,,13
+4,Houston,houston,,43
+5,Phoenix,phoenix,,3
+6,Philadelphia,philadelphia,,38
+7,San Antonio,san-antonio,,43
+8,San Diego,san-diego,,5
+9,Dallas,dallas,,43
+10,Jacksonville,jacksonville,,9
+11,Austin,austin,,43
+12,Fort Worth,fort-worth,,43
+13,San Jose,san-jose,,5
+14,Columbus,columbus,,35
+15,Charlotte,charlotte,,33
+16,Indianapolis,indianapolis,,14
+17,San Francisco,san-francisco,,5
+18,Seattle,seattle,,47
+19,Denver,denver,,6
+20,Oklahoma City,oklahoma-city,,36
+21,Nashville,nashville,,42
+22,Washington,washington,,51
+23,El Paso,el-paso,,43
+24,Las Vegas,las-vegas,,28
+25,Boston,boston,,21
+26,Detroit,detroit,,22
+27,Portland,portland,,37
+28,Memphis,memphis,,42
+29,Baltimore,baltimore,,20
+30,Milwaukee,milwaukee,,49
+31,Albuquerque,albuquerque,,31
+32,Tucson,tucson,,2
+33,Fresno,fresno,,5
+34,Sacramento,sacramento,,5
+35,Mesa,mesa,,3
+36,Atlanta,atlanta,,10
+37,Kansas City,kansas-city,,25
+38,Colorado Springs,colorado-springs,,6
+39,Omaha,omaha,,27
+40,Raleigh,raleigh,,33
+41,Miami,miami,,9
+42,Virginia Beach,virginia-beach,,46
+43,Long Beach,long-beach,,5
+44,Oakland,oakland,,5
+45,Minneapolis,minneapolis,,23
+46,Bakersfield,bakersfield,,5
+47,Tulsa,tulsa,,36
+48,Tampa,tampa,,9
+49,Arlington,arlington,,43
+50,Wichita,wichita,,16
+51,Aurora,aurora,,6
+52,New Orleans,new-orleans,,18
+53,Cleveland,cleveland,,35
+54,Honolulu,honolulu,,11
+55,Anaheim,anaheim,,5
+56,Henderson,henderson,,29
+57,Orlando,orlando,,9
+58,Lexington,lexington,,17
+59,Stockton,stockton,,5
+60,Riverside,riverside,,5
+61,Corpus Christi,corpus-christi,,43
+62,Irvine,irvine,,5
+63,Cincinnati,cincinnati,,35
+64,Santa Ana,santa-ana,,5
+65,Newark,newark,,30
+66,Saint Paul,saint-paul,,23
+67,Pittsburgh,pittsburgh,,38
+68,Greensboro,greensboro,,33
+69,Durham,durham,,33
+70,Lincoln,lincoln,,27
+71,Jersey City,jersey-city,,30
+72,Plano,plano,,43
+73,Anchorage,anchorage,,2
+74,Las Vegas,las-vegas,,28
+75,St. Louis,st-louis,,25
+76,Madison,madison,,49
+77,Chandler,chandler,,3
+78,Gilbert,gilbert,,3
+79,Reno,reno,,28
+80,Buffalo,buffalo,,32
+81,Chula Vista,chula-vista,,5
+82,Fort Wayne,fort-wayne,,14
+83,Lubbock,lubbock,,43
+84,Toledo,toledo,,35
+85,St. Petersburg,st-petersburg,,9
+86,Laredo,laredo,,43
+87,Irving,irving,,43
+88,Chesapeake,chesapeake,,46
+89,Glendale,glendale,,3
+90,Winston-Salem,winston-salem,,33
+91,Port St. Lucie,port-st-lucie,,9
+92,Scottsdale,scottsdale,,3
+93,Garland,garland,,43
+94,Boise,boise,,12
+95,Norfolk,norfolk,,46
+96,Spokane,spokane,,47
+97,Richmond,richmond,,46
+98,Fremont,fremont,,5
+99,Huntsville,huntsville,,1
+100,Jackson,jackson,,24
+102,Shreveport,shreveport,,18
+103,Del Mar,del-mar,,5
+104,Mobile,mobile,,1
+105,Syracuse,syracuse,,32
+106,Rochester,rochester,,32
+107,Starkville,starkville,,24
+108,Beaumont,beaumont,,43
+109,Baton Rouge,baton-rouge,,18
+110,Pine Bluff,pine-bluff,,4
+111,Lakeland,lakeland,,9
+112,Dayton,dayton,,35
+113,Ann Arbor,ann-arbor,,22
+114,Laguna Hills,laguna-hills,,5
+115,Berkeley,berkeley,,5
+116,Nanaimo,nanaimo,,62
+117,Little Rock,little-rock,,4
+118,Kalamazoo,kalamazoo,,22
+119,Toronto,toronto,,60
+120,Hollywood,hollywood,,9
+121,Concord,concord,,5
+122,Inglewood,inglewood,,5
+123,Nagcogdoches,nagcogdoches,,43
+125,College Station,college-station,,43
+126,Royal Oak,royal-oak,,22
+127,Landover,landover,,20
+128,South Bend,south-bend,,14
+129,East Rutherford,east-rutherford,,30
+130,Manhattan,manhattan,,16
+131,Merrillville,merrillville,,14
+132,Hartford,hartford,,7
+133,Ames,ames,,15
+134,Murfreesboro,murfreesboro,,42
+135,Salt Lake City,salt-lake-city,,44
+136,Casper,casper,,50
+137,Boulder,boulder,,6
+138,Iowa City,iowa-city,,15
+139,Union City,union-city,,15
+140,Providence,providence,,39
+141,Columbia,columbia,,25
+142,Knoxville,knoxville,,42
