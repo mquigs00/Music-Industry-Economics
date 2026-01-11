@@ -8,6 +8,7 @@ import csv
 import pandas as pd
 import slugify
 from config.config import DIMENSION_TABLES
+from data_cleaning.normalization import build_reverse_map
 from config.paths import *
 import json
 
@@ -39,7 +40,7 @@ def extract_text_ocr(pdf_bytes, page_num):
 
 def load_corrections_table(path):
     corrections_dict = {}
-    with open(path, "r", newline='', encoding='utf-8') as f:
+    with open(path, "r", newline='', encoding='cp1252') as f:
         reader = csv.DictReader(f)
         for row in reader:
             signature = row["event_signature"]
@@ -146,12 +147,18 @@ def add_slugs_to_csv(path):
     df.to_csv(path, index=False)
 
 def clean_location(location_tokens):
+    venue_types = build_reverse_map(VENUE_TYPES_PATH)  # import the map of common venue typos to their corrected version
     NOISE = {"Productions", "Promotions", "Presents", "Presentations", "Prods.", "Concerts", "Inc.", "Entertainment", "sellout", "Jam", "~"}
     clean_tokens = []
-    for token in location_tokens:
+    for i, token in enumerate(location_tokens):
         token = token.replace(',', '')
+        token = token.replace('.', '')
         if token not in NOISE:
-            clean_tokens.append(token)
+            if token.lower() in venue_types:
+                clean_tokens.append(venue_types[token.lower()].title())
+                print(f"Changes token to {venue_types[token.lower()]}")
+            else:
+                clean_tokens.append(token)
     return clean_tokens
 
 def load_event_keywords(path):

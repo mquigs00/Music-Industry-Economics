@@ -73,7 +73,7 @@ id,name,slug,aliases,state_id
 71,Jersey City,jersey-city,,30
 72,Plano,plano,,43
 73,Anchorage,anchorage,,2
-74,Las Vegas,las-vegas,,28
+74,North Las Vegas,north-las-vegas,,28
 75,St. Louis,st-louis,,25
 76,Madison,madison,,49
 77,Chandler,chandler,,3
@@ -140,3 +140,7 @@ id,name,slug,aliases,state_id
 140,Providence,providence,,39
 141,Columbia,columbia,,25
 142,Knoxville,knoxville,,42
+143,Odessa,odessa,,43
+144,Bethlehem,bethlehem,,38
+145,Ardmore,ardmore,,36
+146,Passaic,passaic,,30

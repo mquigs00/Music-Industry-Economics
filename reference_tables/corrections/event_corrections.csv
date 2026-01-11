@@ -18,8 +18,10 @@ rush-the-spectrum-y&t-philadelphia-1984-11-05,11/24/1984,location,"['The Spectru
 rush-the-spectrum-y&t-philadelphia-1984-11-05,11/24/1984,ticket_prices,['13.50/11.50/89.50'],['13.50/11.50/9.50']
 rush-providence-(r.|.)-civic-center-1984-11-07,11/24/1984,artists,['RUSH'],"['RUSH', 'Y & T']"
 rush-providence-(r.|.)-civic-center-1984-11-07,11/24/1984,location,"['Providence (R.|.) Civic Center', 'Y&T']",['Providence (R.|.) Civic Center']
+julio-iglesias-the-harttord-conn-civic-center-1984-09-05,11/24/1984,promoter,['Buster Bonoff/John'],"['Buster Bonoff/John', 'Delmonico & Associates', 'for Performing Arts']"
 kenny-rogers-memorial-coliseum-1984-10-31,11/24/1984,ticket_prices,['16/813.50'],['16/13.50']
 rick-springfield-casper-(wya.)-events-center-1984-11-10,11/24/1984,ticket_prices,['175'],['11.75']
+rick-springfield-univ-of-colorado-at-boulder-1984-11-09,11/24/1984,promoter,['Jam Prods./Feyline'],"['Jam Prods./Feyline', 'Presents']"
 "chicago-hearns-columbia,-mo,-None",11/24/1984,dates,['Multt-Purpose'],['Nov. 7']
 "chicago-hearns-columbia,-mo,-None",11/24/1984,gross_revenue_us,,88802
 "chicago-hearns-columbia,-mo,-None",11/24/1984,attendance,,7091
@@ -29,13 +31,15 @@ royal-new-york-doo-wopp-radio-city-music-hall-1984-10-13,11/24/1984,artists,"['R
 royal-new-york-doo-wopp-radio-city-music-hall-1984-10-13,11/24/1984,location,"['Radio City Music Hall', 'York']","['Radio City Music Hall', 'New York']"
 "crosby,-stills-&-nash-memorial-union-fowa-city-concerts-1984-11-04",11/24/1984,location,"['Memorial Union', 'fowa City', 'Concerts']","['Memorial Union', 'Iowa City', 'Concerts']"
 "chicago-hearns-columbia,-mo,-None",11/24/1984,location,"['Hearns', 'Columbia, Mo,']","['Hearns Multi-Purpose Building', 'Columbia, Mo,']"
-prince-joe-louis-arena-1984-11-4,12/1/1984,dates,"['Nov. 4-5,7-9']","['Nov. 4-5,7-9', '11-12']"
-prince-joe-louis-arena-1984-11-4,12/1/1984,ticket_prices,,['17.50']
-rick-springfield-reunion-arena-1984-11-15,12/1/1984,ticket_prices,['15'],['Nov. 15']
-swatch-watch-baltimore-civic-center-1984-11-09,12/1/1984,ticket_prices,[],['11']
-culture-club-univ-of-tennessee-at-chattanooga-arena-1984-11-03,12/1/1984,gross_receipts_us,,89704
-culture-club-univ-of-tennessee-at-chattanooga-arena-1984-11-03,12/1/1984,attendance,,5867
-kiss-stabler-arena-lehigh-unv,12/1/1984,ticket_prices,['1'],['11']
+prince-joe-louis-arena-1984-11-04,12/1/1984,dates,"['Nov. 4-5,7-9']","['Nov. 4-5,7-9', '11-12']"
+prince-joe-louis-arena-1984-11-04,12/1/1984,ticket_prices,,['17.50']
+rick-springfield-reunion-arena-None,12/1/1984,dates,['15'],['Nov. 15']
+swatch-watch:-new-york-baltimore-civic-center-1984-11-09,12/1/1984,ticket_prices,[],['11']
+reo-speedwagon-omaha-civic-auditorium-1984-11-18,1984-12-01,attendance,,10000
+oak-ridge-boys-boise-state-univ-pavilion-1984-11-03,1984-12-01,attendance,,8621
+"culture-club-univ,-of-tennessee-at-chattanooga-arena-1984-11-03",12/1/1984,gross_receipts_us,,89704
+"culture-club-univ,-of-tennessee-at-chattanooga-arena-1984-11-03",12/1/1984,attendance,,5867
+"kiss-stabler-arena,-lehigh-unv.-1984-11-15",12/1/1984,ticket_prices,['1'],['11']
 george-strait-civic-auditorium-1984-11-16,12/1/1984,attendance,,3200
 neil-diamond-market-square-arena-1984-12-20,,ticket_prices,[],['17/15']
 neil-diamon-houston-summit-1984-12-10,,ticket_prices,,['17/15']
@@ -127,15 +131,15 @@ ratt-memorial-hall-1985-06-20,7/6/1985,ticket_prices,['l2sil'],['12/11']
 paco-de-lucia-sextet-warfield-theater-1985-06-18,7/6/1985,ticket_prices,['14.50/23.50'],['14.50/13.50']
 violent-femmes-rainbow-music-hall-1985-06-19,7/6/1985,ticket_prices,['19/39'],['19/9']
 stanley-clarke-the-moonshadow-1985-06-19,7/6/1985,attendance,338,838
-live-aid-jfk-stadium-1985-07-13,1985-07-27,artists,['LIVE AID JFK'],['LIVE AID']
-live-aid-jfk-stadium-1985-07-13,1985-07-27,artists,"['Stadium', 'Philadelphia', 'Factory Concerts']","['JFK Stadium', 'Philadelphia']"
-live-aid-jfk-stadium-1985-07-13,1985-07-27,promoter,['Bob Geldof/Bill Graham Presents/'],"['Bob Geldof/Bill Graham Presents/', 'Electric Factory Concerts']"
-grateful-dead-merriweather-post-pavilion-1985-06-30,1985-07-27,ticket_prices,['l6/1l'],['16/11']
-robert-plant-reunion-arena-1985-06-24,1985-07-27,ticket_prices,[],['15']
-alabama-astrodome-1985-07-06,1985-07-27,ticket_prices,[],['7']
-al-jarreau-blossom-music-festival-1985-07-00,1985-07-27,dates,['July'],['July 8']
-al-jarreau-blossom-music-festival-1985-07-00,1985-07-27,gross_receipts_us,,164558
-al-jarreau-blossom-music-festival-1985-07-00,1985-07-27,attendance,,13951
+live-aid-jfk-stadium-1985-07-13,7/27/1985,artists,['LIVE AID JFK'],['LIVE AID']
+live-aid-jfk-stadium-1985-07-13,7/27/1985,artists,"['Stadium', 'Philadelphia', 'Factory Concerts']","['JFK Stadium', 'Philadelphia']"
+live-aid-jfk-stadium-1985-07-13,7/27/1985,promoter,['Bob Geldof/Bill Graham Presents/'],"['Bob Geldof/Bill Graham Presents/', 'Electric Factory Concerts']"
+grateful-dead-merriweather-post-pavilion-1985-06-30,7/27/1985,ticket_prices,['l6/1l'],['16/11']
+robert-plant-reunion-arena-1985-06-24,7/27/1985,ticket_prices,[],['15']
+alabama-astrodome-1985-07-06,7/27/1985,ticket_prices,[],['7']
+al-jarreau-blossom-music-festival-1985-07-00,7/27/1985,dates,['July'],['July 8']
+al-jarreau-blossom-music-festival-1985-07-00,7/27/1985,gross_receipts_us,,164558
+al-jarreau-blossom-music-festival-1985-07-00,7/27/1985,attendance,,13951
 rick-springfield-lsu-assembly-center-1985-07-06,,,,
 david-copperfield-sunrise-musical-theatre-1987-01-31,,attendance,,11777
 david-copperfield-sunrise-musical-theatre-1987-01-31,,ticket_prices,[],['18']
@@ -241,36 +245,36 @@ bill-cosby-mid-hudson-civic-center-1985-01-18,,artists,"['BILL COSBY', 'K.']",['
 temptations-fox-theatre-1985-02-21,,artists,['TEMPTATIONS'],"['TEMPTATIONS', 'SOS', 'ONE WAY']"
 kenny-loggins-radio-city-music-hall-dune-,,artists,"['KENNY LOGGINS', 'MARK']","['KENNY LOGGINS', 'MARK McCOLLUM']"
 temptations-fox-theater-1985-06-22,,artists,['TEMPTATIONS'],"['TEMPTATIONS', 'FOUR TOPS']"
-rick-springfield-lsu-assembly-center-1985-07-06,1985-07-27,location,"['Assembly Center', '""TIL TUESDAY Baton Rouge, La.']","['LSU Assembly Center', 'Baton Rouge, La.']"
-tom-petty-and-the-sun-dome-1985-07-12,1985-07-27,ticket_prices,[],['14']
-new-york-fresh-festival-mecca-arena-1985-06-26,1985-07-27,artists,['NEW YORK FRESH FESTIVAL MECCA'],['NEW YORK FRESH FESTIVAL']
-new-york-fresh-festival-mecca-arena-1985-06-26,1985-07-27,attendance,,8692
-new-york-fresh-festival-mecca-arena-1985-06-26,1985-07-27,ticket_prices,,['12/8.50']
-new-york-fresh-festival-mecca-arena-1985-06-26,1985-07-27,location,"['Arena', 'Milwaukee a sellout']","['MECCA Arena', 'Milwaukee']"
-huey-lewis-and-the-news-meriweather-post-pavilion-1985-07-27,1985-08-10,promoter,[''],['Nederlander Organization']
-huey-lewis-and-the-news-cne-grandstand-1985-07-20,1985-08-10,location,"['Grandstand', 'Toronto']","['CNE Grandstand', 'Toronto']"
-huey-lewis-and-the-news-cne-grandstand-1985-07-20,1985-08-10,artists,"['HUEY LEWIS & THE NEWS CNE', 'NEVILLE BROTHERS']","['HUEY LEWIS & THE NEWS', 'NEVILLE BROTHERS']"
-bryan-adams-rushmore-plaza-civic-center-1985-07-21,1985-08-10,ticket_prices,['.0.'],['13.50']
-willie-nelson-the-spectrum-1985-07-25,1985-08-10,attendance,,8311
-new-edition-washington-None,1985-08-10,dates,['(0.C.)'],['July 19']
-new-edition-washington-None,1985-08-10,gross_receipts_us,,132000
-new-edition-washington-None,1985-08-10,attendance,,11000
-new-edition-washington-None,1985-08-10,location,"['Washington', 'Center']","['Washington (D.C.) Convention', 'Center']"
-al-jarreau-meriweather-post-pavilion-1985-07-21,1985-08-10,ticket_prices,[],['14/9']
-eric-clapton-compton-terrace-1985-07-21,1985-08-10,gross_receipts_us,,88599
-eric-clapton-compton-terrace-1985-07-21,1985-08-10,attendance,,6573
-eric-clapton-compton-terrace-1985-07-21,1985-08-10,promoter,"['Prods.', '10,000']",['Evening Star Prods.']
-scorpions-compton-terrace-1985-09-02,1985-09-21,attendance,,35868
-kenny-rodgers-nassau-veterans-1985-08-29,1985-09-21,attendance,,16826
-willie-nelson-and-family-minnesota-state-fair-1985-08-22,1985-09-21,artists,"['WILLIE NELSON & FAMILY', 'WAYLON JENNINGS', 'COLTER']","['WILLIE NELSON & FAMILY', 'WAYLON JENNINGS', 'JESSI COLTER']"
-willie-nelson-and-family-minnesota-state-fair-1985-08-22,1985-09-21,ticket_prices,['9/84.50'],['9/4.50']
-power-station-meadowlands-arena-1985-08-28,1985-09-21,ticket_prices,['15.50/813.50'],['15.50/13.50']
-reo-speedwagon-red-rocks-amphitheatre-1985-09-02,1985-09-21,ticket_prices,"['14,85/813.75']","['14,85/13.75']"
-neil-young-minnesota-state-fair-1985-09-01,1985-09-21,ticket_prices,[],['14/8']
-tears-for-fears-red-rocks-amphitheatre-1985-09-08,1985-09-21,ticket_prices,['13.75/812.65'],['13.75/812.65']
-ratt-nashvine-municipal-auditorium-1985-08-22,1985-09-21,artists,"['RATT', 'BON JOV)']","['RATT', 'BON JOVI', 'Y & T']"
-statler-brothers-indiana-state-faur-1985-08-25,1985-09-21,ticket_prices,[],['11/9']
-oak-ridge-boys-minnesota-state-fair-1985-08-25,1985-09-21,ticket_prices,['9/54.50'],['9/4.50']
+rick-springfield-lsu-assembly-center-1985-07-06,7/27/1985,location,"['Assembly Center', '""TIL TUESDAY Baton Rouge, La.']","['LSU Assembly Center', 'Baton Rouge, La.']"
+tom-petty-and-the-sun-dome-1985-07-12,7/27/1985,ticket_prices,[],['14']
+new-york-fresh-festival-mecca-arena-1985-06-26,7/27/1985,artists,['NEW YORK FRESH FESTIVAL MECCA'],['NEW YORK FRESH FESTIVAL']
+new-york-fresh-festival-mecca-arena-1985-06-26,7/27/1985,attendance,,8692
+new-york-fresh-festival-mecca-arena-1985-06-26,7/27/1985,ticket_prices,,['12/8.50']
+new-york-fresh-festival-mecca-arena-1985-06-26,7/27/1985,location,"['Arena', 'Milwaukee a sellout']","['MECCA Arena', 'Milwaukee']"
+huey-lewis-and-the-news-meriweather-post-pavilion-1985-07-27,8/10/1985,promoter,[''],['Nederlander Organization']
+huey-lewis-and-the-news-cne-grandstand-1985-07-20,8/10/1985,location,"['Grandstand', 'Toronto']","['CNE Grandstand', 'Toronto']"
+huey-lewis-and-the-news-cne-grandstand-1985-07-20,8/10/1985,artists,"['HUEY LEWIS & THE NEWS CNE', 'NEVILLE BROTHERS']","['HUEY LEWIS & THE NEWS', 'NEVILLE BROTHERS']"
+bryan-adams-rushmore-plaza-civic-center-1985-07-21,8/10/1985,ticket_prices,['.0.'],['13.50']
+willie-nelson-the-spectrum-1985-07-25,8/10/1985,attendance,,8311
+new-edition-washington-None,8/10/1985,dates,['(0.C.)'],['July 19']
+new-edition-washington-None,8/10/1985,gross_receipts_us,,132000
+new-edition-washington-None,8/10/1985,attendance,,11000
+new-edition-washington-None,8/10/1985,location,"['Washington', 'Center']","['Washington (D.C.) Convention', 'Center']"
+al-jarreau-meriweather-post-pavilion-1985-07-21,8/10/1985,ticket_prices,[],['14/9']
+eric-clapton-compton-terrace-1985-07-21,8/10/1985,gross_receipts_us,,88599
+eric-clapton-compton-terrace-1985-07-21,8/10/1985,attendance,,6573
+eric-clapton-compton-terrace-1985-07-21,8/10/1985,promoter,"['Prods.', '10,000']",['Evening Star Prods.']
+scorpions-compton-terrace-1985-09-02,9/21/1985,attendance,,35868
+kenny-rodgers-nassau-veterans-1985-08-29,9/21/1985,attendance,,16826
+willie-nelson-and-family-minnesota-state-fair-1985-08-22,9/21/1985,artists,"['WILLIE NELSON & FAMILY', 'WAYLON JENNINGS', 'COLTER']","['WILLIE NELSON & FAMILY', 'WAYLON JENNINGS', 'JESSI COLTER']"
+willie-nelson-and-family-minnesota-state-fair-1985-08-22,9/21/1985,ticket_prices,['9/84.50'],['9/4.50']
+power-station-meadowlands-arena-1985-08-28,9/21/1985,ticket_prices,['15.50/813.50'],['15.50/13.50']
+reo-speedwagon-red-rocks-amphitheatre-1985-09-02,9/21/1985,ticket_prices,"['14,85/813.75']","['14,85/13.75']"
+neil-young-minnesota-state-fair-1985-09-01,9/21/1985,ticket_prices,[],['14/8']
+tears-for-fears-red-rocks-amphitheatre-1985-09-08,9/21/1985,ticket_prices,['13.75/812.65'],['13.75/812.65']
+ratt-nashvine-municipal-auditorium-1985-08-22,9/21/1985,artists,"['RATT', 'BON JOV)']","['RATT', 'BON JOVI', 'Y & T']"
+statler-brothers-indiana-state-faur-1985-08-25,9/21/1985,ticket_prices,[],['11/9']
+oak-ridge-boys-minnesota-state-fair-1985-08-25,9/21/1985,ticket_prices,['9/54.50'],['9/4.50']
 luciano-pavarotti-freedom-hall-1986-01-30,,ticket_prices,['500-815'],['500-15']
 pat-benatar-alameda-county-coliseum-arena-1986-02-02,,ticket_prices,[],['15']
 rush-cow-palace-1986-01-30,,ticket_prices,[],['15']
@@ -329,3 +333,61 @@ robert-cray-starry-knight-1987-01-10,,artists,"['ROBERT CRAY', 'CURTIS SALGADO &
 bad-brains-the-ritz-1987-01-17,,ticket_prices,[],['12/10']
 robert-cray-band-erb-memorial-union-ballroom-1987-01-11,,gross_receipts_us,,10770
 robert-cray-band-erb-memorial-union-ballroom-1987-01-11,,attendance,,1350
+frank-sinatra-olympic-1991-05-03,6/1/1991,dates,['May 3'],['May 9']
+frank-sinatra-olympic-1991-05-03,6/1/1991,attendance,7788,7748
+frank-sinatra-olympic-1991-05-03,6/1/1991,promoter,['Perryscope'],"['Perryscope', 'Concert Prods.']"
+the-judds-jon-m-1991-05-01,6/1/1991,dates,['May 1'],['May 11']
+the-judds-jon-m-1991-05-01,6/1/1991,ticket_prices,"['34.50/824.50/', '19.50']","['34.50/24.50/', '19.50']"
+the-simple-truth-a-wembley-arena-1991-05-12,6/1/1991,artists,"['““THE SIMPLE TRUTH""A', 'CONCERT FOR KURDISH', 'REFUGEES:', 'MMC, HAMMER, SNAP, GIPSY', 'KINGS, CHRIS DE BURGH', 'TOM JONES, LISA', 'STANSFIELD, ALLISON', 'BEVERLY CRAVEN,', ""ALEXANDER O'NEAL: VIA"", 'SATELLITE:', 'NEW KIDS ON THE BLOCK,', 'STING, ROD STEWART', 'INXS, PAUL SIMON, PETER', 'GABRIEL', ""SINEAD O'CONNOR, HALL &"", 'OATES.']","[""'““THE SIMPLE TRUTH'�A"", 'CONCERT FOR KURDISH', 'REFUGEES:', 'MMC, HAMMER, SNAP, GIPSY', 'KINGS, CHRIS DE BURGH', 'TOM JONES, LISA', 'STANSFIELD, ALLISON', 'MOYET', 'BEVERLY CRAVEN,', ""ALEXANDER O'NEAL: VIA"", 'SATELLITE:', 'NEW KIDS ON THE BLOCK,', 'STING, ROD STEWART', 'INXS, PAUL SIMON, PETER', 'GABRIEL', ""SINEAD O'CONNOR, HALL &"", 'OATES.']"
+the-simple-truth-a-wembley-arena-1991-05-12,6/1/1991,ticket_prices,['25.20'],['25.70']
+the-simple-truth-a-wembley-arena-1991-05-12,6/1/1991,location,"['Wembley Arena =', 'London', 'pounds)', 'MOvET']","['Wembley Arena =', 'London']"
+whitney-houston-arco-arena-1991-05-12,6/1/1991,artists,['WHITNEY HOUSTON ARCO'],"['WHITNEY HOUSTON', 'AFTER 7']"
+whitney-houston-arco-arena-1991-05-12,6/1/1991,location,"['Arena', 'AFTER? Sacramento,', 'Catt']","['ARCO Arena', 'Sacramento,', 'Catt']"
+steve-winwood-starplex-1991-05-17,6/1/1991,ticket_prices,['23/818'],['23/18']
+clint-black-red-rocks-1991-05-17,6/1/1991,promoter,['Beaver Prods.'],"['Beaver Prods.', 'Fey Concert Co.']"
+clint-black-red-rocks-1991-05-17,6/1/1991,ticket_prices,['21.45/518.15'],['21.45/18.15']
+clint-black-red-rocks-1991-05-17,6/1/1991,location,"['Red Rocks', 'Amphitheatre', 'Concert Co.', 'Denver']","['Red Rocks', 'Amphitheatre', 'Denver']"
+clint-black-tingley-1991-05-18,6/1/1991,artists,"['CLINT BLACK', 'MERLE HAGGARD', 'LORRIE MORGAN', 'NM.']","['CLINT BLACK', 'MERLE HAGGARD', 'LORRIE MORGAN']"
+clint-black-tingley-1991-05-18,6/1/1991,location,"['Tingley', 'Coliseum, New', 'Menico State', 'Fairgrounds', 'Albuquerque,']","['Tingley', 'Coliseum, New', 'Menico State', 'Fairgrounds', 'Albuquerque,', 'N.M.']"
+alabama-starpiex-1991-05-18,6/1/1991,ticket_prices,['22/818'],['22/18']
+yes-blockbuster-1991-05-00,6/1/1991,dates,['May'],['May 11']
+yes-blockbuster-1991-05-00,6/1/1991,gross_receipts_us,,170983
+yes-blockbuster-1991-05-00,6/1/1991,attendance,,9720
+the-judds-spokane-center-1991-05-09,6/1/1991,gross_receipts_us,170377,170177
+the-judds-spokane-center-1991-05-09,6/1/1991,attendance,,6946
+yes-arco-arena-1991-05-16,6/1/1991,artists,['YES ARCO'],['YES']
+yes-arco-arena-1991-05-16,6/1/1991,location,"['Arena', 'Sacramento,', 'Cali.']","['ARCO Arena', 'Sacramento,', 'Cali.']"
+julio-iglesias-arco-arena-1991-05-19,6/1/1991,artists,['JULIO IGLESIAS ARCO'],['JULIO IGLESIAS']
+julio-iglesias-arco-arena-1991-05-19,6/1/1991,location,"['Arena', 'Sacramento,', 'Cali.']","['ARCO Arena', 'Sacramento,', 'Cali.']"
+whitney-houston-winnipeg-arena-1991-04-29,6/1/1991,artists,['WHITNEY HOUSTON'],"['WHITNEY HOUSTON', 'AFTER 7']"
+whitney-houston-winnipeg-arena-1991-04-29,6/1/1991,location,"['Winnipeg Arena', 'AFTER? Winnipeg,', 'Manitoba Canadian)']","['Winnipeg Arena', 'Winnipeg,', 'Manitoba Canadian)']"
+styx-sunrise-musical-1991-05-16,6/1/1991,gross_receipts_us,,140770
+styx-sunrise-musical-1991-05-16,6/1/1991,attendance,,6856
+bally-joel-yankee-stadium-1990-06-22,7/14/1990,ticket_prices,[],['30']
+madonna-meadowlands-1990-06-24,7/14/1990,artists,"['MADONNA', 'TECHNOTRONIC', 'NJ.']","['MADONNA', 'TECHNOTRONIC']"
+madonna-meadowlands-1990-06-24,7/14/1990,location,"['Meadowlands:', 'Arena', 'East Rutherford,']","['Meadowlands:', 'Arena', 'East Rutherford,', 'N.J.']"
+billy-joel-providence-center-1990-06-27,7/14/1990,gross_receipts_us,,1043700
+billy-joel-providence-center-1990-06-27,7/14/1990,attendance,,42600
+david-bowe-palace-of-1990-06-22,7/14/1990,gross_receipts_us,,980625
+david-bowe-palace-of-1990-06-22,7/14/1990,attendance,,39225
+david-bowe-palace-of-1990-06-22,7/14/1990,location,"['Bowe Palace of', 'Auburn Hills', 'Auburn Hills,', 'Mich.']","['Palace of', 'Auburn Hills', 'Auburn Hills,', 'Mich.']"
+depeche-mode-stadium-1990-06-22,7/14/1990,promoter,['Concert Prods.'],"['Concert Prods.', 'International']"
+gipsy-kings-the-greek-1990-06-23,7/14/1990,promoter,['Nederlander'],"['Nederlander', 'Organization']"
+fleetwood-mac-world-music-1990-06-27,7/14/1990,location,"['World Music', 'Theatre', 'Tinley Park, (Il.']","['World Music', 'Theatre', 'Tinley Park, Ill.']"
+b52s-mann-music-1990-06-23,7/14/1990,artists,"['B52S', 'DGGY MARLEY & THE', 'MELODY MAKERS.']","[""B-52'S"", 'DGGY MARLEY & THE', 'MELODY MAKERS.']"
+b52s-mann-music-1990-06-23,7/14/1990,attendance,13847,13147
+budweiser-superfest-the-summit-dune-None,7/14/1990,artists,"['BUOWEISER SUPERFEST:', 'MAZE FEATURING FRANKIE', 'BEVERLY', 'STEPHANIE MALLS.', 'GAP BAND', 'CHRISTOPHER WILLIAMS']","['BUOWEISER SUPERFEST:', 'MAZE FEATURING FRANKIE', 'BEVERLY', 'STEPHANIE MALLS.', 'GAP BAND', 'TONY! TONI! TONE!', 'CHRISTOPHER WILLIAMS']"
+budweiser-superfest-the-summit-dune-None,7/14/1990,dates,['22'],['June 22']
+budweiser-superfest-the-summit-dune-None,7/14/1990,ticket_prices,['23.75/822.75'],['23.75/22.75']
+budweiser-superfest-the-summit-dune-None,7/14/1990,location,"['The Summit dune', 'Houston', 'TONY! TON# TONE!']","['The Summit', 'Houston']"
+b57-jones-beach-1990-06-28,7/14/1990,artists,"['B57', 'THE PYLON']","[""B-52'S"", 'THE PYLON']"
+steve-miller-mann-music-1990-06-22,7/14/1990,attendance,11875,11975
+steve-miller-garden-state-1990-06-27,7/14/1990,ticket_prices,['22.50/815'],['22.50/15']
+steve-miller-garden-state-1990-06-27,7/14/1990,location,"['Garden State', 'Arts Center', 'Holmdel, Nu.']","['Garden State', 'Arts Center', 'Holmdel, N.J.']"
+steve-miller-seashore-1990-06-29,7/14/1990,ticket_prices,['20/519'],['20/19']
+nss-the-spectrum-1990-06-26,7/14/1990,artists,"['NSS', 'SLAUGHTER:', 'UTTLE CAESAR']","['KISS', 'SLAUGHTER:', 'LITTLE CAESAR']"
+mc-hanmer-thompson-dune-None,7/14/1990,artists,"['MC. HANMER', 'MICHELE', 'TROOP']","['MC. HANMER', 'AFTER 7', ""MICHEL'LE"", ""OAKTOWN'S 3-5-7"", 'TROOP']"
+mc-hanmer-thompson-dune-None,7/14/1990,location,"['Thompson dune', 'AFTER? Boling Assembly', 'Center & Arena', ""OAKTOWN'S"", 'of', 'Tennessee,', 'Knoxville', 'Knoxville, Tenn.']","['Thompson', 'Boiling Assembly', 'Center & Arena', 'Univ. of', 'Tennessee,', 'Knoxville', 'Knoxville, Tenn.']"
+ac-hammer-tallahassee-1990-06-23,7/14/1990,artists,"['AC. HAMMER', 'AFTER', 'MICHELLE.', 'TROOP']","['AC. HAMMER', 'AFTER 7', 'MICHELLE.', ""OAKTOWN'S 3-5-7"", 'TROOP']"
+ac-hammer-tallahassee-1990-06-23,7/14/1990,location,"['Tallahassee-', 'County', 'Cwic Center', ""OAKTOWN'S"", 'Fla.']","['Tallahassee-', 'Leon County', 'Cwic Center', 'Tallahassee, Fla.']"
+ziggy-marley-and-the-seashore-1990-06-30,7/14/1990,ticket_prices,['20/519'],['20/19']

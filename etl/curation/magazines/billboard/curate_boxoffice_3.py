@@ -44,18 +44,6 @@ def append_artists_dim(path, artist_id, name, slug):
         writer = csv.writer(f)
         writer.writerow([artist_id, name, slug])
 
-def append_venues_dim(path, venue_id, name, city_id):
-    """
-    Adds the new venue to the dimension table csv file
-    :param path (str)
-    :param venue_id (int)
-    :param name (str)
-    :param city_id (int)
-    """
-    with open(path, "a", newline='', encoding='utf-8') as f:
-        writer = csv.writer(f)
-        writer.writerow([venue_id, name, slugify.slugify(name), city_id])
-
 def normalize_event_name(event_name):
     """
 
@@ -164,7 +152,6 @@ def parse_artist_names(artists, has_event_name):
     if has_event_name:
         for artist_line in artists:
             if ',' in artist_line:
-                print(f'Comma in {artist_line}')
                 artist_set = artist_line.split(',')
                 for artist in artist_set:
                     if artist:
@@ -236,6 +223,7 @@ def match_city_after_venue(location_tokens, state_id, dim_cities):
     See if an existing city can be found after the venue name
 
     :param location_tokens (list)
+    :param state_id (int)
     :param dim_cities (dict)
     :return:
     '''
@@ -314,8 +302,7 @@ def find_city_candidate(location_tokens):
 
     for index, word in reversed(list(enumerate(location_tokens))):
         clean_word = word.lower()
-        # once a venue pattern like "hall", "auditorium", etc... is found
-        if clean_word in reverse_venue_map:
+        if clean_word in reverse_venue_map:                                                                             # once a venue pattern like "hall", "auditorium", etc... is found
             venue_idx = index
             # extract all tokens that come after the venue as the city candidate
             city_candidate = " ".join(location_tokens[index+1:]).replace(",", "")
@@ -335,9 +322,9 @@ def append_city(city_candidate, dim_cities, state_id):
     city_slug = slugify.slugify(city_candidate)
     with open(DIM_CITIES_PATH, "a", newline='', encoding='utf-8') as f:
         writer = csv.writer(f)
-        writer.writerow([city_id, city_candidate, city_slug, None, state_id, "no"])
+        writer.writerow([city_id, city_candidate, city_slug, None, state_id])
 
-    dim_cities[city_slug] = {'id': city_id, 'name': city_candidate, 'slug': city_slug, 'aliases': None, 'state_id': state_id, 'verified': 0}
+    dim_cities[city_slug] = {'id': city_id, 'name': city_candidate, 'slug': city_slug, 'aliases': None, 'state_id': state_id}
     dim_cities["max_id"] += 1
 
     return city_id
@@ -347,7 +334,7 @@ def match_state_after_venue(location_tokens):
     Searches for a state from the end of the location tokens until it finds a venue type like 'hall' or 'auditorium'
 
     :param location_tokens: each remaining word in the location data broken into separate strings
-    :return: state_id
+    :return: state_id, location_tokens
     '''
     state_aliases = build_reverse_map(STATE_ALIASES_PATH)
     venue_patterns = build_reverse_map(VENUE_TYPES_PATH)
@@ -365,7 +352,7 @@ def match_state_after_venue(location_tokens):
             del location_tokens[index]
             break
 
-    return state_id
+    return state_id, location_tokens
 
 def match_state_in_venue(location_tokens):
     '''
@@ -374,26 +361,31 @@ def match_state_in_venue(location_tokens):
     Will not extract state name like 'Ohio Center' because many venues have states in their name but are not actually located in the given state
 
     :param location_tokens (list)
-    :return: state_id
+    :return: state_id, location
     '''
     state_aliases = build_reverse_map(STATE_ALIASES_PATH)
     state_id = None
-    state_chars = set("(){}")                                              # state should be explicitly surrounded by (), could be {, }, or | due to OCR error
+    state_chars = set("(){}")                                                                                           # state will usually be surrounded by parentheses
     remove_chars = "(){}."
     translator = str.maketrans("", "", remove_chars)
+    found_match = False
 
+    # loop through all words in venue name, checking if any of them are a state
     for index, token in enumerate(location_tokens):
-        # if any of the bracket chars are in the next token
-        if any(char in state_chars for char in token):
-            state = token.translate(translator).lower()                     # remove the brackets
+        token_clean = token.translate(translator).lower()
+        if token_clean in state_aliases:
+            found_match = True
             try:
-                state_id = state_aliases[state]                                 # get the states id number
+                state_id = state_aliases[token_clean]                                                                   # get the states id number
                 del location_tokens[index]
             except KeyError:
                 state_id = -1                                               # if there is a state present, but it doesn't match any existing states, return -1 for unknown state id
                 del location_tokens[index]
+        if not found_match and any(state_char in token for state_char in state_chars):
+            state_id = -1
+            del location_tokens[index]
 
-    return state_id
+    return state_id, location_tokens
 
 def match_city_in_venue(location_tokens, dim_cities, state_id):
     '''
@@ -405,15 +397,49 @@ def match_city_in_venue(location_tokens, dim_cities, state_id):
     '''
     city_id = None
     dim_cities_by_key = dim_cities["by_key"]
+    dim_cities_by_slug = dim_cities["by_slug"]
 
+
+    if state_id:
+        cities_with_matching_state = [
+            city
+            for cities in dim_cities_by_slug.values()
+            for city in cities
+            if int(city["state_id"]) == state_id
+        ]
+        #print(cities_with_matching_state)
+
+        for i in range(len(location_tokens)):
+            # check all combinations of words from left to right length 1 to 3 to see if any of them are in the existing city slugs
+            for window_size in range(1, 4):
+                candidate_slug = slugify.slugify(" ".join(location_tokens[i:i + window_size]).lower())
+                candidate_key = (candidate_slug, state_id)
+
+                if candidate_key in dim_cities_by_key:
+                    city_id = dim_cities_by_key[candidate_key]["id"]
+                    break
+
+        if not city_id:
+            #print(f"City id is none, checking for cities in same state")
+            for city in cities_with_matching_state:
+                print(city)
+                for i in range(len(location_tokens)):
+                    for window_size in range(1, 4):
+                        candidate_slug = slugify.slugify(" ".join(location_tokens[i:i + window_size]).lower())
+                        #print(f"{city['slug']} vs candidate: {levenshtein_distance(city['slug'], candidate_slug)}")
+                        if len(candidate_slug) > 7 and levenshtein_distance(city["slug"], candidate_slug) <= 2:
+                            city_id = city["id"]
+                            return city_id
+
+    # if state_id is not present, only match if there is only one instance of the given slug in dim cities (ex. "Las Vegas", "Los Angeles", "Honolulu")
     for i in range(len(location_tokens)):
         # check all combinations of words from left to right length 1 to 3 to see if any of them are in the existing city slugs
         for window_size in range(1, 4):
             candidate_slug = slugify.slugify(" ".join(location_tokens[i:i+window_size]).lower())
-            candidate_key = (candidate_slug, state_id)
 
-            if candidate_key in dim_cities_by_key:
-                city_id = dim_cities_by_key[candidate_key]["id"]
+            if candidate_slug in dim_cities_by_slug and len(dim_cities_by_slug[candidate_slug]) == 1:
+                print(dim_cities_by_slug[candidate_slug])
+                city_id = dim_cities_by_slug[candidate_slug][0]["id"]
                 break
 
     return city_id
@@ -454,8 +480,8 @@ def match_existing_venues(venue_name, dim_venues, city_id, city_name, dim_cities
     venue_slug = slugify.slugify(venue_name)
     existing_venues_by_slug = dim_venues["by_slug"]
     existing_cities_by_id = dim_cities["by_id"]
-
     if venue_slug not in existing_venues_by_slug:
+        print(f"Venue {venue_slug} not in existing venues")
         # if there are no venues with the same name, check for typos
         if city_id:
             venues_with_matching_city = [
@@ -465,41 +491,41 @@ def match_existing_venues(venue_name, dim_venues, city_id, city_name, dim_cities
                 if venue["city_id"] == city_id
             ]
             if not venues_with_matching_city:
-                return None
+                print(f"No existing venues with city id {city_id}")
+                return None, None
             else:
+                #print(venues_with_matching_city)
                 for existing_venue in venues_with_matching_city:
+                    #print(f"Length = {len(venue_name)}, difference = {levenshtein_distance(existing_venue["name"], venue_name)}")
                     if len(venue_name) > 7 and levenshtein_distance(existing_venue["name"], venue_name) <= 2:
                         venue_slug = existing_venue["slug"]
+                        venue_name = existing_venue["name"]
                         continue
                 if venue_slug not in existing_venues_by_slug:
-                    return None
+                    return None, None
         else:
-            return None
+            return None, None
 
     venue_id = candidate_city_id = None
     candidates = existing_venues_by_slug[venue_slug]                                                                    # get all venues that have the given name
 
     for candidate in candidates:
-        #print(f"Found potential match for {city_name}")
         candidate_city_id = candidate["city_id"]
         candidate_city_name = existing_cities_by_id[int(candidate_city_id)]["name"]
 
         # if the city of the current venue has already been verified, make sure it is the same as the city id of the potential match
         if city_id == candidate_city_id:
             venue_id = candidate["id"]
+            venue_name = candidate["name"]
             break
         elif city_name == candidate_city_name:                                                                          # check if potential city name matches
             venue_id = candidate["id"]
+            venue_name = candidate["name"]
             break
         else:
             print(f"Candidate {candidate} does not have matching city id or city name")
 
-    return venue_id
-
-def validate_venue(venue_name):
-    if venue_name is None:
-        return False
-    return True
+    return venue_id, venue_name
 
 def append_venue(venue_name, dim_venues, city_id, state_id):
     '''
@@ -511,21 +537,25 @@ def append_venue(venue_name, dim_venues, city_id, state_id):
     :param state_id (int)
     :return: venue_id (int)
     '''
-    if validate_venue(venue_name):
-        venue_id = dim_venues["max_id"] + 1
-        venue_slug = slugify.slugify(venue_name)
+    if venue_name is None:
+        print(f"Venue name {venue_name} not specified")
+        return None
+    venue_id = dim_venues["max_id"] + 1
+    venue_slug = slugify.slugify(venue_name)
 
-        with open(DIM_VENUES_PATH, "a", newline='', encoding='utf-8') as f:
-            writer = csv.writer(f)
-            writer.writerow([venue_id, venue_name, venue_slug, city_id, state_id, "no"])
+    with open(DIM_VENUES_PATH, "a", newline='', encoding='utf-8') as f:
+        writer = csv.writer(f)
+        writer.writerow([venue_id, venue_name, venue_slug, city_id, state_id])
 
-        dim_venues[venue_slug] = {'id': city_id, 'name': venue_name, 'slug': venue_slug, 'city_id': city_id, state_id: state_id, 'verified': 0}
-        dim_venues["max_id"] += 1
-        return venue_id
+    if venue_slug not in dim_venues["by_slug"]:
+        dim_venues["by_slug"][venue_slug] = [{'id': venue_id, 'name': venue_name, 'slug': venue_slug, 'city_id': city_id, state_id: state_id}]
     else:
-        return False
+        dim_venues["by_slug"][venue_slug].append({'id': venue_id, 'name': venue_name, 'slug': venue_slug, 'city_id': city_id, state_id: state_id})
 
-def clean_venue_name(location_tokens):
+    dim_venues["max_id"] += 1
+    return venue_id
+
+def isolate_venue_name(location_tokens):
     '''
     Checks for a type on the venue type. Last word of venue is usually Hall, Auditorium, Center, etc... so it uses venue_patterns to see if there is the venue type
     matches any of the common typos and corrects it
@@ -535,16 +565,24 @@ def clean_venue_name(location_tokens):
     '''
 
     venue_types = build_reverse_map(VENUE_TYPES_PATH)             # import the map of common venue typos to their corrected version
-    clean_venue_tokens = []
+    venue_tokens = None
+    reverse_furthest_keyword_idx = None
+    found_venue_type = False
 
-    for token in location_tokens:
+    # loop backwards through the remaining tokens. Once a venue keyword is found, extract every token from the front of the list to the keyword
+    for i, token in enumerate(reversed(location_tokens)):
         if token.lower() in venue_types:
-            clean_venue_tokens.append(venue_types[token.lower()].title())
+            found_venue_type = True
+            reverse_furthest_keyword_idx = i
             break
-        else:
-            clean_venue_tokens.append(token)
 
-    return clean_venue_tokens
+    if not found_venue_type:
+        venue_tokens = location_tokens
+    else:
+        furthest_keyword_idx = len(location_tokens) - reverse_furthest_keyword_idx
+        venue_tokens = location_tokens[:furthest_keyword_idx]
+
+    return venue_tokens
 
 def identify_venue(processed_events_df, dimension_tables):
     '''
@@ -562,7 +600,7 @@ def identify_venue(processed_events_df, dimension_tables):
     for location in processed_events_df["location"]:
         city_id = city_index = city_candidate = None
         location_tokens = [token for part in location for token in part.split()]                                        # split every word/item into a token
-        state_id = match_state_after_venue(location_tokens)
+        state_id, location_tokens = match_state_after_venue(location_tokens)
 
         # only check for an existing city if a state was provided, can't compare cities without knowing state
         if state_id is not None:
@@ -601,12 +639,12 @@ def curate_location(processed_events_df, dimension_tables):
         city_id = city_index = city_candidate = None
         location_tokens = [token for part in location for token in part.split()]                                        # split every word/item into a token
         location_tokens = clean_location(location_tokens)
-        state_id = match_state_after_venue(location_tokens)
+        state_id, location_tokens = match_state_after_venue(location_tokens)
 
         city_id, city_name, city_index = match_city_after_venue(location_tokens, state_id, dim_cities)
 
         # if existing city was found, everything before the city should be the venue name
-        if city_id is not None:
+        if city_id:
             location_tokens = location_tokens[:city_index]
         # if no existing city was found, check for a possible city to be recorded
         else:
@@ -617,51 +655,54 @@ def curate_location(processed_events_df, dimension_tables):
                 location_tokens = location_tokens[:venue_type_idx+1]
 
         if state_id is None:
-            state_id = match_state_in_venue(location_tokens)                                                            # check if there is a state in the venue name
+            state_id, location_tokens = match_state_in_venue(location_tokens)                                                            # check if there is a state in the venue name
 
         if city_id is None:
-            if state_id:
-                city_id = match_city_in_venue(location_tokens, dim_cities, state_id)                                    # check if there is a city in the venue name
-            else:
-                city_candidate = potential_city_match_in_venue(location_tokens, dim_cities)
+            city_id = match_city_in_venue(location_tokens, dim_cities, state_id)                                        # check if there is a city in the venue name
 
-        location_tokens = clean_venue_name(location_tokens)
+        location_tokens = isolate_venue_name(location_tokens)
         venue_name = " ".join(location_tokens)
-        venue_id = match_existing_venues(venue_name, dim_venues, city_id, city_candidate, dim_cities)                   # check if the venue already exists in dim_venues
 
-        # if it is a new venue
-        if venue_id is None:
-            venue_id = append_venue(venue_name, dim_venues, city_id, state_id)                                          # add it to the dim_venues table
+        if venue_name is not None:
+            venue_id, existing_venue_name = match_existing_venues(venue_name, dim_venues, city_id, city_candidate, dim_cities)   # check if the venue already exists in dim_venues
 
-        venue_ids.append(venue_id)
-        venue_names.append(venue_name)
+            if venue_id is None:                                                                                        # if it is a new venue
+                venue_id = append_venue(venue_name, dim_venues, city_id, state_id)                                      # add it to the dim_venues table
+            else:
+                venue_name = existing_venue_name
+
+            venue_ids.append(venue_id)
+            venue_names.append(venue_name)
+        else:
+            venue_ids.append(None)
+            venue_names.append(None)
 
     return venue_ids, venue_names
 
 def identify_start_date(processed_events_df):
     '''
-
+    Adds a start_date field to the processed_events_df in yyyy-mm-dd format
     :param processed_events_df:
     :return:
     '''
-    event_dates = processed_events_df["dates"].apply(ast.literal_eval)                                                  # convert dates string from string to array
+    processed_events_df["dates"] = processed_events_df["dates"].apply(ast.literal_eval)                                                  # convert dates string to array of strings
     issue_year = object_key.split('/')[-3]                                                                              # get issue year from S3 uri
 
+    # curate date returns start date, end, date, and full string of dates. Just get the start date
     processed_events_df["start_date"] = [
         curate_date(dates, issue_year)[0]
-        for dates in event_dates
+        for dates in processed_events_df["dates"]
     ]
 
 def curate_dates(processed_events_df, curated_events_df):
     '''
 
-    :param events_df:
-    :return:
+    :param processed_events_df:
+    :param curated_events_df
     '''
-    event_dates = processed_events_df["dates"].apply(ast.literal_eval)                                                  # convert dates string from string to array
     issue_year = object_key.split('/')[-3]                                                                              # get issue year from S3 uri
 
-    curated_dates = [curate_date(dates, issue_year) for dates in event_dates]
+    curated_dates = [curate_date(dates, issue_year) for dates in processed_events_df["dates"]]
     curated_events_df["start_date"], curated_events_df["end_date"], curated_events_df["dates"] = zip(*curated_dates)
 
 def clean_stray_numbers(dates):
@@ -695,41 +736,50 @@ def clean_stray_numbers(dates):
 
     return clean_date_items
 
-def clean_dates(dates):
+def clean_dates(raw_dates):
     '''
 
     :param dates (list): a list of unstructured date strings, ex. ['Oct. 27-28/', '30-31/Nov. 2-3']
     :return: total_dates (str): a clean string of dates ex. 'Oct 27-28/30-31/Nov 2-3'
     '''
-    for i, date in enumerate(dates):
-        dates[i] = re.sub(r"\d{3,}", "", dates[i])
-        dates[i] = re.sub(r"\b(?!Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Sept|Oct|Nov|Dec)[a-zA-Z]{2,}\b", "", dates[i])
-        dates[i] = re.sub(r"[.,;]", " ", dates[i])
-        dates[i] = re.sub(r"\s+", " ", dates[i]).strip()
+    clean_dates = []
+    for i, date in enumerate(raw_dates):
+        if i > 0 and date[0] != ',':
+            date = "," + date
+        date = re.sub(r"(?<=[A-Za-z]{3}),", ".", date)
+        date = re.sub(r"\d{3,}", "", date)                                                                  # remove any group of 3 or more digits
+        date = re.sub(r"\d,\d{3,}", "", date)
+        date = re.sub(r"\b(?!Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Sept|Oct|Nov|Dec)[a-zA-Z]{2,}\b", "", date)# remove text that is not a month
+        date = re.sub(r"[.;]", " ", date)                                                                  # remove any punctuation
+        date = re.sub(r"\s+", " ", date).strip()                                                            # remove any whitespace
+        clean_dates.append(date)
 
-    cleaned_dates = clean_stray_numbers(dates)                                                                          # remove any garbage numbers that may have gotten mixed in
-    total_dates = "".join(cleaned_dates)                                                                                # join into string with no spaces
+    clean_dates = clean_stray_numbers(clean_dates)                                                                           # remove any garbage numbers that may have gotten mixed in
+    total_dates = "".join(clean_dates)                                                                                # join into string with no spaces
     total_dates = re.sub(r"([a-z])([0-9])", r"\1 \2", total_dates)                                          # add spaces between a number and letter, not /
 
     return total_dates
 
 def curate_date(dates, issue_year):
     '''
+    Takes a list of date strings and returns the start_date, end_date, and string of total dates.
+    Currently uses regex to parse different date schemas, will be transitioning to a more intelligent function doesn't require a different solution for every schema
 
     :param dates (list) a list of unstructured date strings, ex. ['Oct. 27-28/', '30-31/Nov. 2-3']
     :param issue_year: the year the current magazine issue was released
-    :return:
+    :return: start_date (date), end_date (date), total_dates (string)
     '''
     total_dates = clean_dates(dates)
 
-    # Case 1: 'Oct 7'
+    # Schema 1: 'Oct 7'
     m = re.fullmatch(r"([A-Za-z]+)[.,]? (\d+)", total_dates)
     if m:
+        print("Matched schema 1")
         m, d1 = m.groups()
         start_date = end_date = date(int(issue_year), MONTH_MAP[m], int(d1))
         return start_date, end_date, total_dates
 
-    # Case 2: 'Sept 20-27'
+    # Schema 2: 'Sept 20-27'
     m = re.fullmatch(r"([A-Za-z]+)[.,]? (\d+)-(\d+)", total_dates)
     if m:
         m, d1, d2 = m.groups()
@@ -737,7 +787,7 @@ def curate_date(dates, issue_year):
         end_date = date(int(issue_year), MONTH_MAP[m], int(d2))
         return start_date, end_date, total_dates
 
-    # Case 3: 'Oct 30-Nov 8'
+    # Schema 3: 'Oct 30-Nov 8'
     m = re.fullmatch(r"([A-Za-z]+)[.,]? (\d+)-([A-Za-z]+)[.,]? (\d+)", total_dates)
     if m:
         m1, d1, m2, d2 = m.groups()
@@ -745,11 +795,34 @@ def curate_date(dates, issue_year):
         end_date = date(int(issue_year), MONTH_MAP[m2], int(d2))
         return start_date, end_date, total_dates
 
+    # Schema 4:
     m = re.fullmatch(r"([A-Za-z]+)[.,]? (\d+)-(\d+)/(\d+)-(\d+)/([A-Za-z]+)[.,]? (\d+)-(\d+)", total_dates)
     if m:
         m1, start_day, e1, e2, e3, m2, e4, end_day = m.groups()
         start_date = date(int(issue_year), MONTH_MAP[m1], int(start_day))
         end_date = date(int(issue_year), MONTH_MAP[m2], int(end_day))
+        return start_date, end_date, total_dates
+
+    # Schema 5: Nov. 4-5,7-9
+    m = re.fullmatch(r"([A-Za-z]+)[.,]? (\d+)(-\d+)?,\s?(\d+)(-\d+)?", total_dates)
+    if m:
+        m, d1, d2, d3, d4 = m.groups()
+        start_date = date(int(issue_year), MONTH_MAP[m], int(d1))
+        if d4 is not None:
+            end_date = date(int(issue_year), MONTH_MAP[m], int(d4.replace('-', '')))
+        else:
+            end_date = date(int(issue_year), MONTH_MAP[m], int(d3))
+        return start_date, end_date, total_dates
+
+    # Case 6: ['Nov. 4-5,7-9', '11-12']
+    m = re.fullmatch(r"([A-Za-z]+)[.,]? (\d+)(-\d+)?,\s?(\d+)(-\d+)?,\s?(\d+)(-\d+)?", total_dates)
+    if m:
+        m, d1, d2, d3, d4, d5, d6 = m.groups()
+        start_date = date(int(issue_year), MONTH_MAP[m], int(d1))
+        if d6 is not None:
+            end_date = date(int(issue_year), MONTH_MAP[m], int(d6.replace('-', '')))
+        else:
+            end_date = date(int(issue_year), MONTH_MAP[m], int(d5))
         return start_date, end_date, total_dates
 
     return None, None, None
@@ -796,9 +869,12 @@ def curate_ticket_prices(processed_events_df, curated_events_df):
     curated_events_df["ticket_prices"] = clean_prices
 
 def validate_promoter(token):
-    is_valid = not token.isnumeric() and not '$' in token
+    if any(char.isdigit() for char in token):
+        return False
+    if '$' in token:
+        return False
 
-    return is_valid
+    return True
 
 def append_dim_promoters(name, slug, next_id):
     with open(DIM_PROMOTERS_PATH, 'a', newline='', encoding='utf-8') as f:
@@ -827,8 +903,8 @@ def parse_promoters(promoters_list, venue_names):
 
     # loop through the list of promoter strings for each event
     for event_idx, event_promoters in enumerate(promoters_list):
-        event_promoters_str = "".join(event_promoters)  # join all promoter lines to one string
-        individual_promoters = event_promoters_str.split('/')  # split by '/' to clean each promoter separately
+        event_promoters_str = "".join(event_promoters)                                                                  # join all promoter lines to one string
+        individual_promoters = event_promoters_str.split('/')                                                           # split by '/' to clean each promoter separately
         cleaned_event_promoters = []
 
         for promoter in individual_promoters:
@@ -836,12 +912,15 @@ def parse_promoters(promoters_list, venue_names):
             promoter_tokens = promoter.split()  # the next promoter by whitespaces
             for token in promoter_tokens:
                 if validate_promoter(token):
-                    if levenshtein_distance("in-house", token.lower()) < 2:
-                        next_promoter.append(venue_names[event_idx])
+                    if levenshtein_distance("in-house", token.lower()) < 2:                                         # check if promoter looks like "In-House
+                        if venue_names[event_idx]:
+                            next_promoter.append(venue_names[event_idx])                                                    # if so, use the venue name as the promoter
+                        else:
+                            next_promoter = None
                     else:
-                        next_promoter.append(token)
-            next_promoter = " ".join(next_promoter)  # combine validated tokens to get promoter name
+                        next_promoter.append(token)                                                                     # otherwise use the literal text
             if next_promoter:
+                next_promoter = " ".join(next_promoter)                                                                     # combine validated tokens to get promoter name
                 unique_promoters.add(next_promoter)
                 cleaned_event_promoters.append(next_promoter)
 
@@ -912,8 +991,9 @@ def implement_corrections(processed_events_df):
     :return:
     '''
     correction_dict = load_corrections_table(EVENT_CORRECTIONS_PATH)
-    current_event_signatures = processed_events_df["signature"].to_list()
+    current_event_signatures = processed_events_df["signature"].to_list()                                               # get the event signatures for all events in the current issue
 
+    # get all corrections that need to be completed for the events in the current issue
     # one event can need corrections for multiple fields
     # {'journey-civic-center-1984-10-20': [{'event_signature': 'journey-civic-center-1984-10-20', 'field': 'tickets_sold', 'true_value': 10000},
     #                                      {'event_signature': 'journey-civic-center-1984-10-20', 'field': 'capacity', 'true_value': 12200}]
@@ -924,30 +1004,53 @@ def implement_corrections(processed_events_df):
     }
 
     for event_signature, corrections in corrections_per_event.items():
-        event = processed_events_df.index[
+        event = processed_events_df.index[                                                                              # create a mask with the index where the event signature matches
             processed_events_df["signature"] == event_signature
         ]
 
-        row_idx = event[0]
+        row_idx = event[0]                                                                                              # get the row
 
         for correction in corrections:
-            field = correction["field"]
-            raw_value = correction["true_value"]
+            field = correction["field"]                                                                                 # get the name of the field requiring correction
+            raw_value = correction["true_value"]                                                                        # get the true value that needs to be inserted
 
             if isinstance(raw_value, str):
                 try:
-                    true_value = ast.literal_eval(raw_value)
-                    print(f"{true_value} converted to {type(true_value)}")
+                    true_value = ast.literal_eval(raw_value)                                                            # convert the value to its natural type (list, float, int)
+                    #print(f"{true_value} converted to {type(true_value)}")
                 except (ValueError, SyntaxError):
                     true_value = raw_value
             else:
                 true_value = raw_value
 
-            processed_events_df.at[row_idx, field] = true_value
+            processed_events_df.at[row_idx, field] = true_value                                                         # implement the correction into the dataframe
+            print(f'Corrected {raw_value}: {true_value}')
+
+def curate_event_name(processed_events_df, curated_events_df):
+    '''
+    Finds an event_name in artists list. Removes it into its own field, and updates the dim_recurring_events table to get an id number for the event
+    :param processed_events_df:
+    :param curated_events_df:
+    :return:
+    '''
+    event_name_results = processed_events_df["artists"].apply(parse_event_name)
+    processed_events_df["event_name"] = event_name_results.apply(lambda x: x[0])                                        # add the event name to the processed_events_df
+    curated_events_df["event_name"] = event_name_results.apply(lambda x: x[0])                                          # add the event name to the curated_events_df
+    processed_events_df["artists"] = event_name_results.apply(lambda x: x[1])                                           # update the artists list with the event name removed
+
+def curate_meta_data(processed_events_df, curated_events_df):
+    curated_events_df["schema_id"] = processed_events_df["schema_id"]
+    curated_events_df["source_id"] = processed_events_df["source_id"].apply(get_source_id)
+    curated_events_df["s3_uri"] = processed_events_df["s3_uri"]
+
+def curate_numeric_fields(processed_events_df, curated_events_df):
+    for col in ["gross_receipts_us", "gross_receipts_canadian", "attendance", "capacity", "num_shows"]:
+        if validate_numeric_column(processed_events_df, col):
+            curated_events_df[col] = processed_events_df[col].apply(parse_ocr_int)       # copy all original values as integers
 
 def curate_events():
     #processed_data = pd.read_csv(f"s3://{BUCKET_NAME}/{object_key}")
-    processed_events_df = pd.read_csv("test_files/BB-1984-11-24.csv")
+    processed_events_df = pd.read_csv("test_files/processed/BB-1984-12-01.csv")
     curated_events_df = pd.DataFrame()
 
     dimension_tables = load_dimension_tables()
@@ -956,24 +1059,19 @@ def curate_events():
     identify_start_date(processed_events_df)
     processed_events_df["ticket_prices"] = processed_events_df["ticket_prices"].apply(ast.literal_eval)
     add_raw_event_signature(processed_events_df)
+    for signature in processed_events_df["signature"]:
+        print(signature)
     implement_corrections(processed_events_df)
 
     curated_events_df["weekly_rank"] = range(1, len(processed_events_df) + 1)
-    event_name_results = processed_events_df["artists"].apply(parse_event_name)
-    #print(event_name_results.apply(lambda x: x[0]))
-    processed_events_df["event_name"] = event_name_results.apply(lambda x: x[0])
-    curated_events_df["event_name"] = event_name_results.apply(lambda x: x[0])
-    processed_events_df["artists"] = event_name_results.apply(lambda x: x[1])
+    curate_event_name(processed_events_df, curated_events_df)
     curate_artists(processed_events_df, curated_events_df, dimension_tables["artists"])
     curated_events_df["venue_id"], venue_names = curate_location(processed_events_df, dimension_tables)
     curate_promoters(processed_events_df, curated_events_df, dimension_tables["promoters"], venue_names)
     curate_dates(processed_events_df, curated_events_df)
     curate_event_signature(curated_events_df)
-    
-    for col in ["gross_receipts_us", "gross_receipts_canadian", "attendance", "capacity", "num_shows"]:
-        if validate_numeric_column(processed_events_df, col):
-            curated_events_df[col] = processed_events_df[col].apply(parse_ocr_int)       # copy all original values as integers
+    curate_numeric_fields(processed_events_df, curated_events_df)
     curate_num_sellouts(processed_events_df, curated_events_df)
     curate_ticket_prices(processed_events_df, curated_events_df)
-
-    curated_events_df.to_csv("test_files/BB-1984-11-24_cur.csv", index=False)
+    curate_meta_data(processed_events_df, curated_events_df)
+    curated_events_df.to_csv("test_files/curated/BB-1984-12-01_cur.csv", index=False)

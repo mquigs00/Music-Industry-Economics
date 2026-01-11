@@ -72,18 +72,32 @@ id,name,slug,city_id,state_id
 80,Salt Palace,salt-palace,135,
 81,Fort Wayne Coliseum,fort-wayne-coliseum,82,14
 82,San Antonio Convention Center,san-antonio-convention-center,7,43
-83,Casper Events Center,casper-events-center,136,
-84,Municipal Auditorium,municipal-auditorium,21,
-85,Rochester War Memorial,rochester-war-memorial,106,32
-86,Jackson Coliseum,jackson-coliseum,100,24
-87,Univ. of Colorado at,univ-of-colorado-at,137,
-88,Beacon Theatre,beacon-theatre,1,
-89,Rochester War Memorial,rochester-war-memorial,106,32
-90,Athletic & Convocation Center,athletic-convocation-center,128,14
-91,Knoxville Civic Center,knoxville-civic-center,142,42
-92,Univ. of Colorado at,univ-of-colorado-at,137,
-93,Ahearn Fieldhouse,ahearn-fieldhouse,130,16
-94,Holiday Star Theatre,holiday-star-theatre,131,14
-95,Memorial,memorial,139,15
-96,Hearns Multi-Purpose Building,hearns-multi-purpose-building,141,25
-97,Utah State Univ. Spectrum,utah-state-univ-spectrum,-1,44
+83,Joe Louis Arena,joe-louis-arena,26,
+84,Riverside Theater,riverside-theater,30,
+85,Thomas & Mack Center,thomas-mack-center,24,
+86,Maple Leaf Gardens,maple-leaf-gardens,119,
+87,Baltimore Civic Center,baltimore-civic-center,29,
+88,Tatlahassee-Leon County Civic Center,tatlahassee-leon-county-civic-center,,9
+89,Omaha Civic Auditorium,omaha-civic-auditorium,39,
+90,Tulsa Assembly Center,tulsa-assembly-center,47,
+91,Ector Country Coliseum,ector-country-coliseum,143,43
+92,Amarillo Civic Center,amarillo-civic-center,,43
+93,Jacksonville Civic Auditorium,jacksonville-civic-auditorium,10,9
+94,Boise State Univ Pavilion,boise-state-univ-pavilion,94,
+95,Activity Center Arizona State Univ,activity-center-arizona-state-univ,,
+96,Univ of Tennessee at Chattanooga Arena,univ-of-tennessee-at-chattanooga-arena,,
+97,Winmpeg Arena,winmpeg-arena,,-1
+98,Spokane Coliseum,spokane-coliseum,96,
+99,Louisville Gardens,louisville-gardens,,
+100,Tinsley Arena,tinsley-arena,31,
+101,Stabler Arena Lehigh Univ,stabler-arena-lehigh-univ,144,38
+102,Bismarck Auditorium,bismarck-auditorium,3,
+103,James L Knight International Center,james-l-knight-international-center,41,
+104,Northrup Arena,northrup-arena,45,
+105,Syria Mosque,syria-mosque,67,
+106,Bing Crosby Hall,bing-crosby-hall,103,5
+107,The Concert Hall,the-concert-hall,119,
+108,Capital Theater,capital-theater,146,30
+109,Orpheum Theater,orpheum-theater,25,
+110,Opera House,opera-house,25,
+111,Civic Auditorium,civic-auditorium,145,36

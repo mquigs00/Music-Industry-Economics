@@ -30,7 +30,7 @@ pytesseract.pytesseract.tesseract_cmd = r"C:\Users\mquig\AppData\Local\Programs\
 
 directory_prefix = "raw/billboard/pdf/magazines/"
 
-object_key = 'raw/billboard/pdf/magazines/1984/11/BB-1984-11-24.pdf'
+object_key = 'raw/billboard/pdf/magazines/1984/12/BB-1984-12-01.pdf'
 page_num = 37
 
 '''

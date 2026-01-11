@@ -18,6 +18,44 @@ def test_clean_dates_numbers():
     clean_dates = curator.clean_dates(dates)
     assert clean_dates == 'Sept. 28 Sept. 30'
 
+def test_clean_date_comma_after_month():
+    dates = ['Nov, 2']
+    clean_dates = curator.clean_dates(dates)
+    assert clean_dates == 'Nov 2'
+
+@pytest.mark.only
+def test_curate_date_schema_one_comma_after_month():
+    dates = ['Nov, 2']
+    start_date, end_date, total_dates = curator.curate_date(dates, 1984)
+    assert start_date == date(1984, 11, 2)
+    assert end_date == date(1984, 11, 2)
+    assert total_dates == 'Nov 2'
+
+def test_curate_date_schema_five():
+    date_strings = ['Nov. 4-5,7-9']
+    start_date, end_date, total_dates = curator.curate_date(date_strings, 1984)
+    assert start_date == date(1984, 11, 4)
+    assert end_date == date(1984, 11, 9)
+    assert total_dates == ('Nov 4-5,7-9')
+
+def test_clean_date_schema_six():
+    date_strings = ['Nov. 4-5,7-9', '11-12']
+    total_dates = curator.clean_dates(date_strings)
+    assert total_dates == "Nov 4-5,7-9,11-12"
+
+def test_curate_date_schema_six():
+    date_strings = ['Nov. 4-5,7-9', '11-12']
+    start_date, end_date, total_dates = curator.curate_date(date_strings, 1984)
+    assert start_date == date(1984, 11, 4)
+    assert end_date == date(1984, 11, 12)
+    assert total_dates == 'Nov 4-5,7-9,11-12'
+
+def test_clean_dates_numbers_2():
+    # even 5 should be removed because it is followed by a comma, implying that it comes before a large number and is not part of a date
+    dates = ['Nov. 3 989,704 5,867']
+    clean_dates = curator.clean_dates(dates)
+    assert clean_dates == 'Nov 3'
+
 def test_curate_noise_in_dates():
     dates = ['Sept. 30 9144.zia 10,894']
     issue_year = 1984
@@ -82,7 +120,6 @@ def test_city_at_end_of_venue_name():
     assert city_name == 'Boulder'
     assert venue_name == 'Univ. of Colorado at Boulder'
 
-@pytest.mark.only
 def test_match_city_in_venue_typo():
     location_tokens = ['Harttord', '(Conn.)', 'Civic', 'Center', '&', 'Associates', 'for', 'Pertorming', 'Arts']
     state_id, location_tokens = curator.match_state_in_venue(location_tokens)
@@ -105,13 +142,61 @@ def test_venue_keyword_before_end_of_name():
     venue_name = " ".join(location_data)
     assert venue_name == "Memorial Coliseum"
 
+def test_clean_venue_name():
+    location_date = ['Univ,', 'of', 'Tennessee', 'at', 'Chattanooga', 'Arena']
+    clean_location_data = curator.clean_venue_name(location_date)
+    venue_name = " ".join(clean_location_data)
+    assert venue_name == "Univ. of"
+
+def test_multiple_venue_keywords():
+    location_data = ['Stabler', 'Arena,', 'Lehigh', 'Unv.', 'Bethlehem,', 'Pa.']
+    state_id, location_tokens = curator.match_state_after_venue(location_data)
+    city_id, city_name, city_index = curator.match_city_after_venue(location_tokens, state_id, dim_cities)
+    location_tokens = location_tokens[:city_index]
+    location_tokens = curator.isolate_venue_name(location_tokens)
+    location_tokens = curator.clean_venue_name(location_tokens)
+    venue_name = " ".join(location_tokens)
+    assert state_id == 38
+    assert city_name == "Bethlehem"
+    assert venue_name == "Stabler Arena, Lehigh Univ"
+
+def test_isolate_venue_name_unrelated_text():
+    remaining_tokens = ['Harttord', '(Conn.)', 'Civic', 'Center', '&', 'Associates', 'for', 'Pertorming', 'Arts']
+    venue_tokens = curator.isolate_venue_name(remaining_tokens)
+    venue_name = " ".join(venue_tokens)
+    assert venue_name == "Harttord (Conn.) Civic Center"
+
+def test_isolate_venue_name_multiple_keywords():
+    remaining_tokens = ['Memorial', 'Auditorium']
+    venue_tokens = curator.isolate_venue_name(remaining_tokens)
+    venue_name = " ".join(venue_tokens)
+    assert venue_name == "Memorial Auditorium"
+
+def test_clean_venue_name():
+    location_tokens = ['Stabler', 'Arena,', 'Lehigh', 'Unv.']
+    clean_tokens= curator.clean_venue_name(location_tokens)
+    venue_name = " ".join(clean_tokens)
+    assert venue_name == "Stabler Arena Lehigh Univ"
+
+def test_isolate_venue_name_empty():
+    remaining_tokens = []
+    venue_tokens = curator.isolate_venue_name(remaining_tokens)
+    venue_name = " ".join(venue_tokens)
+    assert venue_name == ""
+
 def test_match_city_after_venue():
-    # although Dallas is in the location, it should not match it because there is no state provided
     test_data = ['Reunion', 'Arena', 'Dallas', 'Productions']
     test_data = clean_location(test_data)
     city_id, city_name, city_index = curator.match_city_after_venue(test_data, None, dim_cities)
 
-    assert city_name is None
+    assert city_name == "Dallas"
+
+def test_match_city_after_venue_2():
+    test_data = ['Thomas & Mack Center', 'Las Vegas']
+    test_data = clean_location(test_data)
+    city_id, city_name, city_index = curator.match_city_after_venue(test_data, None, dim_cities)
+
+    assert city_name == "Las Vegas"
 
 def test_match_city_in_venue():
     test_data = ['San', 'Francisco', 'Civic', 'Auditorium']
@@ -164,8 +249,6 @@ def test_find_city_candidate():
     assert city_candidate == "Dallas"
     assert venue_type_idx == 1
 
-def test_match_existing_venues():
-    test_data = ['Reunion', 'Arena', 'Dallas', 'Productions']
 
 # EVENT NAME
 def test_parse_event_name_no_event_name():
