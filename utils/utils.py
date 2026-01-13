@@ -112,16 +112,6 @@ def index_dimension(rows, key_fn):
         "by_id": by_id
     }
 
-def get_artist_name(artist_id):
-    if isinstance(artist_id, str):
-        if artist_id.isdigit():
-            artist_id = int(artist_id)
-
-    dimension_tables = load_dimension_tables()
-    dim_artists_by_id = dimension_tables["artists"]["by_id"]
-    artist_name = dim_artists_by_id[artist_id]["name"]
-    return artist_name
-
 def get_venue_name(venue_id):
     if isinstance(venue_id, str):
         if venue_id.isdigit():
@@ -145,21 +135,6 @@ def add_slugs_to_csv(path):
     df["slug"] = df["name"].apply(slugify.slugify)
 
     df.to_csv(path, index=False)
-
-def clean_location(location_tokens):
-    venue_types = build_reverse_map(VENUE_TYPES_PATH)  # import the map of common venue typos to their corrected version
-    NOISE = {"Productions", "Promotions", "Presents", "Presentations", "Prods.", "Concerts", "Inc.", "Entertainment", "sellout", "Jam", "~"}
-    clean_tokens = []
-    for i, token in enumerate(location_tokens):
-        token = token.replace(',', '')
-        token = token.replace('.', '')
-        if token not in NOISE:
-            if token.lower() in venue_types:
-                clean_tokens.append(venue_types[token.lower()].title())
-                print(f"Changes token to {venue_types[token.lower()]}")
-            else:
-                clean_tokens.append(token)
-    return clean_tokens
 
 def load_event_keywords(path):
     with open(path, "r") as f:
@@ -191,11 +166,6 @@ def parse_ocr_int(value):
         return pd.NA
 
     return int(v)
-
-def clean_artist_name(artist):
-    artist = artist.strip()
-    artist = re.sub(r"[._:|{}\[\]]", "", artist)
-    return artist
 
 def get_source_id(source_slug):
     dim_sources = load_dimension_tables()["sources"]["by_slug"]

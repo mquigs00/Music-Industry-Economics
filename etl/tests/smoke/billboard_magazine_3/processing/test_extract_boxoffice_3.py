@@ -1,4 +1,5 @@
-from etl.parsers.magazines.billboard import extract_boxoffice_3 as parser
+from etl.schemas.billboard_magazine_3.processing import process as parser
+
 
 def test_parse_event_basic():
     event_line = "CULTURE CLUB Capital Centre Nov. 11 $216,736 13,983 Cellar Door Prods. | DADS Landover, Md, $15.50 (19,114)"
