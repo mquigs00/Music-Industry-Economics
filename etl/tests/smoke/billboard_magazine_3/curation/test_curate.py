@@ -26,3 +26,11 @@ def test_curate_artists_festival_2():
     artists = parse_artist_names(artists, has_event_name)
     assert event_name == 'GUITAR GREATS'
     assert artists == ['DAVID GILMOUR', 'DAVE EDMUNDS', 'JOHNNY WINTER', 'BRIAN SETZER', 'NEAL SCHON', 'DICKIE BETTS', 'TONY IOMMI', 'STEVE CROPPER', 'LINK WRAY']
+
+def test_curate_artists_festival_period():
+    orig_artists = ['WORLD SERIES OF ROCK', 'WHITESNAKE', 'SKID ROW', 'GREAT WHITE', 'BAD ENGLISH', 'HERICANE ALICE']
+    event_name, artists = parse_event_name(orig_artists)
+    has_event_name = event_name is not None
+    artists = parse_artist_names(artists, has_event_name)
+    assert event_name == 'WORLD SERIES OF ROCK'
+    assert artists == ['WHITESNAKE', 'SKID ROW', 'GREAT WHITE', 'BAD ENGLISH', 'HERICANE ALICE']

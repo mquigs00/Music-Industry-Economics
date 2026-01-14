@@ -89,5 +89,6 @@ def identify_first_artist_line(processed_events_df):
 
 def clean_artist_name(artist):
     artist = artist.strip()
+    artist = artist.strip(',')
     artist = re.sub(r"[._:|{}\[\]]", "", artist)
     return artist

@@ -2,7 +2,6 @@ from etl.schemas.billboard_magazine_3.curation.dates import clean_dates, curate_
 from datetime import date
 import pytest
 
-@pytest.mark.only
 def test_clean_dates_text():
     dates = ['Multt-Purpose']
     cleaned_dates = clean_dates(dates)

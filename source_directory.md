@@ -11,6 +11,19 @@ Reliability Scores/Weights:
   * Business of Apps
   * Duetti
 
+**Billboard Weekly Magazines**
+* Original File Type: pdf
+* Acquisition: Manually downloaded and uploaded to S3 bucket
+* URL: https://worldradiohistory.com/Archive-All-Music/Billboard-Magazine.htm
+* Topics:
+  * Billboard Top Boxoffice displays highest grossing events with Artist(s), Promoter(s), Location, Date(s), Attendance, Ticket Price(s), and Gross Receipts
+  * Articles about music industry financials and changing trends to fill in financial estimates before digital financial statements were available
+* Years Covered: 1976-2021
+* Challenges:
+  * Had to extract the tables as unstructured text using Pytesseract OCR
+  * Top tour data included non musical events/artists
+* Output File Type: CSV
+
 **Poll Star Weekly Magazines**
 * Original File Type: pdf
 * Acquisition: Manuallly downloaded and uploaded to S3 bucket
@@ -61,19 +74,6 @@ Reliability Scores/Weights:
 * Challenges:
   * Requires paid subscription to download chart data/view sources
 * Output: CSV
-
-**Billboard Weekly Magazines**
-* Original File Type: pdf
-* Acquisition: Manually downloaded and uploaded to S3 bucket
-* URL: https://worldradiohistory.com/Archive-All-Music/Billboard-Magazine.htm
-* Topics:
-  * Billboard Top Boxoffice displays top Arena and Auditorium events with Artist(s), Promoter, Facility, Dates, Total Ticket Sales, Ticket Price Scale, and Gross Receipts
-  * Articles about music industry financials and changing trends to fill in financial estimates before digital financial statements were available
-* Years Covered: 1976-2021
-* Challenges:
-  * Had to extract the tables from PDF to CSV using python (pdfplumber and OCR)
-  * Top tour data included non musical events/artists
-* Output File Type: CSV (later converted to parquet)
 
 **Billboard Website**
 * Type: Web Article
