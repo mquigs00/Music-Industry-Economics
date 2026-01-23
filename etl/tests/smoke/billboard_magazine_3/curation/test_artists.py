@@ -1,13 +1,20 @@
-from etl.schemas.billboard_magazine_3.curation.artists import parse_artist_names, generate_artist_candidates
+from etl.schemas.billboard_magazine_3.curation.artists import parse_artist_names, generate_artist_candidates, validate_artist
 from utils.utils import load_dimension_tables
 import pytest
 dim_artists = load_dimension_tables()["artists"]
 
-@pytest.mark.only
 def test_generate_candidates_one():
-    artists = ['JEFF/BECK']
+    artists = 'JEFF/BECK'
     candidates = generate_artist_candidates(artists)
     assert candidates == {'JEFF', 'BECK', 'JEFF BECK', 'JEFF/BECK'}
+
+def test_validate_artist_slash():
+    artist = validate_artist('JEFF/BECK', dim_artists)
+    assert artist == "JEFF BECK"
+
+def test_validate_artist_ampersand():
+    artist = validate_artist('STEVIE RAY VAUGHN & DOUBLE TROUBLE', dim_artists)
+    assert artist == "STEVIE RAY VAUGHN & DOUBLE TROUBLE"
 
 def test_merge_artists_one():
     raw_artists = ['AEROSMITH', 'JOAN JETT & THE', 'BLACKHEARTS,']
@@ -24,7 +31,11 @@ def test_curate_artists_overflow_the():
     final_artists = parse_artist_names(raw_artists, False, dim_artists)
     assert final_artists == ['AEROSMITH', 'JOAN JETT & THE BLACKHEARTS']
 
-def test_curate_artists_overflow_ampersand_slash():
+def test_curate_artists_overflow_ampersand_slash_one():
+    """
+    Artist names mixed across lines with ampersand and "/" symbols
+    Found in Billboard issue: BB-1990-01-06
+    """
     raw_artists = ['STEVIE RAY VAUGHAN &', 'DOUBLE TROUBLE/JEFF', 'BECK']
     final_artists = parse_artist_names(raw_artists, False, dim_artists)
     assert final_artists == ['STEVIE RAY VAUGHAN & DOUBLE TROUBLE', 'JEFF/BECK']

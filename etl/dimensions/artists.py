@@ -45,6 +45,8 @@ def get_artist_ids(artist_names, dim_artists):
     artist_ids = []
 
     for artist in artist_names:
+        if artist is None:
+            continue
         key = slugify.slugify(artist)
         artist_id = existing_artists[key][0]["id"]
         artist_ids.append(artist_id)
@@ -63,6 +65,8 @@ def update_artists_dim(all_artists, dim_artists):
     max_artists_id = dim_artists["max_id"]
     existing_artists = dim_artists["by_slug"]
     for artist in all_artists:
+        if not artist:
+            continue
         artist_name_proper = artist.title()
         key = slugify.slugify(artist)
         if key not in existing_artists:

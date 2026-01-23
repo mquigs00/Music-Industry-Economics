@@ -6,6 +6,11 @@ ORDINAL_FIX = re.compile(r"\b(\d+)(St|Nd|Rd|Th)\b")
 APOSTROPHE_FIX = re.compile(r"(['’])S\b")
 
 def special_event_score(artist_lines):
+    """
+    Generates a score to estimate if the artist lines contain a special event name
+    :param artist_lines: list
+    :return:
+    """
     score = 0
     event_keywords = load_event_keywords(EVENT_KEYWORDS_PATH)
 
@@ -19,6 +24,8 @@ def special_event_score(artist_lines):
 
     if total_artists_string.count(",") > 1:
         score += 2
+
+    return score
 
 def parse_event_name(artist_lines, existing_special_events):
     """
@@ -64,7 +71,8 @@ def normalize_event_name(event_name):
 
 def curate_event_name(processed_events_df, curated_events_df):
     '''
-    Finds an event_name in artists list. Removes it into its own field, and updates the dim_special_events table to get an id number for the event
+    Searches for an event_name in artists list. If found, separates event name into its own field and removes it from the artist names
+
     :param processed_events_df:
     :param curated_events_df:
     :return:

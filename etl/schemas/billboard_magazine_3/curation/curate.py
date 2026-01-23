@@ -75,7 +75,12 @@ def normalize_event_or_artists(row):
         return slugify.slugify(row["event_name"])
 
     artist_ids = row["artist_ids"]
-    return slugify.slugify(get_artist_name(artist_ids[0]))
+
+    if len(artist_ids) > 0:
+        print(artist_ids[0])
+        return slugify.slugify(get_artist_name(artist_ids[0]))
+
+    return None
 
 def curate_event_signature(curated_events_df):
     curated_events_df["signature"] = curated_events_df.apply(

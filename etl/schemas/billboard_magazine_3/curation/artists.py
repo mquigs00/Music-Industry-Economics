@@ -1,4 +1,5 @@
 from etl.dimensions.artists import update_artists_dim, clean_artist_name, get_artist_ids
+import slugify
 
 def separate_event_artists(artists):
     """
@@ -10,9 +11,9 @@ def separate_event_artists(artists):
     separated_artists = []
 
     if any(',' in artist for artist in artists):
-        combined_artists = " ".join(artists)
-        separated_artists = combined_artists.split(",")
-        separated_artists = [artist.strip() for artist in separated_artists]
+        combined_artists = " ".join(artists)                                                                            # combine all tokens
+        separated_artists = combined_artists.split(",")                                                                 # split by comma
+        separated_artists = [artist.strip() for artist in separated_artists]                                            # separate
         return separated_artists
     else:
         return artists
@@ -21,7 +22,7 @@ def merge_artists(raw_artist_strings):
     """
     Merge any artist names that overflow across multiple tokens into one token
 
-    :param raw_artist_strings:
+    :param raw_artist_strings: list
     :return:
     """
     merged_artists = []
@@ -31,7 +32,6 @@ def merge_artists(raw_artist_strings):
 
     i = 0
 
-    # make sure no artists overflow into multiple tokens
     while i < len(raw_artist_strings):
         signal = None
         token = raw_artist_strings[i]
@@ -41,10 +41,14 @@ def merge_artists(raw_artist_strings):
             if token.endswith(overflow_signal):
                 signal = overflow_signal
                 break
-        if signal:
-            merged_artist = f"{token} {raw_artist_strings[i + 1]}".strip()                                              # merge current token with next token
-            merged_artists.append(clean_artist_name(merged_artist))
-            i += 2                                                                                                      # skip next token
+        if signal:                                                                                                      # if an overflow signal was found
+            if len(raw_artist_strings) > i+1:
+                merged_artist = f"{token} {raw_artist_strings[i + 1]}".strip()                                          # merge current token with next token
+                merged_artists.append(clean_artist_name(merged_artist))
+                i += 2                                                                                                  # skip next token
+            else:
+                print(f"Overflow signal detected but no token after {raw_artist_strings[i]}")
+                i += 1
         else:
             merged_artists.append(clean_artist_name(token))
             i += 1
@@ -98,65 +102,79 @@ def generate_artist_candidates(artist_string):
 
     for delimiter in delimiters:
         if delimiter in artist_string:
-            left, right = artist_string.split(delimiter, 1)
-            candidates.add(left.strip())
+            left, right = artist_string.split(delimiter, 1)                                                             # split string at the first instance of delimiter
+            candidates.add(left.strip())                                                                                # add each part of the string to candidates
             candidates.add(right.strip())
-            if delimiter == '/':
+
+            if delimiter == '/':                                                                                        # "/" signifies separate artists
                 candidate_minus_delimiter = artist_string.replace('/', ' ')
                 candidate_minus_delimiter = " ".join(candidate_minus_delimiter.split())
-            else:
+            else:                                                                                                       #",", "&", "AND", and "THE" signify same artist
                 candidate_minus_delimiter = artist_string.replace(delimiter, '')
                 candidate_minus_delimiter = " ".join(candidate_minus_delimiter.split())
             candidates.add(candidate_minus_delimiter.strip())
 
-    '''
-    if '&' in artist_string:
-        left, right = artist_string.rsplit('&', 1)
-        candidates.add(left)
-        candidates.add(right)
-    
-    if 'AND' in artist_string:
-        left, right = artist_string.rsplit('AND', 1)
-        candidates.add(left)
-        candidates.add(right)
-    
-    if ',' in artist_string:
-        left, right = artist_string.rsplit(',', 1)
-        candidates.add(left)
-        candidates.add(right)
-    
-    if '/' in artist_string:
-        left, right = artist_string.rsplit('/', 1)
-        candidates.add(left)
-        candidates.add(right)
-    '''
-    print(candidates)
-
     return candidates
 
-def match_against_dim_artists(artist_strings):
-    """
+def score_candidate(candidate, dim_artists):
+    dim_artists_by_slug = dim_artists['by_slug']
+    score = 0
 
-    :param artist_strings: list of strings containing artist names, an artist may overflow across multiple tokens
+    if slugify.slugify(candidate) in dim_artists_by_slug:
+        score += 10
+
+    word_count = len(candidate.split())
+
+    if word_count > 1:
+        score += 2
+    else:
+        score -= 1
+
+    return score
+
+def validate_artist(artist, dim_artists):
+    """
+    Checks if an artist candidate matches an existing artist in the dimension table
+
+    :param artist: string
+    :param dim_artists: dict, the existing artists
     :return:
     """
-    for artist_string in artist_strings:
-        candidates = generate_artist_candidates(artist_string)
+    candidates = generate_artist_candidates(artist)                                                                     # generate potential candidates from the string
+    candidate_match = None
+    max_score = 0
+
+    for candidate in candidates:
+        candidate_score = score_candidate(candidate, dim_artists)                                                       # generate a score for the candidate
+        if candidate_score > max_score:
+            candidate_match = candidate
+            max_score = candidate_score
+
+    return candidate_match
 
 def parse_artist_names(raw_artists_strings, has_event_name, dim_artists):
     """
     Processed artist list can contain multiple artists in one token. This function separates every artist into a separate token
 
     :param raw_artists_strings: list of raw artists strings. Ex: ['AEROSMITH', 'JOAN JETT & THE', 'BLACKHEARTS']
-    :param has_event_name: if the event's raw artist started with an event name like "OZZFEST 1997:"
+    :param has_event_name: bool, if the event's raw artist started with an event name like "OZZFEST 1997:"
+    :param dim_artists: dict, the existing artists dimension table
     :return: final_artists: the artists list with each artist in one token
     """
 
     merged_artists = merge_artists(raw_artists_strings)
     separated_artists = separate_artists(merged_artists, has_event_name)
-    match_against_dim_artists(separated_artists)
+    print("Separated Artists:")
+    print(separated_artists)
 
-    return separated_artists
+    curated_artists = []
+
+    for artist_string in separated_artists:
+        validated_artist = validate_artist(artist_string, dim_artists)
+        print(f"Validated Artist: {validated_artist}")
+        curated_artists.append(validated_artist)
+
+    return curated_artists
 
 def curate_artists(processed_events_df, curated_events_df, dim_artists):
     """
@@ -182,6 +200,9 @@ def curate_artists(processed_events_df, curated_events_df, dim_artists):
         for artist_list in processed_events_df["artists_clean"]
         for artist in artist_list
     }
+
+    for artist in all_artists:
+        print(artist)
 
     update_artists_dim(all_artists, dim_artists)
 
