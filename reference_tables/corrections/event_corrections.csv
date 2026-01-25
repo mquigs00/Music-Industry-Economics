@@ -35,8 +35,8 @@ prince-joe-louis-arena-1984-11-04,12/1/1984,dates,"['Nov. 4-5,7-9']","['Nov. 4-5
 prince-joe-louis-arena-1984-11-04,12/1/1984,ticket_prices,,['17.50']
 rick-springfield-reunion-arena-None,12/1/1984,dates,['15'],['Nov. 15']
 swatch-watch:-new-york-baltimore-civic-center-1984-11-09,12/1/1984,ticket_prices,[],['11']
-reo-speedwagon-omaha-civic-auditorium-1984-11-18,1984-12-01,attendance,,10000
-oak-ridge-boys-boise-state-univ-pavilion-1984-11-03,1984-12-01,attendance,,8621
+reo-speedwagon-omaha-civic-auditorium-1984-11-18,12/1/1984,attendance,,10000
+oak-ridge-boys-boise-state-univ-pavilion-1984-11-03,12/1/1984,attendance,,8621
 "culture-club-univ,-of-tennessee-at-chattanooga-arena-1984-11-03",12/1/1984,gross_receipts_us,,89704
 "culture-club-univ,-of-tennessee-at-chattanooga-arena-1984-11-03",12/1/1984,attendance,,5867
 "kiss-stabler-arena,-lehigh-unv.-1984-11-15",12/1/1984,ticket_prices,['1'],['11']
@@ -391,3 +391,107 @@ mc-hanmer-thompson-dune-None,7/14/1990,location,"['Thompson dune', 'AFTER? Bolin
 ac-hammer-tallahassee-1990-06-23,7/14/1990,artists,"['AC. HAMMER', 'AFTER', 'MICHELLE.', 'TROOP']","['AC. HAMMER', 'AFTER 7', 'MICHELLE.', ""OAKTOWN'S 3-5-7"", 'TROOP']"
 ac-hammer-tallahassee-1990-06-23,7/14/1990,location,"['Tallahassee-', 'County', 'Cwic Center', ""OAKTOWN'S"", 'Fla.']","['Tallahassee-', 'Leon County', 'Cwic Center', 'Tallahassee, Fla.']"
 ziggy-marley-and-the-seashore-1990-06-30,7/14/1990,ticket_prices,['20/519'],['20/19']
+phil-collins-nassau-1990-05-31,1990-06-16,attendance,62500,52500
+phil-collins-nassau-1990-05-31,1990-06-17,promoter,['Ron Delsener'],"['Ron Delsener', 'Enterprises']"
+world-series-of-rock-alpine-valley-1990-05-26,1990-06-18,artists,"['WORLD SERIES OF ROCK', 'WHITESNAKE', 'SKID ROW', 'GREAT WHITE', 'BAD ENGLISH', 'HERICANE ALICE']","['WORLD SERIES OF ROCK', ""'90:"",  'WHITESNAKE', 'SKID ROW', 'GREAT WHITE', 'BAD ENGLISH', 'HERICANE ALICE']"
+world-series-of-rock-alpine-valley-1990-05-26,1990-06-19,promoter,"['Joseph', 'Entertainment', 'Group']",
+world-series-of-rock-alpine-valley-1990-05-26,1990-06-20,ticket_prices,[],['32.50/25.50']
+madonna-rosemont-1990-05-23,1990-06-21,attendance,,33954
+aerosmith-palace-of-1990-05-25,1990-06-22,gross_receipts_us,866385,38506
+aerosmith-palace-of-1990-05-25,1990-06-23,promoter,"['38,506 Belkin Prods.']","['Belkin Prods.', 'Cellar Door Prods.']"
+aerosmith-palace-of-1990-05-25,1990-06-24,location,"['Palace of', 'Auburt Hills a', 'Door Prods.', 'Auburn Hills,', 'Mich']","['Palace of', 'Auburn Hills', 'Auburn Hills,', 'Mich.']"
+don-henley-garden-state-1990-05-29,1990-06-25,artists,"['DON HENLEY', 'L']",['DON HENLEY']
+cher-world-music-1990-06-02,1990-06-26,location,"['World Music', 'Theatre', 'Tinley Park, Ih']","['World Music', 'Theatre', 'Tinley Park, Ill.']"
+motley-crue-neil-s-blaisdell,1990-06-27,dates,['May 31-'],"['May 31-', 'June 1']"
+motley-crue-neil-s-blaisdell,1990-06-28,location,"['Neil S. Blaisdell', 'Center june L', 'Honolulu sellout']","['Neil S. Blaisdell', 'Center', 'Honolulu']"
+mel-torme-rosemary-fox-theatre-1990-05-17,1990-06-29,gross_receipts_us,279296,279295
+mel-torme-rosemary-fox-theatre-1990-05-17,1990-06-30,ticket_prices,"['50/37.50/', '25/85']","['50/37.50/', '25/5']"
+david-bowie-starplex-1990-06-04,1990-06-31,artists,"['DAVID BOWIE', 'MCA', 'FRANKLY SCARLET']","['DAVID BOWIE', 'FRANKLY SCARLET']"
+david-bowie-starplex-1990-06-04,1990-06-32,promoter,"['', '20.000 PACE Concerts']","['MCA Concerts', 'PACE Concerts', 'Fey Concert Co.', 'BCL Group']"
+david-bowie-starplex-1990-06-04,1990-06-33,location,"['Starplex', 'Concerts', 'Amphitheatre', 'State Fey Concert Co.', 'Fairgrounds of BCL Group', 'Texas,', 'Dallas']","['Starplex', 'Amphitheatre', 'State', 'Fairgrounds of', 'Texas', 'Dallas']"
+roseanne-bar-fox-theatre-1990-05-9,1990-06-34,gross_receipts_us,,274320
+roseanne-bar-fox-theatre-1990-05-9,1990-06-35,attendance,,12282
+roseanne-bar-fox-theatre-1990-05-9,1990-06-36,ticket_prices,['25/820'],['25/20']
+fleetwood-mac-pacific-coliseum-1990-05-25,1990-06-37,ticket_prices,['28/826'],['28/26']
+midnight-oil-radio-city-1990-05-29,1990-06-38,gross_receipts_us,,257140
+midnight-oil-radio-city-1990-05-29,1990-06-39,attendance,,10837
+reggae-sunsplash-greek-theatre-1990-05-26,1990-06-40,artists,"['REGGAE SUNSPLASH:', 'BURNING SPEAR', 'FREDDIE MCGREGOR', 'MARCIA GRIFFITHS', 'SHINEHEAD.', 'SHELLY THUNDER,', 'BAND.']","['REGGAE SUNSPLASH:', 'BURNING SPEAR', 'FREDDIE MCGREGOR', 'MARCIA GRIFFITHS', 'SHINEHEAD', 'U-ROY', 'SHELLY THUNDER,', '809',  'BAND']"
+reggae-sunsplash-greek-theatre-1990-05-26,1990-06-41,promoter,['Nederlander'],"['Nederlander', 'Organization']"
+reggae-sunsplash-greek-theatre-1990-05-26,1990-06-42,location,"['Greek Theatre', 'Los Angeles', 'uROY']","['Greek Theatre', 'Los Angeles']"
+alan-king-joel-gray-westbury-music-1990-05-30,1990-06-43,dates,"['May 30+', 'June 3']","['May 30-', 'June 3']"
+alan-king-joel-gray-westbury-music-1990-05-30,1990-06-44,location,"['Westbury Music', 'Fair', 'Westbury, #.Y. sellout']","['Westbury Music', 'Fair', 'Westbury, N.Y.']"
+alabama-patriot-center-1990-06-01,1990-06-45,promoter,['Keith Fowler'],"['Keith Fowler', 'Prods']"
+reggae-sunsplash-irvine-meadows-dune-,1990-06-46,artists,"['REGGAE SUNSPLASH:', 'BURNINGSPEAR', 'FREODIE MCGREGOR', 'MARCIA GRIFFITHS', 'SHINEHEAD', 'SHELLY THUNDER,', 'BAND']","['REGGAE SUNSPLASH:', 'BURNING SPEAR', 'FREODIE MCGREGOR', 'MARCIA GRIFFITHS', 'SHINEHEAD', 'U-ROY', 'SHELLY THUNDER, 809', 'BAND']"
+reggae-sunsplash-irvine-meadows-dune-,1990-06-47,dates,"['2', '809']",['June 2']
+reggae-sunsplash-irvine-meadows-dune-,1990-06-48,location,"['Irvine Meadows dune', 'Amphitheatre', 'Laguna Kills,', 'Calit', 'uROY']","['Irvine Meadows', 'Amphitheatre', 'Laguna Hills,', 'Calif.']"
+paul-mecarthey-memorial-1990-03-31,1990-04-14,artists,['PAUL'],['PAUL McCARTNEY']
+paul-mecarthey-memorial-1990-03-31,1990-04-14,dates,"['March 31-', 'April']","['March 31-', 'April 1']"
+paul-mecarthey-memorial-1990-03-31,1990-04-14,gross_receipts_us,,3550560
+paul-mecarthey-memorial-1990-03-31,1990-04-14,attendance,,118352
+paul-mecarthey-memorial-1990-03-31,1990-04-14,location,"['MeCARTHEY Memorial', 'Stadium', 'Univ. of', 'California', 'Berkeley', 'Berkeley, Calif']","['Memorial', 'Stadium', 'Univ. of', 'California', 'Berkeley', 'Berkeley, Calif.']"
+grateful-dead-knickerbocker-1990-03-24,1990-04-14,dates,"['March 24', '6']","['March 24-', '26']"
+grateful-dead-knickerbocker-1990-03-24,1990-04-14,gross_receipts_us,,921262
+grateful-dead-knickerbocker-1990-03-24,1990-04-14,attendance,,48993
+grateful-dead-knickerbocker-1990-03-24,1990-04-14,location,"['Knickerbocker', 'Arena', 'Albany, N.Y. Cross Country', 'Concerts', 'Metropolitan', '-', 'Entertainment']","['Knickerbocker', 'Arena', 'Albany, N.Y.']"
+new-kids-on-the-block-meadowlands-1990-03-25,1990-04-14,artists,"['NEW KIDS ON THE BLOCK', 'SWEET SENSATION', 'BOBBY ROSS AVILA', 'PERFECT GENTLEMEN NJ']","['NEW KIDS ON THE BLOCK', 'SWEET SENSATION', 'BOBBY ROSS AVILA', 'PERFECT GENTLEMEN']"
+new-kids-on-the-block-meadowlands-1990-03-25,1990-04-14,dates,"['March 25-', '6']","['March 25-', '26']"
+new-kids-on-the-block-meadowlands-1990-03-25,1990-04-14,gross_receipts_us,,794694
+new-kids-on-the-block-meadowlands-1990-03-25,1990-04-14,attendance,,40000
+new-kids-on-the-block-meadowlands-1990-03-25,1990-04-14,location,"['Meadowlands', 'Arena', 'East Rutherford,']","['Meadowlands', 'Arena', 'East Rutherford,', 'NJ']"
+janet-jackson-capital-centre-1990-03-22,1990-04-14,artists,"['JANET JACKSON', 'CHUCKI BOOKER']","['JANET JACKSON', 'CHUCKII BOOKER']"
+janet-jackson-capital-centre-1990-03-22,1990-04-14,dates,['March 22.'],"['March 22', '& 29']"
+janet-jackson-capital-centre-1990-03-22,1990-04-14,gross_receipts_us,,765112
+janet-jackson-capital-centre-1990-03-22,1990-04-14,attendance,,34581
+janet-jackson-capital-centre-1990-03-22,1990-04-14,ticket_prices,[],['22.50']
+grateful-dead-cops-coliseum-1990-03-21,1990-04-14,dates,"['March 21-', '2']","['March 21-', '22']"
+grateful-dead-cops-coliseum-1990-03-21,1990-04-14,gross_receipts_us,,743913
+grateful-dead-cops-coliseum-1990-03-21,1990-04-14,attendance,,34220
+grateful-dead-cops-coliseum-1990-03-21,1990-04-14,location,"['Cops Coliseum', 'Hamilton,', 'Ontario Canadian) Donald K. Donald', 'Metropolitan', 'Entertainment']","['Cops Coliseum', 'Hamilton,', 'Ontario']"
+benefit-for-mercy-charlotte-1990-03-24,1990-04-14,gross_receipts_us,,692961
+benefit-for-mercy-charlotte-1990-03-24,1990-04-14,attendance,,12601
+benefit-for-mercy-charlotte-1990-03-24,1990-04-14,ticket_prices,['100/45/830'],['100/45/30']
+new-kids-on-the-block-nassau-1990-03-15,1990-04-14,artists,"['NEW KIDS ON THE BLOCK', 'SWEET SENSATION', 'PERFECT GENTLEMAN']","['NEW KIDS ON THE BLOCK', 'SWEET SENSATION', 'PERFECT GENTLEMAN', '(16TH)']"
+new-kids-on-the-block-nassau-1990-03-15,1990-04-14,gross_receipts_us,,689913
+new-kids-on-the-block-nassau-1990-03-15,1990-04-14,attendance,,36000
+new-kids-on-the-block-nassau-1990-03-15,1990-04-14,location,"['Nassau', 'Veterans', 'Memorial', 'Uniondale, N.Y.']","['Nassau', 'Veterans', 'Memorial', 'Coliseum', 'Uniondale, N.Y.']"
+janet-jackson-centrum-in-1990-03-26,1990-04-14,artists,"['JANET JACKSON', 'CHUCKH BOOKER']","['JANET JACKSON', 'CHUCKII BOOKER']"
+janet-jackson-centrum-in-1990-03-26,1990-04-14,gross_receipts_us,,600458
+janet-jackson-centrum-in-1990-03-26,1990-04-14,attendance,,27600
+rush-oakland-1990-03-30,1990-04-14,gross_receipts_us,,509438
+rush-oakland-1990-03-30,1990-04-14,attendance,,26125
+ericclapton-dean-e-smith-1990-03-31,1990-04-14,location,"['Dean E. Smith', 'C&C Entertainment', 'Center', 'Univ. of North', 'Carolina,Chapel', 'Hil', 'Chape! Hill, N.C']","['Dean E. Smith', 'Center', 'Univ. of North', 'Carolina,Chapel', 'Hill', 'Chapel Hill, N.C']"
+eric-clapton-charlotte-1990-03-30,1990-04-14,gross_receipts_us,,441225
+eric-clapton-charlotte-1990-03-30,1990-04-14,attendance,,19969
+eric-clapton-charlotte-1990-03-30,1990-04-14,location,"['Charlotte', 'Cellar Door Prods', 'Coliseum', 'Chariotte, n.c']","['Charlotte', 'Coliseum', 'Charlotte, N.C.']"
+new-kids-on-the-block-1990-03-23,1990-04-14,gross_receipts_us,,361914
+new-kids-on-the-block-1990-03-23,1990-04-14,attendance,,17829
+new-kids-on-the-block-1990-03-23,1990-04-14,location,"['Copps Coliseum', 'Concert Prods', 'Hamilton,', 'Ontario Canadian) Donald K. Donald', 'Prods']","['Copps Coliseum', 'Hamilton,', 'Ontario']"
+alice-cooper-fox-theatre-1990-03-18,1990-04-14,dates,['March 18-'],"['March 18-', '21']"
+alice-cooper-fox-theatre-1990-03-18,1990-04-14,gross_receipts_us,,361050
+alice-cooper-fox-theatre-1990-03-18,1990-04-14,attendance,,17525
+alice-cooper-fox-theatre-1990-03-18,1990-04-14,location,"['Fox Theatre', 'Brass Ring Prods.', 'Detroit a']","['Fox Theatre', 'Detroit']"
+gloria-estefan-and-miami-meadowlands-1990-03-04,1990-04-14,artists,"['GLORIA ESTEFAN & MIAMI', 'SOUND MACHINE', 'CHAS ELSTNER', 'NJ']","['GLORIA ESTEFAN & MIAMI', 'SOUND MACHINE', 'CHAS ELSTNER']"
+gloria-estefan-and-miami-meadowlands-1990-03-04,1990-04-14,location,"['Meadowlands', 'Arena', 'East Rutherford,']","['Meadowlands', 'Arena', 'East Rutherford,', 'NJ']"
+eric-clapton-the-omni-1990-03-28,1990-04-14,gross_receipts_us,,313658
+eric-clapton-the-omni-1990-03-28,1990-04-14,attendance,,16757
+oana-ross-copps-coliseum-1990-03-31,1990-04-14,artists,['OANA ROSS.'],['DIANA ROSS']
+oana-ross-copps-coliseum-1990-03-31,1990-04-14,ticket_prices,[],['28.50']
+oana-ross-copps-coliseum-1990-03-31,1990-04-14,location,"['Copps Coliseum', 'Hamilton,', 'Ontario Canadian) Donald K. Donald', 'Prods.']","['Copps Coliseum', 'Hamilton,', 'Ontario']"
+the-highwaymen-nassau-1990-03-14,1990-04-14,ticket_prices,['22.50/820'],['22.50/20']
+the-highwaymen-nassau-1990-03-14,1990-04-14,location,"['Nassau', 'Metropolitan', 'Veterans', 'Memorial', 'Coliseum', 'Uniondale, N.Y.']","['Nassau', 'Veterans', 'Memorial', 'Coliseum', 'Uniondale, N.Y.']"
+cher-starplex-1990-03-31,1990-04-14,location,"['Starplex', 'Amphitheatre,', 'State', 'Concerts', 'Fairgrounds of', 'Texas', 'Dallas']","['Starplex', 'Amphitheatre,', 'State', 'Fairgrounds of', 'Texas', 'Dallas']"
+jerry-lewis-fox-theatre-1990-03-08,1990-04-14,ticket_prices,"['37.50/83250/', '25/820']","['37.50/32.50/', '25/20']"
+rush-arco-arena-1990-03-28,1990-04-14,artists,"['RUSH ARCO', 'MR. BIG']","['RUSH', 'MR. BIG']"
+rush-arco-arena-1990-03-28,1990-04-14,location,"['Arena', 'Sacramento,', 'Calif']","['ARCO Arena', 'Sacramento,', 'Calif']"
+rush-coliseum-1990-03-26,1990-04-14,artists,"['RUSH', 'MR. BIG', 'L']","['RUSH', 'MR. BIG']"
+rush-coliseum-1990-03-26,1990-04-14,gross_receipts_us,,219410
+rush-coliseum-1990-03-26,1990-04-14,attendance,,12299
+randy-travis-knickerbocker-1990-03-30,1990-04-14,gross_receipts_us,,209254
+randy-travis-knickerbocker-1990-03-30,1990-04-14,attendance,,11551
+alabama-richmond-1990-03-24,1990-04-14,gross_receipts_us,,183750
+alabama-richmond-1990-03-24,1990-04-14,attendance,,10500
+alabama-buffalo-1990-03-23,1990-04-14,gross_receipts_us,,183600
+alabama-buffalo-1990-03-23,1990-04-14,attendance,,10200
+whitesnake-reunion-arena-1990-03-17,1990-04-14,artists,"['WHITESNAKE |', 'PACE']","['WHITESNAKE', 'BAD ENGLISH']"
+whitesnake-reunion-arena-1990-03-17,1990-04-14,attendance,,10091
+whitesnake-reunion-arena-1990-03-17,1990-04-14,location,"['Reunion Arena', 'Concerts', '_ BAD ENGLISH Dallas |_']","['Reunion Arena', 'Dallas']"

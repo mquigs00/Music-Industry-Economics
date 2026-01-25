@@ -5,7 +5,7 @@ import re
 ORDINAL_FIX = re.compile(r"\b(\d+)(St|Nd|Rd|Th)\b")
 APOSTROPHE_FIX = re.compile(r"(['’])S\b")
 
-def special_event_score(artist_lines):
+def calc_special_event_score(artist_lines):
     """
     Generates a score to estimate if the artist lines contain a special event name
     :param artist_lines: list
@@ -13,35 +13,39 @@ def special_event_score(artist_lines):
     """
     score = 0
     event_keywords = load_event_keywords(EVENT_KEYWORDS_PATH)
-
     total_artists_string = "".join(artist_lines)
 
     if any(keyword in total_artists_string for keyword in event_keywords):
-        score += 3
+        score += 7
 
-    if total_artists_string.count(":") > 1:
-        score += 2
+    if ":" in total_artists_string:
+        score += 5
 
-    if total_artists_string.count(",") > 1:
+    if "," in total_artists_string:
         score += 2
 
     return score
 
-def parse_event_name(artist_lines, existing_special_events):
-    """
-    Detects a
-    :param artist_lines: the raw lines from the artists column
-    :param existing_special_events: the special_events dimension table
-    :return: event_name (str), updated_artists
-    """
+def extract_event_name(artist_lines):
     event_name_parts = []
     updated_artists = []
     event_keywords = load_event_keywords(EVENT_KEYWORDS_PATH)
+    combined_artists = " ".join(artist_lines)
+    event_name = None
+    found_colon = False
+    found_keyword = False
+    contains_colon = ":" in combined_artists
+    contains_keyword = any(keyword in combined_artists for keyword in event_keywords)
+    print(artist_lines)
 
     for i, line in enumerate(artist_lines):
-        contains_event_keyword = any(keyword in line for keyword in event_keywords)                                     # check for a token like "Festival", "Fest", "Show"
-        if contains_event_keyword:
+        print(line)
+        keyword_in_line = any(keyword in line for keyword in event_keywords)                                     # check for a token like "Festival", "Fest", "Show"
+        if keyword_in_line:
+            found_keyword = True
+            print(f"Found keyword {keyword_in_line} in {line}")
             if ':' in line:
+                found_colon = True
                 before, after = line.split(":", 1)                                                                      # split string on colon
                 event_name_parts.append(before.strip())                                                                 # add text before colon to event name
 
@@ -50,13 +54,47 @@ def parse_event_name(artist_lines, existing_special_events):
             else:
                 event_name_parts.append(line)                                                                           # assume event keyword always is at the end of the line
 
-            updated_artists.extend(artist_lines[i + 1:])                                                                # put all remaining lines in the updated artists list
-            event_name = normalize_event_name(" ".join(event_name_parts))                                               # join event name and fix casing
-            return event_name, updated_artists
+            if not contains_colon or (contains_colon and found_colon):                                                  # if no colon or colon already found
+                updated_artists.extend(artist_lines[i + 1:])                                                            # put all remaining lines in the updated artists list
+                event_name = normalize_event_name(" ".join(event_name_parts))                                           # join event name and fix casing
+                print("Ready to return in keyword path")
+                return event_name, updated_artists
+        elif ":" in line:
+            print(f"Found colon in {line}")
+            found_colon = True
+            if not contains_keyword or (contains_keyword and found_keyword):                                            # if no event name or already found
+                before, after = line.split(":", 1)                                                                      # split string on colon
+                event_name_parts.append(before.strip())                                                                 # add text before colon to event name
+
+                if after.strip():                                                                                       # if there is any text after the colon
+                    updated_artists.append(after.strip())                                                               # add it to the updated artists list
+
+                updated_artists.extend(artist_lines[i + 1:])                                                            # put all remaining lines in the updated artists list
+                event_name = normalize_event_name(" ".join(event_name_parts))                                           # join event name and fix casing
+                print("Ready to return in colon path")
+                return event_name, updated_artists
+            else:
+                event_name_parts.append(line)                                                                           # if still an event name to find, just append
         else:
             event_name_parts.append(line)
 
-    return None, artist_lines
+    event_name = normalize_event_name(" ".join(event_name_parts))
+    print("Ready to return at end")
+    return event_name, updated_artists
+
+def parse_event_name(artist_lines, existing_special_events):
+    """
+    :param artist_lines: list, the raw lines from the artists column
+    :param existing_special_events: dict, the special_events dimension table
+    :return: event_name str, updated_artists
+    """
+    special_event_score = calc_special_event_score(artist_lines)
+
+    if special_event_score >= 7:
+        event_name, updated_artists = extract_event_name(artist_lines)
+        return event_name, updated_artists
+    else:
+        return None, artist_lines
 
 def normalize_event_name(event_name):
     """

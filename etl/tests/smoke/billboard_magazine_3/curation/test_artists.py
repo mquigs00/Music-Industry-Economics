@@ -34,7 +34,7 @@ def test_curate_artists_overflow_the():
 def test_curate_artists_overflow_ampersand_slash_one():
     """
     Artist names mixed across lines with ampersand and "/" symbols
-    Found in Billboard issue: BB-1990-01-06
+    Example from Billboard issue: BB-1990-01-06
     """
     raw_artists = ['STEVIE RAY VAUGHAN &', 'DOUBLE TROUBLE/JEFF', 'BECK']
     final_artists = parse_artist_names(raw_artists, False, dim_artists)

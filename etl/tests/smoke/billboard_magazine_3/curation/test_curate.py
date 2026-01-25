@@ -7,7 +7,10 @@ dim_special_events = load_dimension_tables()["special_events"]
 dim_artists = load_dimension_tables()["artists"]
 
 def test_curate_artists_with_comma():
-    # if there is no event name, commas should not be used to split artist names
+    """
+    Despite having commas, this is just a single artist/group and should not be treated as a special event with multiple artists
+    Example from
+    """
     artists = ['CROSBY, STILLS & NASH']
     event_name, artists = parse_event_name(artists)
     has_event_name = event_name is not None
@@ -16,20 +19,27 @@ def test_curate_artists_with_comma():
     assert artists == ['CROSBY, STILLS & NASH']
 
 def test_curate_artists_festival():
-    orig_artists = ['BUDWEISER SUPERFEST:', 'PEABO BRYSON, KOOL &', 'THE GANG, WHISPERS,', 'MTUME, PATTI LABELLE']      # source: BB-1984-11-24
+    """
+
+    Example from BB-1984-11-24
+    """
+    orig_artists = ['BUDWEISER SUPERFEST:', 'PEABO BRYSON, KOOL &', 'THE GANG, WHISPERS,', 'MTUME, PATTI LABELLE']
     event_name, artists = parse_event_name(orig_artists)
     has_event_name = event_name is not None
     artists = parse_artist_names(artists, has_event_name)
     assert event_name == 'Budweiser Superfest'
     assert artists == ['PEABO BRYSON', 'KOOL & THE GANG', 'WHISPERS', 'MTUME', 'PATTI LABELLE']
 
-@pytest.mark.only
-def test_curate_artists_festival_2():
+def test_curate_artists_no_keyword_has_colon_comma():
+    """
+
+    Example from BB-1984-12-01
+    """
     orig_artists = ['GUITAR GREATS: DAVID', 'GILMOUR, DAVE EDMUNDS,', 'JOHNNY WINTER, BRIAN SETZER,', 'NEAL SCHON, DICKIE BETTS,', 'TONY IOMMI, STEVE CROPPER,', 'LINK WRAY']
     event_name, artists = parse_event_name(orig_artists, dim_special_events)
     has_event_name = event_name is not None
     artists = parse_artist_names(artists, has_event_name, dim_artists)
-    assert event_name == 'GUITAR GREATS'
+    assert event_name == 'Guitar Greats'
     assert artists == ['DAVID GILMOUR', 'DAVE EDMUNDS', 'JOHNNY WINTER', 'BRIAN SETZER', 'NEAL SCHON', 'DICKIE BETTS', 'TONY IOMMI', 'STEVE CROPPER', 'LINK WRAY']
 
 def test_curate_artists_festival_period():
@@ -37,5 +47,5 @@ def test_curate_artists_festival_period():
     event_name, artists = parse_event_name(orig_artists)
     has_event_name = event_name is not None
     artists = parse_artist_names(artists, has_event_name)
-    assert event_name == 'WORLD SERIES OF ROCK'
+    assert event_name == 'World Series of Rock'
     assert artists == ['WHITESNAKE', 'SKID ROW', 'GREAT WHITE', 'BAD ENGLISH', 'HERICANE ALICE']
