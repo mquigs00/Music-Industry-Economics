@@ -2,11 +2,11 @@ import ast
 import logging
 from utils.utils import *
 logger = logging.getLogger()
-from etl.dimensions.artists import identify_first_artist_line, get_artist_name
-from etl.schemas.billboard_magazine_3.curation.artists import curate_artists
+from etl.dimensions.artists import get_artist_name
+from etl.schemas.billboard_magazine_3.curation.artists import curate_artists, identify_first_artist_line
 from etl.schemas.billboard_magazine_3.curation.dates import identify_start_date, curate_dates
 from etl.schemas.billboard_magazine_3.curation.promoters import curate_promoters
-from etl.schemas.billboard_magazine_3.curation.location import identify_venue_name, curate_location
+from etl.schemas.billboard_magazine_3.curation.location import identify_venue_name, curate_locations
 from etl.schemas.billboard_magazine_3.curation.special_event import curate_event_name
 
 '''
@@ -34,23 +34,36 @@ def validate_numeric_column(df, col_name):
     all_valid = df[col_name].dropna().ge(0).all()                                                                       # verify all financial values are all greater than 0
     return all_valid
 
+def find_multiple_ticket_price_symbol(ticket_price):
+    """
+
+    :param ticket_price: str
+    :return:
+    """
+    symbols = ['/', '-', '&']
+
+    for symbol in symbols:
+        if symbol in ticket_price:
+            return symbol
+
 def curate_ticket_prices(processed_events_df, curated_events_df):
     clean_prices = []
+
+    symbols = ['/', '-', '&']
 
     for row in processed_events_df["ticket_prices"]:
         event_prices = []
         for prices in row:
-            if "/" in prices:
-                for price in prices.split("/"):
-                    price = price.replace(',', '.')
-                    event_prices.append(float(price))
-            elif "-" in prices:
-                for price in prices.split("-"):
-                    price = price.replace(',', '.')
+            prices = prices.replace('$', '')
+            if any(symbol in prices for symbol in symbols):
+                multiple_ticket_symbol = find_multiple_ticket_price_symbol(prices)
+                ticket_prices = prices.split(multiple_ticket_symbol)
+                for price in ticket_prices:
+                    price = price.replace(',', '.').strip()
                     event_prices.append(float(price))
             else:
                 prices = prices.replace(',', '.')
-                event_prices.append(prices)
+                event_prices.append(float(prices))
 
         clean_prices.append(event_prices)
 
@@ -158,6 +171,7 @@ def curate_events():
     identify_venue_name(processed_events_df, dimension_tables)
     identify_first_artist_line(processed_events_df)
     identify_start_date(processed_events_df, get_issue_year(object_key))
+    processed_events_df["promoter"] = processed_events_df["promoter"].apply(ast.literal_eval)
     processed_events_df["ticket_prices"] = processed_events_df["ticket_prices"].apply(ast.literal_eval)
     add_raw_event_signature(processed_events_df)
     for signature in processed_events_df["signature"]:
@@ -167,7 +181,8 @@ def curate_events():
     curated_events_df["weekly_rank"] = range(1, len(processed_events_df) + 1)
     curate_event_name(processed_events_df, curated_events_df)
     curate_artists(processed_events_df, curated_events_df, dimension_tables["artists"])
-    curated_events_df["venue_id"], venue_names = curate_location(processed_events_df, dimension_tables)
+    print(processed_events_df["location"])
+    curated_events_df["venue_id"], venue_names = curate_locations(processed_events_df, dimension_tables)
     curate_promoters(processed_events_df, curated_events_df, dimension_tables["promoters"], venue_names)
     curate_dates(processed_events_df, curated_events_df, get_issue_year(object_key))
     curate_event_signature(curated_events_df)

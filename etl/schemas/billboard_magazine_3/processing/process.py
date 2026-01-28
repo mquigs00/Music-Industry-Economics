@@ -30,8 +30,8 @@ pytesseract.pytesseract.tesseract_cmd = r"C:\Users\mquig\AppData\Local\Programs\
 
 directory_prefix = "raw/billboard/pdf/magazines/"
 
-object_key = 'raw/billboard/pdf/magazines/1984/12/BB-1984-12-01.pdf'
-page_num = 37
+object_key = 'raw/billboard/pdf/magazines/1995/02/BB-1995-02-11.pdf'
+page_num = 18
 
 '''
     Every tour has:
@@ -50,7 +50,7 @@ months = ["Jan.", "Feb.", "March", "April", "May", "June", "July", "Aug.", "Sept
 
 months_pattern = r'\b(?:Jan|Feb|March|April|May|June|July|Aug|Sept|Oct|Nov|Dec)[\.,\b]?'
 
-new_event_pattern = re.compile(r"^[^a-z]*\s([^0-9]*\s)*((?:j|J(?:an|qn)|F(?:eb|eh)|Ma(?:r|rch|rc|rn|vch|tch)|A(?:pr|pril|prl|or|ar)|May|(?:Ju|du|tu)(?:n|ne|u|l|ly)|Au(?:g|gg|uq)|S(?:ep|ept|eph)|O(?:ct|oet|oct)|N(?:ov|ow|no)|D(?:e[ceo]|ec|ee))[.,]?\s?.{1,2}-?){1,2}\s?[^A-Za-z]+\s(in-house|[A-Z])")
+new_event_pattern = re.compile(r"^[^a-z]*\s([^0-9]*\s)*((?:j|J(?:an|qn)|F(?:eb|eh)|Ma(?:r|rch|rc|rn|vch|tch)|A(?:pr|pril|prl|or|ar)|May|(?:Ju|du|tu|Su)(?:n|ne|u|l|ly)|Au(?:g|gg|uq)|S(?:ep|ept|eph)|O(?:ct|oet|oct)|N(?:ov|ow|no)|D(?:e[ceo]|ec|ee))[.,]?\s?.{1,2}-?){1,2}\s?[^A-Za-z]+\s(in-house|[A-Z])")
 
 def extract_raw_event_lines(page_lines, should_save):
     """

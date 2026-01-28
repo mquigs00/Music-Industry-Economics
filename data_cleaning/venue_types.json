@@ -28,6 +28,5 @@
   "fairgrounds": ["fairgrounds"],
   "silverdome": ["silverdome"],
   "grandstand": ["grandstand"],
-  "sportatorium": ["sportatorium"],
-  "univ": ["univ", "unwv", "unv"]
+  "sportatorium": ["sportatorium"]
 }

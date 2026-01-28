@@ -32,7 +32,6 @@ def append_artists_dim(path, artist_id, name, slug):
         writer = csv.writer(f)
         writer.writerow([artist_id, name, slug])
 
-
 def get_artist_ids(artist_names, dim_artists):
     """
     Convert a list of artist names to their corresponding id numbers
@@ -54,14 +53,13 @@ def get_artist_ids(artist_names, dim_artists):
     return artist_ids
 
 def update_artists_dim(all_artists, dim_artists):
-    '''
+    """
     Add any new artists to the artists dimension table
 
     :param all_artists: a set of all artists in the current issue
     :param dim_artists: the dictionary of existing artists
     :return: max_artist_id
-    '''
-
+    """
     max_artists_id = dim_artists["max_id"]
     existing_artists = dim_artists["by_slug"]
     for artist in all_artists:
@@ -79,20 +77,3 @@ def update_artists_dim(all_artists, dim_artists):
             append_artists_dim(DIM_ARTISTS_PATH, max_artists_id, artist_name_proper, key)
 
     return max_artists_id
-
-def identify_first_artist_line(processed_events_df):
-    """
-    Adds a new column to the dataframe with the first string from the raw artists list
-
-    :param processed_events_df (dataframe)
-    """
-    processed_events_df["artists"] = processed_events_df["artists"].apply(ast.literal_eval)                             # convert artist list from string to list
-    processed_events_df["first_artist_line"] = processed_events_df["artists"].apply(                                    # add first artist string to its own column
-        lambda artists: artists[0] if artists else None
-    )
-
-def clean_artist_name(artist):
-    artist = artist.strip()
-    artist = artist.strip(',')
-    artist = re.sub(r"[._:|{}\[\]]", "", artist)
-    return artist

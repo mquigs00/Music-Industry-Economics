@@ -1,13 +1,17 @@
 {
   "ala": 1,
+  "alberta": 59,
+  "alta": 59,
   "ariz": 3,
   "ark": 4,
   "arkansas": 4,
+  "bc": 62,
   "cali": 5,
   "cal": 5,
   "calif": 5,
   "colo": 6,
   "conn": 7,
+  "dc": 51,
   "fla": 9,
   "fta": 9,
   "florida": 9,
@@ -47,11 +51,7 @@
   "wash": 47,
   "wva": 48,
   "wis": 49,
-  "dc": 51,
-  "alberta": 59,
-  "alta": 59,
   "ontario": 60,
   "ont": 60,
-  "quebec": 61,
-  "bc": 62
+  "quebec": 61
 }

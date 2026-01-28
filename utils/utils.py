@@ -138,7 +138,7 @@ def add_slugs_to_csv(path):
 
 def load_event_keywords(path):
     with open(path, "r") as f:
-        event_keywords = set(json.load(f))
+        event_keywords = json.load(f)
 
     return event_keywords
 
@@ -171,3 +171,7 @@ def get_source_id(source_slug):
     dim_sources = load_dimension_tables()["sources"]["by_slug"]
     source_id = dim_sources[source_slug][0]["id"]
     return source_id
+
+def load_artist_corrections():
+    with open(ARTIST_CORRECTIONS_PATH, "r", encoding="utf-8") as f:
+        return json.load(f)

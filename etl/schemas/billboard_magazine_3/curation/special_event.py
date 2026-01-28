@@ -5,6 +5,21 @@ import re
 ORDINAL_FIX = re.compile(r"\b(\d+)(St|Nd|Rd|Th)\b")
 APOSTROPHE_FIX = re.compile(r"(['’])S\b")
 
+def find_event_end_index(artist_lines, event_keywords):
+    """
+
+    :param artist_lines: list
+    :param event_keywords: list
+    :return:
+    """
+    for i, line in enumerate(artist_lines):
+        for keyword in event_keywords:
+            if keyword in line:
+                print(f"Found {keyword} in {line}")
+                return i
+
+    return -1
+
 def calc_special_event_score(artist_lines):
     """
     Generates a score to estimate if the artist lines contain a special event name
@@ -13,13 +28,28 @@ def calc_special_event_score(artist_lines):
     """
     score = 0
     event_keywords = load_event_keywords(EVENT_KEYWORDS_PATH)
+    strong_event_keywords = event_keywords['strong']
+    weak_event_keywords = event_keywords['weak']
     total_artists_string = "".join(artist_lines)
+    event_candidate = None
 
-    if any(keyword in total_artists_string for keyword in event_keywords):
+    if any(keyword in total_artists_string for keyword in strong_event_keywords):
         score += 7
+
+    if any(keyword in total_artists_string for keyword in weak_event_keywords):
+        score += 5
 
     if ":" in total_artists_string:
         score += 5
+        pre_colon, post_colon = total_artists_string.split(":")
+        event_candidate = pre_colon
+    else:
+        event_end_idx = find_event_end_index(artist_lines, strong_event_keywords+weak_event_keywords)
+        if event_end_idx is not None:
+            event_candidate = " ".join(artist_lines[: event_end_idx + 1])
+
+    if "'" in event_candidate:
+        score += 2
 
     if "," in total_artists_string:
         score += 2
@@ -29,14 +59,14 @@ def calc_special_event_score(artist_lines):
 def extract_event_name(artist_lines):
     event_name_parts = []
     updated_artists = []
-    event_keywords = load_event_keywords(EVENT_KEYWORDS_PATH)
-    combined_artists = " ".join(artist_lines)
+    event_keywords = load_event_keywords(EVENT_KEYWORDS_PATH)["strong"] + load_event_keywords(EVENT_KEYWORDS_PATH)["weak"]
+    combined_artists = " ".join(artist_lines).lower()
     event_name = None
     found_colon = False
     found_keyword = False
     contains_colon = ":" in combined_artists
     contains_keyword = any(keyword in combined_artists for keyword in event_keywords)
-    print(artist_lines)
+    print(f"Contains colon: {contains_colon}, contains keyword: {contains_keyword}")
 
     for i, line in enumerate(artist_lines):
         print(line)

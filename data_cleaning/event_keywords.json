@@ -1,9 +1,21 @@
-[
-  "FESTIVAL",
-  "TOUR",
-  "SHOW",
-  "FEST",
-  "SUPERFEST",
-  "VOL.",
-  "SERIES"
-]
+{
+  "strong": [
+    "festival",
+    "tour",
+    "concert",
+    "annual",
+    "series",
+    "vol",
+    "fest",
+    "superfest",
+    "benefit"
+  ],
+  "weak": [
+    "dance",
+    "party",
+    "live",
+    "show",
+    "shows",
+    "bash"
+  ]
+}

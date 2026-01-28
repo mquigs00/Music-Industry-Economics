@@ -35,7 +35,7 @@ def parse_promoters(promoters_list, venue_names):
     return promoters_per_event, unique_promoters
 
 def curate_promoters(processed_events_df, curated_events_df, dim_promoters, venue_names):
-    promoters_list = processed_events_df["promoter"].apply(ast.literal_eval)
+    promoters_list = processed_events_df["promoter"]
 
     promoters_names_per_event, unique_promoters = parse_promoters(promoters_list, venue_names)
 

@@ -1,5 +1,33 @@
-from etl.dimensions.artists import update_artists_dim, clean_artist_name, get_artist_ids
+from etl.dimensions.artists import update_artists_dim, get_artist_ids
+from utils.utils import load_artist_corrections
 import slugify
+import ast
+import re
+
+
+def identify_first_artist_line(processed_events_df):
+    """
+    Adds a new column to the dataframe with the first string from the raw artists list
+
+    :param processed_events_df (dataframe)
+    """
+    processed_events_df["artists"] = processed_events_df["artists"].apply(ast.literal_eval)                             # convert artist list from string to list
+    processed_events_df["first_artist_line"] = processed_events_df["artists"].apply(                                    # add first artist string to its own column
+        lambda artists: artists[0] if artists else None
+    )
+
+def clean_artist_name(artist, in_special_event):
+    """
+
+    :param artist:
+    :param in_special_event:
+    :return:
+    """
+    artist = artist.strip()
+    artist = re.sub(r"[._:|{}\[\]]", "", artist)
+    if not in_special_event:
+        artist = artist.replace(',', '')
+    return artist
 
 def separate_event_artists(artists):
     """
@@ -18,7 +46,7 @@ def separate_event_artists(artists):
     else:
         return artists
 
-def merge_artists(raw_artist_strings):
+def merge_artists(raw_artist_strings, has_event_name):
     """
     Merge any artist names that overflow across multiple tokens into one token
 
@@ -26,9 +54,14 @@ def merge_artists(raw_artist_strings):
     :return:
     """
     merged_artists = []
-    signal = None
+    signal = join_behavior =  None
 
-    overflow_signals = ['&', 'AND', 'THE']
+    overflow_signals = {
+        '&': 'space',
+        'AND': 'space',
+        'THE': 'space',
+        '-': 'none'
+    }
 
     i = 0
 
@@ -36,21 +69,24 @@ def merge_artists(raw_artist_strings):
         signal = None
         token = raw_artist_strings[i]
 
-        # if the last token signifies overflow
-        for overflow_signal in overflow_signals:
+        for overflow_signal, join_type in overflow_signals.items():
             if token.endswith(overflow_signal):
                 signal = overflow_signal
-                break
+                join_behavior = join_type
+                continue                                                                                                # if a signal is found, move to next iteration
         if signal:                                                                                                      # if an overflow signal was found
-            if len(raw_artist_strings) > i+1:
-                merged_artist = f"{token} {raw_artist_strings[i + 1]}".strip()                                          # merge current token with next token
-                merged_artists.append(clean_artist_name(merged_artist))
+            if len(raw_artist_strings) > i+1:                                                                           # if there is at least one more token left
+                if join_behavior == 'space':
+                    merged_artist = f"{token} {raw_artist_strings[i + 1]}".strip()
+                else:
+                    merged_artist = f"{token}{raw_artist_strings[i + 1]}".strip()
+                merged_artists.append(clean_artist_name(merged_artist, has_event_name))                                 # add the merged token to the result list
                 i += 2                                                                                                  # skip next token
             else:
                 print(f"Overflow signal detected but no token after {raw_artist_strings[i]}")
                 i += 1
         else:
-            merged_artists.append(clean_artist_name(token))
+            merged_artists.append(clean_artist_name(token, has_event_name))                                             # if no signal, just add token to list
             i += 1
 
     return merged_artists
@@ -60,7 +96,7 @@ def separate_artists(raw_artists_strings, has_event_name):
     Separate artists that appeared on the same line but are not part of the same group
 
     :param raw_artists_strings:
-    :param has_event_name:
+    :param has_event_name: bool, does the raw artists list contain a special event name
     :return:
     """
     separated_artists = []
@@ -76,15 +112,15 @@ def separate_artists(raw_artists_strings, has_event_name):
 
             if '/' in token:
                 left, right = token.rsplit('/', 1)
-                separated_artists.append(clean_artist_name(left))
+                separated_artists.append(clean_artist_name(left, has_event_name))
 
                 if i + 1 < len(raw_artists_strings):                                                                    # if there is still another token in the list
-                    separated_artists.append(clean_artist_name(f"{right}/{raw_artists_strings[i+1]}"))                  # combine right side with next token
+                    separated_artists.append(clean_artist_name(f"{right}/{raw_artists_strings[i+1]}", has_event_name))
                     i += 1
                 else:
-                    separated_artists.append(clean_artist_name(right))
+                    separated_artists.append(clean_artist_name(right, has_event_name))
             else:
-                separated_artists.append(clean_artist_name(token))
+                separated_artists.append(clean_artist_name(token, has_event_name))
             i += 1
 
     return separated_artists
@@ -116,22 +152,6 @@ def generate_artist_candidates(artist_string):
 
     return candidates
 
-def score_candidate(candidate, dim_artists):
-    dim_artists_by_slug = dim_artists['by_slug']
-    score = 0
-
-    if slugify.slugify(candidate) in dim_artists_by_slug:
-        score += 10
-
-    word_count = len(candidate.split())
-
-    if word_count > 1:
-        score += 2
-    else:
-        score -= 1
-
-    return score
-
 def validate_artist(artist, dim_artists):
     """
     Checks if an artist candidate matches an existing artist in the dimension table
@@ -141,16 +161,20 @@ def validate_artist(artist, dim_artists):
     :return:
     """
     candidates = generate_artist_candidates(artist)                                                                     # generate potential candidates from the string
-    candidate_match = None
-    max_score = 0
+    artist_corrections_dict = load_artist_corrections()
+    best_candidate = None
+    best_score = 0
 
     for candidate in candidates:
-        candidate_score = score_candidate(candidate, dim_artists)                                                       # generate a score for the candidate
-        if candidate_score > max_score:
-            candidate_match = candidate
-            max_score = candidate_score
+        candidate_slug = slugify.slugify(candidate)
+        if candidate_slug in artist_corrections_dict:
+            return artist_corrections_dict[candidate_slug]
 
-    return candidate_match
+    for candidate in candidates:
+        if slugify.slugify(candidate) in dim_artists['by_slug']:
+            return candidate
+
+    return artist
 
 def parse_artist_names(raw_artists_strings, has_event_name, dim_artists):
     """
@@ -162,16 +186,13 @@ def parse_artist_names(raw_artists_strings, has_event_name, dim_artists):
     :return: final_artists: the artists list with each artist in one token
     """
 
-    merged_artists = merge_artists(raw_artists_strings)
+    merged_artists = merge_artists(raw_artists_strings, has_event_name)
     separated_artists = separate_artists(merged_artists, has_event_name)
-    print("Separated Artists:")
-    print(separated_artists)
 
     curated_artists = []
 
     for artist_string in separated_artists:
         validated_artist = validate_artist(artist_string, dim_artists)
-        print(f"Validated Artist: {validated_artist}")
         curated_artists.append(validated_artist)
 
     return curated_artists
@@ -200,9 +221,6 @@ def curate_artists(processed_events_df, curated_events_df, dim_artists):
         for artist_list in processed_events_df["artists_clean"]
         for artist in artist_list
     }
-
-    for artist in all_artists:
-        print(artist)
 
     update_artists_dim(all_artists, dim_artists)
 

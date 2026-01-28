@@ -3,21 +3,6 @@ from config.paths import DIM_VENUES_PATH, DIM_CITIES_PATH, VENUE_TYPES_PATH
 from utils.utils import build_reverse_map
 import csv
 
-def clean_location(location_tokens):
-    venue_types = build_reverse_map(VENUE_TYPES_PATH)  # import the map of common venue typos to their corrected version
-    NOISE = {"Productions", "Promotions", "Presents", "Presentations", "Prods.", "Concerts", "Inc.", "Entertainment", "sellout", "Jam", "~"}
-    clean_tokens = []
-    for i, token in enumerate(location_tokens):
-        token = token.replace(',', '')
-        token = token.replace('.', '')
-        if token not in NOISE:
-            if token.lower() in venue_types:
-                clean_tokens.append(venue_types[token.lower()].title())
-                print(f"Changes token to {venue_types[token.lower()]}")
-            else:
-                clean_tokens.append(token)
-    return clean_tokens
-
 def append_venue(venue_name, dim_venues, city_id, state_id):
     '''
     Adds the new venue to dim_venues.csv and dim_venues dictionary

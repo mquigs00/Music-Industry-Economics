@@ -101,7 +101,6 @@ def curate_date(dates, issue_year):
     # Schema 1: 'Oct 7'
     m = re.fullmatch(r"([A-Za-z]+)[.,]? (\d+)", total_dates)
     if m:
-        print("Matched schema 1")
         m, d1 = m.groups()
         start_date = end_date = date(int(issue_year), MONTH_MAP[m], int(d1))
         return start_date, end_date, total_dates

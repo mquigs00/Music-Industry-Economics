@@ -2,8 +2,11 @@ from utils.utils import build_reverse_map
 import slugify
 from config.paths import VENUE_TYPES_PATH, STATE_ALIASES_PATH
 from Levenshtein import distance as levenshtein_distance
-from etl.dimensions.location import append_venue, append_city, clean_location
+from etl.dimensions.location import append_venue, append_city
 import ast
+
+EDUCATIONAL_TOKENS = {"univ", "unwv", "unv"}
+
 
 def find_venue_type_idx(location_tokens):
     venue_types = build_reverse_map(VENUE_TYPES_PATH)
@@ -13,6 +16,26 @@ def find_venue_type_idx(location_tokens):
             return i
 
     return None
+
+def clean_location(location_tokens):
+    venue_types = build_reverse_map(VENUE_TYPES_PATH)  # import the map of common venue typos to their corrected version
+    NOISE = {"productions", "promotions", "presents", "presentations", "prods", "concerts", "inc",
+             "sellout", "jam", "associates", "attractions"}
+    clean_tokens = []
+    for i, token in enumerate(location_tokens):
+        token = token.replace(',', '')
+        token = token.replace('.', '')
+        lowered = token.lower()
+
+        if any(noise in lowered for noise in NOISE):
+            continue
+
+        if token.lower() in venue_types:
+            clean_tokens.append(venue_types[lowered].title())
+            print(f"Changes token to {venue_types[lowered]}")
+        else:
+            clean_tokens.append(token.title())
+    return clean_tokens
 
 def match_city_after_venue(location_tokens, state_id, dim_cities):
     '''
@@ -250,13 +273,14 @@ def match_existing_venues(venue_name, dim_venues, city_id, city_name, dim_cities
     :param venue_name (str)
     :param dim_venues (dict)
     :param city_id (int)
-    :param city_name (int)
+    :param city_name (str)
     :param dim_cities (dict)
     :return: venue_id
     '''
     venue_slug = slugify.slugify(venue_name)
     existing_venues_by_slug = dim_venues["by_slug"]
     existing_cities_by_id = dim_cities["by_id"]
+
     if venue_slug not in existing_venues_by_slug:
         print(f"Venue {venue_slug} not in existing venues")
         # if there are no venues with the same name, check for typos
@@ -271,9 +295,7 @@ def match_existing_venues(venue_name, dim_venues, city_id, city_name, dim_cities
                 print(f"No existing venues with city id {city_id}")
                 return None, None
             else:
-                #print(venues_with_matching_city)
                 for existing_venue in venues_with_matching_city:
-                    #print(f"Length = {len(venue_name)}, difference = {levenshtein_distance(existing_venue["name"], venue_name)}")
                     if len(venue_name) > 7 and levenshtein_distance(existing_venue["name"], venue_name) <= 2:
                         venue_slug = existing_venue["slug"]
                         venue_name = existing_venue["name"]
@@ -290,7 +312,10 @@ def match_existing_venues(venue_name, dim_venues, city_id, city_name, dim_cities
         candidate_city_id = candidate["city_id"]
         candidate_city_name = existing_cities_by_id[int(candidate_city_id)]["name"]
 
-        # if the city of the current venue has already been verified, make sure it is the same as the city id of the potential match
+        if any(educational_token in venue_slug for educational_token in EDUCATIONAL_TOKENS):
+            venue_id = candidate["id"]
+            venue_name = candidate["name"]
+            break
         if city_id == candidate_city_id:
             venue_id = candidate["id"]
             venue_name = candidate["name"]
@@ -303,6 +328,9 @@ def match_existing_venues(venue_name, dim_venues, city_id, city_name, dim_cities
             print(f"Candidate {candidate} does not have matching city id or city name")
 
     return venue_id, venue_name
+
+def looks_like_educational_institution(location_tokens):
+    return any(educational_tokens in location_tokens for educational_tokens in EDUCATIONAL_TOKENS)
 
 def isolate_venue_name(location_tokens):
     '''
@@ -317,6 +345,10 @@ def isolate_venue_name(location_tokens):
     venue_tokens = None
     reverse_furthest_keyword_idx = None
     found_venue_type = False
+
+    if not any(token.lower() in venue_types for token in location_tokens):
+        if looks_like_educational_institution(location_tokens):
+            return location_tokens
 
     # loop backwards through the remaining tokens. Once a venue keyword is found, extract every token from the front of the list to the keyword
     for i, token in enumerate(reversed(location_tokens)):
@@ -371,59 +403,65 @@ def identify_venue_name(processed_events_df, dimension_tables):
 
     processed_events_df["venue_name"] = venue_names
 
-def curate_location(processed_events_df, dimension_tables):
+def curate_location(location, dimension_tables):
+    dim_cities = dimension_tables["cities"]
+    dim_venues = dimension_tables["venues"]
+
+    venue_id = venue_name = city_id = city_index = city_candidate = None
+    location_tokens = [token for part in location for token in part.split()]  # split every word/item into a token
+    location_tokens = clean_location(location_tokens)
+    state_id, location_tokens = match_state_after_venue(location_tokens)
+
+    city_id, city_name, city_index = match_city_after_venue(location_tokens, state_id, dim_cities)
+
+    # if existing city was found, everything before the city should be the venue name
+    if city_id:
+        location_tokens = location_tokens[:city_index]
+    # if no existing city was found, check for a possible city to be recorded
+    else:
+        city_candidate, venue_type_idx = find_city_candidate(location_tokens)  # find what looks like a city name
+        if city_candidate and state_id is not None:  # if city candidate found and a state was found
+            city_id = append_city(city_candidate, dim_cities, state_id)  # add city to dim_cities
+        if venue_type_idx:  # remove city candidate from location tokens
+            location_tokens = location_tokens[:venue_type_idx + 1]
+
+    if state_id is None:
+        state_id, location_tokens = match_state_in_venue(
+            location_tokens)  # check if there is a state in the venue name
+
+    if city_id is None:
+        city_id = match_city_in_venue(location_tokens, dim_cities,
+                                      state_id)  # check if there is a city in the venue name
+
+    location_tokens = isolate_venue_name(location_tokens)
+    venue_name = " ".join(location_tokens)
+    print(venue_name)
+
+    if venue_name is not None:
+        venue_id, existing_venue_name = match_existing_venues(venue_name, dim_venues, city_id, city_candidate,
+                                                              dim_cities)  # check if the venue already exists in dim_venues
+
+        if venue_id is None:  # if it is a new venue
+            venue_id = append_venue(venue_name, dim_venues, city_id, state_id)  # add it to the dim_venues table
+        else:
+            venue_name = existing_venue_name
+
+    return venue_id, venue_name
+
+def curate_locations(processed_events_df, dimension_tables):
     '''
 
     :param processed_events_df: a dataframe of all the events in the current Billboard issue
     :param dimension_tables:
     :return:
     '''
-    dim_cities = dimension_tables["cities"]
-    dim_venues = dimension_tables["venues"]
     venue_ids = []
     venue_names = []
-    venue_id = None
 
     for location in processed_events_df["location"]:
-        city_id = city_index = city_candidate = None
-        location_tokens = [token for part in location for token in part.split()]                                        # split every word/item into a token
-        location_tokens = clean_location(location_tokens)
-        state_id, location_tokens = match_state_after_venue(location_tokens)
-
-        city_id, city_name, city_index = match_city_after_venue(location_tokens, state_id, dim_cities)
-
-        # if existing city was found, everything before the city should be the venue name
-        if city_id:
-            location_tokens = location_tokens[:city_index]
-        # if no existing city was found, check for a possible city to be recorded
-        else:
-            city_candidate, venue_type_idx = find_city_candidate(location_tokens)                                       # find what looks like a city name
-            if city_candidate and state_id is not None:                                                                 # if city candidate found and a state was found
-                city_id = append_city(city_candidate, dim_cities, state_id)                                             # add city to dim_cities
-            if venue_type_idx:                                                                                          # remove city candidate from location tokens
-                location_tokens = location_tokens[:venue_type_idx+1]
-
-        if state_id is None:
-            state_id, location_tokens = match_state_in_venue(location_tokens)                                                            # check if there is a state in the venue name
-
-        if city_id is None:
-            city_id = match_city_in_venue(location_tokens, dim_cities, state_id)                                        # check if there is a city in the venue name
-
-        location_tokens = isolate_venue_name(location_tokens)
-        venue_name = " ".join(location_tokens)
-
-        if venue_name is not None:
-            venue_id, existing_venue_name = match_existing_venues(venue_name, dim_venues, city_id, city_candidate, dim_cities)   # check if the venue already exists in dim_venues
-
-            if venue_id is None:                                                                                        # if it is a new venue
-                venue_id = append_venue(venue_name, dim_venues, city_id, state_id)                                      # add it to the dim_venues table
-            else:
-                venue_name = existing_venue_name
-
-            venue_ids.append(venue_id)
-            venue_names.append(venue_name)
-        else:
-            venue_ids.append(None)
-            venue_names.append(None)
+        print(f"Location = {location}")
+        venue_id, venue_name = curate_location(location, dimension_tables)
+        venue_ids.append(venue_id)
+        venue_names.append(venue_name)
 
     return venue_ids, venue_names
