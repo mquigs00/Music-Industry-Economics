@@ -1,0 +1,33 @@
+name: Deploy Lambda
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: |
+          pip install -r lambda_src/parse/requirements.txt -t lambda_layer/python
+
+      - name: Package Lambda
+        run: |
+          cd lambda_functions/injest && zip -r ../../parse.zip
+
+      - name: Deploy to AWS
+        uses: aws-actions/aws-lambda-deploy@v1
+        with:
+          function-name: my-parser-function
+          zip-file: parse.zip
+        env:
+          AWS_ACCESS_KEY_ID:

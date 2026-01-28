@@ -1,4 +1,5 @@
 id,name,slug
+0,Various Artists,various-artists
 1,Kenny Rogers,kenny-rogers
 2,Y&T,y-t
 3,Sammy Hagar,sammy-hagar
@@ -15,64 +16,93 @@ id,name,slug
 14,Allan Kaye,allan-kaye
 15,Mtume,mtume
 16,Anne Murray,anne-murray
-17,Krokos,krokos
-18, Chicago,chicago
-19,Tom Jones,tom-jones
-20,Crystal Gayle,crystal-gayle
-21,George Wallace,george-wallace
-22,Sawyer Brown,sawyer-brown
-23,Julio Iglesias,julio-iglesias
-24,Swimming Pool Qs,swimming-pool-qs
-25,Culture Club,culture-club
-26,Lou Reed,lou-reed
-27,Dokken,dokken
-28,Gallagher,gallagher
-29,Rod Stewart,rod-stewart
-30,Rush,rush
-31,Barry Manilow,barry-manilow
-32,Grateful Dead,grateful-dead
-33,Peabo Bryson,peabo-bryson
-34,Alan Kaye,alan-kaye
-35,Kickaxe,kickaxe
-36,Jerry Garcia,jerry-garcia
-37,Shelia E,shelia-e
-38,Zebra,zebra
-39,Sylvia,sylvia
-40,The Cure,the-cure
-41,Survivor,survivor
-42,Stanley Jordan,stanley-jordan
-43,Quiet Riot,quiet-riot
-44,Cyndi Lauper,cyndi-lauper
-45,Bill Cosby,bill-cosby
-46,Frankie Goes To Hollywood,frankie-goes-to-hollywood
-47,Rickie Lee Jones,rickie-lee-jones
-48,Frank Zappa,frank-zappa
-49,Link Wray,link-wray
-50,K,k
-51,Prince,prince
-52,Odizz Band,odizz-band
-53,Dads,dads
-54,Sheena Easton,sheena-easton
-55,General Public,general-public
-56,"Tony Iommi, Steve Cropper,",tony-iommi-steve-cropper
-57,Ronna Reeves,ronna-reeves
-58,Cory Hart,cory-hart
-59,Guitar Greats David,guitar-greats-david
-60,"Johnny Winter, Brian Setzer,",johnny-winter-brian-setzer
-61,Oak Ridge Boys,oak-ridge-boys
-62,Krokus,krokus
-63,"Neal Schon, Dickie Betts,",neal-schon-dickie-betts
-64,Roooco,roooco
-65,Kiss,kiss
-66,"Gilmour, Dave Edmunds,",gilmour-dave-edmunds
-67,Whitesnake,whitesnake
-68,Dan Fogelberg,dan-fogelberg
-69,Menudo,menudo
-70,George Strait,george-strait
-71,Rick Springfiled,rick-springfiled
-72,La Bamba & The Hubcaps,la-bamba-the-hubcaps
-73,Queensreich,queensreich
-74,Bangles,bangles
-75,New Johnny Five,new-johnny-five
-76,Reo Speedwagon,reo-speedwagon
-77,Corey Hart,corey-hart
+17,Krokus,krokus
+18,Jeff Beck,jeff-beck
+19,Stevie Ray Vaughn & Double Trouble,stevie-ray-vaughn-and-double-trouble
+20,Stanley Jordan,stanley-jordan
+21,La Bamba & The Hubcaps,la-bamba-and-the-hubcaps
+22,Rod Stewart,rod-stewart
+23,Reo Speedwagon,reo-speedwagon
+24,Link Wray,link-wray
+25,The Cure,the-cure
+26,Sheena Easton,sheena-easton
+27,Brian Setzer,brian-setzer
+28,Cory Hart,cory-hart
+29,Frank Zappa,frank-zappa
+30,Alan Kaye,alan-kaye
+31,Quiet Riot,quiet-riot
+32,Cyndi Lauper,cyndi-lauper
+33,Shelia E,shelia-e
+34,Rickie Lee Jones,rickie-lee-jones
+35,Rick Springfiled,rick-springfiled
+36,George Strait,george-strait
+37,Neal Schon,neal-schon
+38,Tony Iommi,tony-iommi
+39,General Public,general-public
+40,Frankie Goes To Hollywood,frankie-goes-to-hollywood
+41,Bill Cosby,bill-cosby
+42,Corey Hart,corey-hart
+43,Jerry Garcia,jerry-garcia
+44,Ronna Reeves,ronna-reeves
+45,Dan Fogelberg,dan-fogelberg
+46,Culture Club,culture-club
+47,Oak Ridge Boys,oak-ridge-boys
+48,David Gilmour,david-gilmour
+49,Dave Edmunds,dave-edmunds
+50,Johnny Winter,johnny-winter
+51,Neil Schon,neil-schon
+52,Dickie Betts,dickie-betts
+53,Steve Cropper,steve-cropper
+54,Chicago,chicago
+55,Thompson Twins,thompson-twins
+56,Juice Newton,juice-newton
+57,Helix,helix
+58,Charley Pride,charley-pride
+59,Ronnie Hayes & The Wild,ronnie-hayes-the-wild
+60,Alabama,alabama
+61,Whitesnake,whitesnake
+62,Combo,combo
+63,Lionel Richie,lionel-richie
+64,George Benson,george-benson
+65,Jethro Tull,jethro-tull
+66,Honeymoon Suite,honeymoon-suite
+67,Bruce Springsteen,bruce-springsteen
+68,Doug Henning,doug-henning
+69,Amy Grant,amy-grant
+70,Lee Greenwood,lee-greenwood
+71,Fixx,fixx
+72,David Copperfield,david-copperfield
+73,Armored Saint,armored-saint
+74,Barry Manilow,barry-manilow
+75,Berlin,berlin
+76,Crystal Gayle,crystal-gayle
+77,Tom Jones,tom-jones
+78,Krokos,krokos
+79,Grateful Dead,grateful-dead
+80,Dokken,dokken
+81,Gallagher,gallagher
+82,Swimming Pool Qs,swimming-pool-qs
+83,Peabo Bryson,peabo-bryson
+84,Sawyer Brown,sawyer-brown
+85,Julio Iglesias,julio-iglesias
+86,Rush,rush
+87,George Wallace,george-wallace
+88,Lou Reed,lou-reed
+89,Rooooo,rooooo
+90,Phil Collins & His Hot Tub Club,phil-collins-and-his-hot-tub-club
+91,Zebra,zebra
+92,Menudo,menudo
+93,Survivor,survivor
+94,Sylvia,sylvia
+95,Dads,dads
+96,Kickaxe,kickaxe
+97,Bangles,bangles
+98,La Bamba & The Hubcaps,la-bamba-the-hubcaps
+99,K,k
+100,New York,new-york
+101,City Fresh Festival,city-fresh-festival
+102,Queensreich,queensreich
+103,Roooco,roooco
+104,New Johnny Five,new-johnny-five
+105,Prince,prince
+106,Kiss,kiss
