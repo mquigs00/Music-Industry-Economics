@@ -1,15 +1,22 @@
-from utils.utils import build_reverse_map
+from data_cleaning.normalization import build_reverse_map
 import slugify
-from config.paths import VENUE_TYPES_PATH, STATE_ALIASES_PATH
+from config.paths import LOCATION_ALIASES_PATH
+from utils.utils import load_json
 from Levenshtein import distance as levenshtein_distance
 from etl.dimensions.location import append_venue, append_city
 import ast
+import re
 
 EDUCATIONAL_TOKENS = {"univ", "unwv", "unv"}
 
+LOCATION_ALIASES = load_json(LOCATION_ALIASES_PATH)
+
+VENUE_TYPES_MAP = build_reverse_map(LOCATION_ALIASES["venue_types"])
+CITY_ALIAS_MAP = build_reverse_map(LOCATION_ALIASES["cities"])
+STATE_ALIAS_MAP = LOCATION_ALIASES["states"]
 
 def find_venue_type_idx(location_tokens):
-    venue_types = build_reverse_map(VENUE_TYPES_PATH)
+    venue_types = build_reverse_map(VENUE_TYPES_MAP)
 
     for i, token in enumerate(location_tokens):
         if token.lower() in venue_types:
@@ -18,9 +25,9 @@ def find_venue_type_idx(location_tokens):
     return None
 
 def clean_location(location_tokens):
-    venue_types = build_reverse_map(VENUE_TYPES_PATH)  # import the map of common venue typos to their corrected version
+    venue_types = build_reverse_map(VENUE_TYPES_MAP)
     NOISE = {"productions", "promotions", "presents", "presentations", "prods", "concerts", "inc",
-             "sellout", "jam", "associates", "attractions"}
+             "sellout", "associates", "attractions"}
     clean_tokens = []
     for i, token in enumerate(location_tokens):
         token = token.replace(',', '')
@@ -36,6 +43,15 @@ def clean_location(location_tokens):
         else:
             clean_tokens.append(token.title())
     return clean_tokens
+
+def normalize_location_tokens(location_tokens):
+    normalized = []
+
+    for token in location_tokens:
+        parts = token.split('-')
+        normalized.extend(parts)
+
+    return normalized
 
 def match_city_after_venue(location_tokens, state_id, dim_cities):
     '''
@@ -117,7 +133,7 @@ def find_city_candidate(location_tokens):
     :return: city_candidate (str), venue_idx (int)
     '''
     city_candidate = venue_idx = None
-    reverse_venue_map = build_reverse_map(VENUE_TYPES_PATH)
+    reverse_venue_map = build_reverse_map(VENUE_TYPES_MAP)
 
     for index, word in reversed(list(enumerate(location_tokens))):
         clean_word = word.lower()
@@ -136,8 +152,8 @@ def match_state_after_venue(location_tokens):
     :param location_tokens: each remaining word in the location data broken into separate strings
     :return: state_id, location_tokens
     '''
-    state_aliases = build_reverse_map(STATE_ALIASES_PATH)
-    venue_patterns = build_reverse_map(VENUE_TYPES_PATH)
+    state_aliases = build_reverse_map(STATE_ALIAS_MAP)
+    venue_patterns = build_reverse_map(VENUE_TYPES_MAP)
     state_id = None
 
     # loop through each in the rest of the location strings
@@ -163,7 +179,7 @@ def match_state_in_venue(location_tokens):
     :param location_tokens (list)
     :return: state_id, location
     '''
-    state_aliases = build_reverse_map(STATE_ALIASES_PATH)
+    state_aliases = build_reverse_map(STATE_ALIAS_MAP)
     state_id = None
     state_chars = set("(){}")                                                                                           # state will usually be surrounded by parentheses
     remove_chars = "(){}."
@@ -193,12 +209,12 @@ def match_city_in_venue(location_tokens, dim_cities, state_id):
 
     :param location_tokens (list)
     :param dim_cities (dict)
+    :param state_id: int
     :return: city_id (int)
     '''
     city_id = None
     dim_cities_by_key = dim_cities["by_key"]
     dim_cities_by_slug = dim_cities["by_slug"]
-
 
     if state_id:
         cities_with_matching_state = [
@@ -333,15 +349,15 @@ def looks_like_educational_institution(location_tokens):
     return any(educational_tokens in location_tokens for educational_tokens in EDUCATIONAL_TOKENS)
 
 def isolate_venue_name(location_tokens):
-    '''
-    Checks for a type on the venue type. Last word of venue is usually Hall, Auditorium, Center, etc... so it uses venue_patterns to see if there is the venue type
-    matches any of the common typos and corrects it
+    """
+    Checks for a type on the venue type. Last word of venue is usually Hall, Auditorium, Center, etc... so it uses
+    venue_patterns to see if there is the venue type matches any of the common typos and corrects it
 
     :param location_tokens: the remaining location tokens, only the name of the venue should be left
     :return: the updated location tokens
-    '''
+    """
 
-    venue_types = build_reverse_map(VENUE_TYPES_PATH)             # import the map of common venue typos to their corrected version
+    venue_types = build_reverse_map(VENUE_TYPES_MAP)             # import the map of common venue typos to their corrected version
     venue_tokens = None
     reverse_furthest_keyword_idx = None
     found_venue_type = False
@@ -364,6 +380,22 @@ def isolate_venue_name(location_tokens):
         venue_tokens = location_tokens[:furthest_keyword_idx]
 
     return venue_tokens
+
+def correct_location_typos(location_tokens):
+    corrected_tokens = []
+
+    for token in location_tokens:
+        lowered = token.lower()
+        corrected = token
+
+        for misspelled_city, correct_city in CITY_ALIAS_MAP.items():
+            pattern = rf"\b{re.escape(misspelled_city)}\b"
+            if re.search(pattern, lowered):
+                corrected = re.sub(pattern, correct_city.title(), corrected, flags=re.IGNORECASE)
+
+        corrected_tokens.append(corrected)
+
+    return corrected_tokens
 
 def identify_venue_name(processed_events_df, dimension_tables):
     '''
@@ -409,6 +441,7 @@ def curate_location(location, dimension_tables):
 
     venue_id = venue_name = city_id = city_index = city_candidate = None
     location_tokens = [token for part in location for token in part.split()]  # split every word/item into a token
+    location_tokens = normalize_location_tokens(location_tokens)
     location_tokens = clean_location(location_tokens)
     state_id, location_tokens = match_state_after_venue(location_tokens)
 
@@ -430,16 +463,19 @@ def curate_location(location, dimension_tables):
             location_tokens)  # check if there is a state in the venue name
 
     if city_id is None:
-        city_id = match_city_in_venue(location_tokens, dim_cities,
-                                      state_id)  # check if there is a city in the venue name
+        city_id = match_city_in_venue(location_tokens, dim_cities, state_id)  # check if there is a city in the venue name
 
     location_tokens = isolate_venue_name(location_tokens)
+    location_tokens = correct_location_typos(location_tokens)
+
+    if city_id is None:
+        city_id = match_city_in_venue(location_tokens, dim_cities, state_id)
+
     venue_name = " ".join(location_tokens)
     print(venue_name)
 
     if venue_name is not None:
-        venue_id, existing_venue_name = match_existing_venues(venue_name, dim_venues, city_id, city_candidate,
-                                                              dim_cities)  # check if the venue already exists in dim_venues
+        venue_id, existing_venue_name = match_existing_venues(venue_name, dim_venues, city_id, city_candidate, dim_cities)  # check if the venue already exists in dim_venues
 
         if venue_id is None:  # if it is a new venue
             venue_id = append_venue(venue_name, dim_venues, city_id, state_id)  # add it to the dim_venues table

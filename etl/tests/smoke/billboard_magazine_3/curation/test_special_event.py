@@ -1,4 +1,4 @@
-from etl.schemas.billboard_magazine_3.curation.special_event import parse_event_name, calc_special_event_score, extract_event_name, find_event_end_index
+from etl.schemas.billboard_magazine_3.curation.special_event import *
 from utils.utils import load_dimension_tables, load_event_keywords
 import pytest
 from config.paths import EVENT_KEYWORDS_PATH
@@ -8,6 +8,7 @@ dim_special_events = dimension_tables['special_events']
 event_keywords = load_event_keywords(EVENT_KEYWORDS_PATH)
 strong_keywords = event_keywords["strong"]
 weak_keywords = event_keywords["weak"]
+tag_keywords = event_keywords["tags"]
 
 # FIND IDX OF EVENT KEYWORD
 def test_find_idx_of_event_keyword_idx_zero():
@@ -25,6 +26,18 @@ def test_find_idx_of_event_keyword_idx_keyword_after_colon():
     raw_artists = ['SWATCH WATCH: NEW YORK', 'CITY FRESH FESTIVAL']
     end_idx_event_keyword = find_event_end_index(raw_artists, strong_keywords+weak_keywords)
     assert end_idx_event_keyword == 1
+
+### FIND IDX OF EVENT TAG
+def test_find_tag_idx_end():
+    raw_artists = ['ROYAL NEW YORK DOO WOPP', 'VOL. 13']
+    tag_idx = find_tag_index(raw_artists, tag_keywords)
+    assert tag_idx == 1
+
+### FIND IDX OF EVENT TAG
+def test_find_tag_idx_start():
+    raw_artists = ['10TH ANNUAL TEXXAS WORLD', 'MUSIC FESTIVAL:', 'BOSTON, AEROSMITH', 'WHITESNAKE, POISON, TESLA', 'FARRENHEIT']
+    tag_idx = find_tag_index(raw_artists, tag_keywords)
+    assert tag_idx == 0
 
 # CALCULATE EVENT SCORE
 def test_calc_special_event_score_strong_keyword_colon_comma():
@@ -45,6 +58,11 @@ def test_cal_special_event_weak_keyword_colon():
 def test_calc_special_event_score_weak_keyword_apostrophe():
     raw_artists = ["RICHARD NADER'S VALENTINE'S", "DOO WOPP SHOW", "LITTLE ANTHONY",
                    "FRED PARIS & THE LITTLE", "SATINS", "THE BELMONTS & MARVELETTES"]
+    special_event_score = calc_special_event_score(raw_artists)
+    assert special_event_score == 7
+
+def test_calc_special_event_score_tag_and_number():
+    raw_artists = ['ROYAL NEW YORK DOO WOPP', 'VOL. 13']
     special_event_score = calc_special_event_score(raw_artists)
     assert special_event_score == 7
 
@@ -115,7 +133,6 @@ def test_extract_event_name_keyword_then_colon():
     assert event_name == 'Budweiser Superfest'
     assert updated_artists == ['PEABO BRYSON, KOOL &', 'THE GANG, WHISPERS,', 'MTUME, PATTI LABELLE']
 
-@pytest.mark.only
 def test_extract_event_name_colon_then_keyword():
     raw_artists = ['SWATCH WATCH: NEW YORK', 'CITY FRESH FESTIVAL']
     event_name, updated_artists = extract_event_name(raw_artists)
@@ -157,6 +174,7 @@ def test_parse_event_name_no_event_name():
         'COMBO D'
     ]
 
+@pytest.mark.only
 def test_parse_event_name_colon_first_line():
     artist_lines = ['BUDWEISER SUPERFEST:', 'PEABO BRYSON, KOOL &', 'THE GANG, WHISPERS,', 'MTUME, PATTI LABELLE']
     event_name, updated_artists = parse_event_name(artist_lines, dim_special_events)

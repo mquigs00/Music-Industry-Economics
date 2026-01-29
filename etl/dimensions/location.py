@@ -1,6 +1,6 @@
 import slugify
-from config.paths import DIM_VENUES_PATH, DIM_CITIES_PATH, VENUE_TYPES_PATH
-from utils.utils import build_reverse_map
+from config.paths import DIM_VENUES_PATH, DIM_CITIES_PATH, LOCATION_ALIASES_PATH
+from data_cleaning.normalization import build_reverse_map
 import csv
 
 def append_venue(venue_name, dim_venues, city_id, state_id):

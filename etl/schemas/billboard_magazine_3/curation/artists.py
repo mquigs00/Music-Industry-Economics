@@ -152,6 +152,13 @@ def generate_artist_candidates(artist_string):
 
     return candidates
 
+def is_plausible_artist(artist_candidate):
+    if len(artist_candidate) < 2:
+        return False
+    else:
+        return True
+
+
 def validate_artist(artist, dim_artists):
     """
     Checks if an artist candidate matches an existing artist in the dimension table
@@ -160,8 +167,10 @@ def validate_artist(artist, dim_artists):
     :param dim_artists: dict, the existing artists
     :return:
     """
-    candidates = generate_artist_candidates(artist)                                                                     # generate potential candidates from the string
+    if not is_plausible_artist(artist):
+        return None
     artist_corrections_dict = load_artist_corrections()
+    candidates = generate_artist_candidates(artist)  # generate potential candidates from the string
     best_candidate = None
     best_score = 0
 
@@ -193,7 +202,8 @@ def parse_artist_names(raw_artists_strings, has_event_name, dim_artists):
 
     for artist_string in separated_artists:
         validated_artist = validate_artist(artist_string, dim_artists)
-        curated_artists.append(validated_artist)
+        if validated_artist:
+            curated_artists.append(validated_artist)
 
     return curated_artists
 

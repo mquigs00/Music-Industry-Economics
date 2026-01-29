@@ -164,7 +164,7 @@ def get_issue_year(s3_uri):
 
 def curate_events():
     #processed_data = pd.read_csv(f"s3://{BUCKET_NAME}/{object_key}")
-    processed_events_df = pd.read_csv("test_files/processed/BB-1984-12-01.csv")
+    processed_events_df = pd.read_csv("test_files/processed/BB-1985-01-19.csv")
     curated_events_df = pd.DataFrame()
 
     dimension_tables = load_dimension_tables()
@@ -190,4 +190,4 @@ def curate_events():
     curate_num_sellouts(processed_events_df, curated_events_df)
     curate_ticket_prices(processed_events_df, curated_events_df)
     curate_meta_data(processed_events_df, curated_events_df)
-    curated_events_df.to_csv("test_files/curated/BB-1984-12-01_cur.csv", index=False)
+    curated_events_df.to_csv("test_files/curated/BB-1985-01-19_cur.csv", index=False)

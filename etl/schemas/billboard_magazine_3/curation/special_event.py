@@ -13,9 +13,18 @@ def find_event_end_index(artist_lines, event_keywords):
     :return:
     """
     for i, line in enumerate(artist_lines):
+        lowered = line.lower()
         for keyword in event_keywords:
-            if keyword in line:
-                print(f"Found {keyword} in {line}")
+            if keyword in lowered:
+                return i
+
+    return -1
+
+def find_tag_index(artist_lines, tag_keywords):
+    for i, line in enumerate(artist_lines):
+        lowered = line.lower()
+        for keyword in tag_keywords:
+            if keyword in lowered:
                 return i
 
     return -1
@@ -30,11 +39,19 @@ def calc_special_event_score(artist_lines):
     event_keywords = load_event_keywords(EVENT_KEYWORDS_PATH)
     strong_event_keywords = event_keywords['strong']
     weak_event_keywords = event_keywords['weak']
-    total_artists_string = "".join(artist_lines)
+    tag_keywords = event_keywords['tags']
+    total_artists_string = "".join(artist_lines).lower()
     event_candidate = None
 
     if any(keyword in total_artists_string for keyword in strong_event_keywords):
         score += 7
+
+    if any(keyword in total_artists_string for keyword in tag_keywords):
+        tag_idx = find_tag_index(artist_lines, tag_keywords)
+        post_tag = " ".join(artist_lines[tag_idx:])
+        print(f"Post tag: {post_tag}")
+        if any(char.isdigit() for char in post_tag):
+            score += 7
 
     if any(keyword in total_artists_string for keyword in weak_event_keywords):
         score += 5
@@ -45,9 +62,10 @@ def calc_special_event_score(artist_lines):
         event_candidate = pre_colon
     else:
         event_end_idx = find_event_end_index(artist_lines, strong_event_keywords+weak_event_keywords)
+        print(event_end_idx)
         if event_end_idx is not None:
             event_candidate = " ".join(artist_lines[: event_end_idx + 1])
-
+            print(event_candidate)
     if "'" in event_candidate:
         score += 2
 
@@ -57,6 +75,7 @@ def calc_special_event_score(artist_lines):
     return score
 
 def extract_event_name(artist_lines):
+    artist_lines_lowered = [artist_line.lower() for artist_line in artist_lines]
     event_name_parts = []
     updated_artists = []
     event_keywords = load_event_keywords(EVENT_KEYWORDS_PATH)["strong"] + load_event_keywords(EVENT_KEYWORDS_PATH)["weak"]
@@ -68,9 +87,9 @@ def extract_event_name(artist_lines):
     contains_keyword = any(keyword in combined_artists for keyword in event_keywords)
     print(f"Contains colon: {contains_colon}, contains keyword: {contains_keyword}")
 
-    for i, line in enumerate(artist_lines):
+    for i, line in enumerate(artist_lines_lowered):
         print(line)
-        keyword_in_line = any(keyword in line for keyword in event_keywords)                                     # check for a token like "Festival", "Fest", "Show"
+        keyword_in_line = any(keyword in line for keyword in event_keywords)                                            # check for a token like "Festival", "Fest", "Show"
         if keyword_in_line:
             found_keyword = True
             print(f"Found keyword {keyword_in_line} in {line}")

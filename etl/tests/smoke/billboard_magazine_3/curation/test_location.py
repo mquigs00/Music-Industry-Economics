@@ -77,6 +77,11 @@ def test_match_city_in_venue_typo():
     assert city_id == 132
     assert venue_name == 'Hartford Civic Center'
 
+def test_match_city_in_venue_hyphen():
+    clean_location_tokens = ['Tallahassee-Leon', 'County', 'Civic', 'Center']                                                   # BB-1984-12-01
+    city_id = match_city_in_venue(clean_location_tokens, dim_cities, 9)
+    assert city_id == 147
+
 def test_venue_keyword_before_end_of_name():
     location_data = ['Memorial', 'Coliseum']
     location_data = clean_location(location_data)
@@ -192,6 +197,19 @@ def test_find_city_candidate():
     assert city_candidate == "Dallas"
     assert venue_type_idx == 1
 
+# CORRECT LOCATION TYPOS
+def test_correct_city_typo_in_venue_with_hyphen():
+    isolated_venue_tokens = ['Tatlahassee-Leon County', 'Civic Center']
+    corrected_venue_tokens = correct_location_typos(isolated_venue_tokens)
+    corrected_venue_name = " ".join(corrected_venue_tokens)
+    assert corrected_venue_name == "Tallahassee-Leon County Civic Center"
+
+def test_correct_city_typo_in_venue():
+    isolated_venue_tokens = ['Winmpeg Arena']
+    corrected_venue_tokens = correct_location_typos(isolated_venue_tokens)
+    corrected_venue_name = " ".join(corrected_venue_tokens)
+    assert corrected_venue_name == "Winnipeg Arena"
+
 ### CURATE LOCATION
 def test_curate_location_clean():
     raw_location = ['Oakland Coliseum', 'Calif.']
@@ -221,3 +239,9 @@ def test_curate_location_existing_no_city_or_state():
     venue_id, venue_name = curate_location(raw_location, dimension_tables)
 
     assert venue_name == ['Cal Expo Amphitheatre', 'Sacramento']
+
+def test_curate_location_initals():
+    raw_location = ['James L. Knight', 'International Center Miami']
+    venue_id, venue_name = curate_location(raw_location, dimension_tables)
+
+    assert venue_name == "James L Knight International Center"

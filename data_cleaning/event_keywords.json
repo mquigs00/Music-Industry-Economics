@@ -3,9 +3,7 @@
     "festival",
     "tour",
     "concert",
-    "annual",
     "series",
-    "vol",
     "fest",
     "superfest",
     "benefit"
@@ -17,5 +15,11 @@
     "show",
     "shows",
     "bash"
+  ],
+  "tags": [
+    "vol",
+    "vol.",
+    "volume",
+    "annual"
   ]
 }

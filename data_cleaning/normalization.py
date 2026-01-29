@@ -1,16 +1,17 @@
 import json
-from config.paths import VENUE_TYPES_PATH
-from config.paths import STATE_ALIASES_PATH
+from config.paths import LOCATION_ALIASES_PATH
 
-def build_reverse_map(path):
+def build_reverse_map(regular_map):
+    """
+
+    :param regular_map: a dictionary of str --> list
+    :return: reverse_map: dict, each list value as the keys mapped to their original key
+    """
     reverse_map = {}
     try:
-        with open(path, "r") as f:
-            data = json.load(f)
-
-        for key, value in data.items():
+        for key, value in regular_map.items():
             if isinstance(value, list):
-                for subvalue in data[key]:
+                for subvalue in regular_map[key]:
                     reverse_map[subvalue] = key
             else:
                 reverse_map[key] = value

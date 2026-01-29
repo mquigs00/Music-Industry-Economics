@@ -8,7 +8,6 @@ import csv
 import pandas as pd
 import slugify
 from config.config import DIMENSION_TABLES
-from data_cleaning.normalization import build_reverse_map
 from config.paths import *
 import json
 
@@ -174,4 +173,8 @@ def get_source_id(source_slug):
 
 def load_artist_corrections():
     with open(ARTIST_CORRECTIONS_PATH, "r", encoding="utf-8") as f:
+        return json.load(f)
+
+def load_json(path):
+    with open(path) as f:
         return json.load(f)
