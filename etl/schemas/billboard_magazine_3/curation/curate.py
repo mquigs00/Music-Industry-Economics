@@ -1,6 +1,6 @@
 import ast
 import logging
-from utils.utils import *
+import pandas as pd
 logger = logging.getLogger()
 from etl.dimensions.artists import get_artist_name
 from etl.schemas.billboard_magazine_3.curation.artists import curate_artists, identify_first_artist_line
@@ -8,6 +8,9 @@ from etl.schemas.billboard_magazine_3.curation.dates import identify_start_date,
 from etl.schemas.billboard_magazine_3.curation.promoters import curate_promoters
 from etl.schemas.billboard_magazine_3.curation.location import identify_venue_name, curate_locations
 from etl.schemas.billboard_magazine_3.curation.special_event import curate_event_name
+from etl.utils.utils import load_dimension_tables, get_venue_name, load_corrections_table, get_source_id, parse_ocr_int
+import slugify
+from config.paths import EVENT_CORRECTIONS_PATH
 
 '''
 This curation script is for the Billboard Boxscore schema that ran from 1984-10-20 to 2001-07-21

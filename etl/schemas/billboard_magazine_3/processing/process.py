@@ -1,16 +1,14 @@
 import pdfplumber
 import io
 import re
-from utils.s3_utils import list_s3_files, client
+from etl.utils.s3_utils import client
 from config import BUCKET_NAME
-from config.paths import NON_MUSICIANS_PATH, NOISY_SYMBOLS_PATH
-from utils.utils import *
 import pandas as pd
-import csv
 import json
 from Levenshtein import distance as levenshtein_distance
 import logging
 from word2number import w2n
+import pytesseract
 logger = logging.getLogger()
 
 '''

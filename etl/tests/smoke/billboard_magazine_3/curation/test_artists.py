@@ -1,6 +1,6 @@
 from etl.schemas.billboard_magazine_3.curation.artists import parse_artist_names, merge_artists, generate_artist_candidates, validate_artist
-from utils.utils import load_dimension_tables
-import pytest
+from etl.utils.utils import load_dimension_tables
+
 dim_artists = load_dimension_tables()["artists"]
 
 # MERGE ARTISTS

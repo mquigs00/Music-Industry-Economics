@@ -1,7 +1,6 @@
 from etl.schemas.billboard_magazine_3.curation.artists import parse_artist_names
 from etl.schemas.billboard_magazine_3.curation.special_event import parse_event_name
-from utils.utils import load_dimension_tables
-import pytest
+from etl.utils.utils import load_dimension_tables
 
 dim_special_events = load_dimension_tables()["special_events"]
 dim_artists = load_dimension_tables()["artists"]

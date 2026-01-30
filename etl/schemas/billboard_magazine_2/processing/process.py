@@ -1,15 +1,3 @@
-import pdfplumber
-import io
-import re
-from utils.s3_utils import list_s3_files, client
-from config import BUCKET_NAME
-from config.paths import NON_MUSICIANS_PATH, NOISY_SYMBOLS_PATH
-from utils.utils import *
-import pandas as pd
-import csv
-import json
-from Levenshtein import distance as levenshtein_distance
-
 '''
 This parser is for the Billboard Boxscore that ran from 1981-10-03 to 1984-10-13
 '''

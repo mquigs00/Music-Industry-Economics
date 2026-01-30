@@ -1,9 +1,8 @@
-from utils.utils import load_dimension_tables
-import re
+from etl.utils.utils import load_dimension_tables
 import csv
 from config.paths import DIM_ARTISTS_PATH
 import slugify
-import ast
+
 
 def get_first_artist_name_by_id(artist_ids):
     if not artist_ids:

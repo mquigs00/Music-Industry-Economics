@@ -1,6 +1,5 @@
-from utils.utils import load_dimension_tables
+from etl.utils.utils import load_dimension_tables
 from etl.schemas.billboard_magazine_3.curation.location import *
-import pandas as pd
 import pytest
 
 dimension_tables = load_dimension_tables()
@@ -23,6 +22,16 @@ def test_clean_location_attractions():
     raw_location = ['The Forum', 'Inglewood, Cali', 'Attractions']                                                      # BB-1984-11-24
     location_cleaned = clean_location(raw_location)
     assert location_cleaned == ['The Forum', 'Inglewood Cali']
+
+def test_clean_location_summit():
+    raw_location = ['Houston Summit']
+    location_cleaned = clean_location(raw_location)
+    assert location_cleaned == ['Houston Summit']
+
+def test_clean_location_venue_starts_with_city():
+    raw_location = ['Cincinnati', 'Gardens']
+    location_cleaned = clean_location(raw_location)
+    assert location_cleaned == ['Cincinnati', 'Gardens']
 
 @pytest.mark.xfail(reason="Ambigous artist/location text; requires manual correction record for now")
 def test_clean_location_artist():
@@ -48,11 +57,20 @@ def test_match_state_after_venue():
 ### TEST MATCH STATE IN VENUE
 def test_match_state_in_venue_ambiguous():
     location_data = ['Casper', '(Wya.)', 'Events', 'Center']
-    state_id = match_state_in_venue(location_data)
+    state_id, location_tokens = match_state_in_venue(location_data)
     assert state_id == -1
 
+@pytest.mark.only
+def test_match_state_in_venue():
+    raw_location = ['New Haven Conn.) Coliseum']
+    location_tokens = [token for part in raw_location for token in part.split()]  # split every word/item into a token
+    location_tokens = normalize_location_tokens(location_tokens)
+    location_tokens = clean_location(location_tokens)
+    state_id, location_tokens = match_state_in_venue(location_tokens)
+    assert state_id == 7
+
 @pytest.mark.xfail(reason="Unclear that city is part of venue name and should not be removed")
-def test_city_after_venue_at_end_of_venue_name():
+def test_match_city_after_venue_at_end_of_venue_name():
     location_tokens = ['Univ.', 'of', 'Colorado', 'at', 'Boulder']
     city_id, city_name, city_index = match_city_after_venue(location_tokens, None, dim_cities)
     if city_id is not None:
@@ -61,6 +79,17 @@ def test_city_after_venue_at_end_of_venue_name():
     venue_name = " ".join(location_data)
     assert city_name == 'Boulder'
     assert venue_name == 'Univ. of Colorado at Boulder'
+
+@pytest.mark.xfail(reason="When no state is provided the function only matches unique city names that perfectly match")
+def test_match_city_after_venue_city_typo_no_state():
+    location_tokens = ['Fox Theater', 'St. Lous']
+    city_id, city_name, city_index = match_city_after_venue(location_tokens, None, dim_cities)
+    assert city_name == 'St. Louis'
+
+def test_match_city_after_venue_city_no_state():
+    location_tokens = ['Freedom Mall', 'Louisville']
+    city_id, city_name, city_index = match_city_after_venue(location_tokens, None, dim_cities)
+    assert city_name == 'Louisville'
 
 def test_match_city_in_venue_typo():
     location_tokens = ['Harttord', '(Conn.)', 'Civic', 'Center', '&', 'Associates', 'for', 'Pertorming', 'Arts']
@@ -107,14 +136,20 @@ def test_isolate_location_center():
     venue_name = " ".join(venue_tokens)
     assert venue_name == "Harttord (Conn.) Civic Center"
 
-def test_isolate_venue_name_multiple_keywords():
+def test_isolate_venue_name_multiple_event_types():
     remaining_tokens = ['Memorial', 'Auditorium']
     venue_tokens = isolate_venue_name(remaining_tokens)
     venue_name = " ".join(venue_tokens)
     assert venue_name == "Memorial Auditorium"
 
+def test_isolate_venue_name_no_venue_type():
+    remaining_tokens = ['Houston Summit']
+    venue_tokens = isolate_venue_name(remaining_tokens)
+    venue_name = " ".join(venue_tokens)
+    assert venue_name == "Houston Summit"
+
 @pytest.mark.xfail(reason="Isolate venue name assumes that venue keyword is the end of the venue name")
-def test_isolate_venue_name_starts_with_keyword():
+def test_isolate_venue_name_starts_with_event_type():
     remaining_tokens = ['Memorial', 'Union']                                                                            # BB-1984-11-24
     venue_tokens = isolate_venue_name(remaining_tokens)
     venue_name = " ".join(venue_tokens)
@@ -240,8 +275,20 @@ def test_curate_location_existing_no_city_or_state():
 
     assert venue_name == ['Cal Expo Amphitheatre', 'Sacramento']
 
-def test_curate_location_initals():
+def test_curate_location_initials():
     raw_location = ['James L. Knight', 'International Center Miami']
     venue_id, venue_name = curate_location(raw_location, dimension_tables)
 
     assert venue_name == "James L Knight International Center"
+
+def test_curate_location_no_venue_type():
+    raw_location = ['Houston Summit']                                                                                   # BB-1985-01-19
+    venue_id, venue_name = curate_location(raw_location, dimension_tables)
+
+    assert venue_name == "Houston Summit"
+
+def test_curate_location_venue_starts_with_city():
+    raw_location = ['Cincinnati Gardens']                                                                               # BB-1985-01-19
+    venue_id, venue_name = curate_location(raw_location, dimension_tables)
+
+    assert venue_name == ['Cincinnati Gardens']

@@ -1,4 +1,4 @@
-from utils.utils import load_event_keywords
+from etl.utils.utils import load_event_keywords
 from config.paths import EVENT_KEYWORDS_PATH, DIM_SPECIAL_EVENTS_PATH
 import re
 

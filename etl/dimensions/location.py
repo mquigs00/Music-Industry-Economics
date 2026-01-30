@@ -1,6 +1,5 @@
 import slugify
-from config.paths import DIM_VENUES_PATH, DIM_CITIES_PATH, LOCATION_ALIASES_PATH
-from data_cleaning.normalization import build_reverse_map
+from config.paths import DIM_VENUES_PATH, DIM_CITIES_PATH
 import csv
 
 def append_venue(venue_name, dim_venues, city_id, state_id):
@@ -43,7 +42,7 @@ def append_city(city_candidate, dim_cities, state_id):
     city_slug = slugify.slugify(city_candidate)
     with open(DIM_CITIES_PATH, "a", newline='', encoding='utf-8') as f:
         writer = csv.writer(f)
-        writer.writerow([city_id, city_candidate, city_slug, None, state_id])
+        writer.writerow([city_id, city_candidate, city_slug, state_id])
 
     dim_cities[city_slug] = {'id': city_id, 'name': city_candidate, 'slug': city_slug, 'aliases': None, 'state_id': state_id}
     dim_cities["max_id"] += 1

@@ -1,5 +1,5 @@
 from etl.dimensions.artists import update_artists_dim, get_artist_ids
-from utils.utils import load_artist_corrections
+from etl.utils.utils import load_artist_corrections
 import slugify
 import ast
 import re

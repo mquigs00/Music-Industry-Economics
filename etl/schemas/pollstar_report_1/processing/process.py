@@ -1,10 +1,10 @@
 import pdfplumber
 import io
 import re
-from utils.s3_utils import list_s3_files, client
+from etl.utils.s3_utils import list_s3_files, client
 from config import BUCKET_NAME
 from config.paths import NON_MUSICIANS_PATH, NOISY_SYMBOLS_PATH
-from utils.utils import *
+
 
 def clean_text(text):
     text = text.encode("latin1", errors="ignore").decode("utf-8", errors="ignore")
