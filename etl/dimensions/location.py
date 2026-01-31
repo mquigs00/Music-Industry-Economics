@@ -17,6 +17,8 @@ def append_venue(venue_name, dim_venues, city_id, state_id):
         return None
     venue_id = dim_venues["max_id"] + 1
     venue_slug = slugify.slugify(venue_name)
+    if city_id is None:
+        city_id = -1
 
     with open(DIM_VENUES_PATH, "a", newline='', encoding='utf-8') as f:
         writer = csv.writer(f)

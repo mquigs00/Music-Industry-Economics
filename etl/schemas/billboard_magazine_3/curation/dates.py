@@ -8,7 +8,15 @@ MONTH_MAP = {
     "Sept": 9, "Oct": 10, "Nov": 11, "Dec": 12
 }
 
-def identify_start_date(processed_events_df, issue_year):
+def get_issue_year(object_key):
+    issue_year = int(object_key.split('/')[-3])
+    return issue_year
+
+def get_issue_month(object_key):
+    issue_month = int(object_key.split('/')[-2])
+    return issue_month
+
+def identify_start_date(processed_events_df, object_key):
     '''
     Adds a start_date field to the processed_events_df in yyyy-mm-dd format
     :param processed_events_df:
@@ -16,22 +24,14 @@ def identify_start_date(processed_events_df, issue_year):
     :return:
     '''
     processed_events_df["dates"] = processed_events_df["dates"].apply(ast.literal_eval)                                                  # convert dates string to array of strings                                                                         # get issue year from S3 uri
+    issue_year = get_issue_year(object_key)
+    issue_month = get_issue_month(object_key)
 
     # curate date returns start date, end, date, and full string of dates. Just get the start date
     processed_events_df["start_date"] = [
-        curate_date(dates, issue_year)[0]
+        curate_date(dates, issue_year, issue_month)[0]
         for dates in processed_events_df["dates"]
     ]
-
-def curate_dates(processed_events_df, curated_events_df, issue_year):
-    '''
-
-    :param processed_events_df:
-    :param curated_events_df
-    :param issue_year: the year the magazine copy came out
-    '''
-    curated_dates = [curate_date(dates, issue_year) for dates in processed_events_df["dates"]]
-    curated_events_df["start_date"], curated_events_df["end_date"], curated_events_df["dates"] = zip(*curated_dates)
 
 def clean_stray_numbers(dates):
     '''
@@ -87,13 +87,29 @@ def clean_dates(raw_dates):
 
     return total_dates
 
-def curate_date(dates, issue_year):
+def determine_event_year(issue_year, issue_month, event_month):
+    """
+    Billboard does not provide event year, must be inferred based on the month the event took place in
+    :param issue_year: the year that the magazine issue was released
+    :param issue_month: the month that the magazine issue was released
+    :param event_month: the month the event took place
+    :return: event_year: int
+    """
+    if event_month - issue_month:
+        event_year = issue_year-1
+    else:
+        event_year = issue_year
+
+    return event_year
+
+def curate_date(dates, issue_year, issue_month):
     '''
     Takes a list of date strings and returns the start_date, end_date, and string of total dates.
     Currently uses regex to parse different date schemas, will be transitioning to a more intelligent function doesn't require a different solution for every schema
 
-    :param dates (list) a list of unstructured date strings, ex. ['Oct. 27-28/', '30-31/Nov. 2-3']
-    :param issue_year: the year the current magazine issue was released
+    :param dates (list), the unstructured date strings, ex. ['Oct. 27-28/', '30-31/Nov. 2-3']
+    :param issue_year: int, the year the current magazine issue was released
+    :param issue_month: int
     :return: start_date (date), end_date (date), total_dates (string)
     '''
     total_dates = clean_dates(dates)
@@ -102,53 +118,79 @@ def curate_date(dates, issue_year):
     m = re.fullmatch(r"([A-Za-z]+)[.,]? (\d+)", total_dates)
     if m:
         m, d1 = m.groups()
-        start_date = end_date = date(int(issue_year), MONTH_MAP[m], int(d1))
+        event_month = MONTH_MAP[m]
+        event_year = determine_event_year(issue_year, issue_month, event_month)
+        start_date = end_date = date(event_year, event_month, int(d1))
         return start_date, end_date, total_dates
 
     # Schema 2: 'Sept 20-27'
     m = re.fullmatch(r"([A-Za-z]+)[.,]? (\d+)-(\d+)", total_dates)
     if m:
         m, d1, d2 = m.groups()
-        start_date = date(int(issue_year), MONTH_MAP[m], int(d1))
-        end_date = date(int(issue_year), MONTH_MAP[m], int(d2))
+        event_month = MONTH_MAP[m]
+        event_year = determine_event_year(issue_year, issue_month, event_month)
+        start_date = date(event_year, event_month, int(d1))
+        end_date = date(event_year, event_month, int(d2))
         return start_date, end_date, total_dates
 
     # Schema 3: 'Oct 30-Nov 8'
     m = re.fullmatch(r"([A-Za-z]+)[.,]? (\d+)-([A-Za-z]+)[.,]? (\d+)", total_dates)
     if m:
         m1, d1, m2, d2 = m.groups()
-        start_date = date(int(issue_year), MONTH_MAP[m1], int(d1))
-        end_date = date(int(issue_year), MONTH_MAP[m2], int(d2))
+        event_start_month = MONTH_MAP[m1]
+        event_end_month = MONTH_MAP[m2]
+        event_start_year = determine_event_year(issue_year, issue_month, event_start_month)
+        event_end_year = determine_event_year(issue_year, issue_month, event_end_month)
+        start_date = date(event_start_year, event_start_month, int(d1))
+        end_date = date(event_end_year, event_end_month, int(d2))
         return start_date, end_date, total_dates
 
     # Schema 4:
     m = re.fullmatch(r"([A-Za-z]+)[.,]? (\d+)-(\d+)/(\d+)-(\d+)/([A-Za-z]+)[.,]? (\d+)-(\d+)", total_dates)
     if m:
         m1, start_day, e1, e2, e3, m2, e4, end_day = m.groups()
-        start_date = date(int(issue_year), MONTH_MAP[m1], int(start_day))
-        end_date = date(int(issue_year), MONTH_MAP[m2], int(end_day))
+        event_month = MONTH_MAP[m1]
+        event_year = determine_event_year(issue_year, issue_month, event_month)
+        start_date = date(event_year, event_month, int(start_day))
+        end_date = date(event_year, event_month, int(end_day))
         return start_date, end_date, total_dates
 
     # Schema 5: Nov. 4-5,7-9
     m = re.fullmatch(r"([A-Za-z]+)[.,]? (\d+)(-\d+)?,\s?(\d+)(-\d+)?", total_dates)
     if m:
         m, d1, d2, d3, d4 = m.groups()
-        start_date = date(int(issue_year), MONTH_MAP[m], int(d1))
+        event_month = MONTH_MAP[m]
+        event_year = determine_event_year(issue_year, issue_month, event_month)
+        start_date = date(event_year, event_month, int(d1))
         if d4 is not None:
-            end_date = date(int(issue_year), MONTH_MAP[m], int(d4.replace('-', '')))
+            end_date = date(event_year, event_month, int(d4.replace('-', '')))
         else:
-            end_date = date(int(issue_year), MONTH_MAP[m], int(d3))
+            end_date = date(event_year, event_month, int(d3))
         return start_date, end_date, total_dates
 
     # Case 6: ['Nov. 4-5,7-9', '11-12']
     m = re.fullmatch(r"([A-Za-z]+)[.,]? (\d+)(-\d+)?,\s?(\d+)(-\d+)?,\s?(\d+)(-\d+)?", total_dates)
     if m:
         m, d1, d2, d3, d4, d5, d6 = m.groups()
-        start_date = date(int(issue_year), MONTH_MAP[m], int(d1))
+        event_month = MONTH_MAP[m]
+        event_year = determine_event_year(issue_year, issue_month, event_month)
+        start_date = date(event_year, event_month, int(d1))
         if d6 is not None:
-            end_date = date(int(issue_year), MONTH_MAP[m], int(d6.replace('-', '')))
+            end_date = date(event_year, event_month, int(d6.replace('-', '')))
         else:
-            end_date = date(int(issue_year), MONTH_MAP[m], int(d5))
+            end_date = date(event_year, event_month, int(d5))
         return start_date, end_date, total_dates
 
     return None, None, None
+
+def curate_dates(processed_events_df, curated_events_df, object_key):
+    """
+
+    :param processed_events_df:
+    :param curated_events_df
+    :param issue_year: the year the magazine copy came out
+    """
+    issue_year = get_issue_year(object_key)
+    issue_month = get_issue_month(object_key)
+    curated_dates = [curate_date(dates, issue_year, issue_month) for dates in processed_events_df["dates"]]
+    curated_events_df["start_date"], curated_events_df["end_date"], curated_events_df["dates"] = zip(*curated_dates)

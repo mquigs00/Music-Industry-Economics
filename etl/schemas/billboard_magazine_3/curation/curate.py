@@ -16,7 +16,7 @@ from config.paths import EVENT_CORRECTIONS_PATH
 This curation script is for the Billboard Boxscore schema that ran from 1984-10-20 to 2001-07-21
 '''
 
-object_key = "processed/billboard/magazines/1984/11/BB-1984-11-24.csv"
+object_key = "processed/billboard/magazines/1985/01/BB-1985-02-09.csv"
 
 def curate_num_sellouts(processed_events_df, curated_events_df):
     mask = processed_events_df[["num_shows", "num_sellouts"]].dropna()                                                  # drop rows that are empty before validating
@@ -141,14 +141,17 @@ def implement_corrections(processed_events_df):
             if isinstance(raw_value, str):
                 try:
                     true_value = ast.literal_eval(raw_value)                                                            # convert the value to its natural type (list, float, int)
-                    #print(f"{true_value} converted to {type(true_value)}")
                 except (ValueError, SyntaxError):
                     true_value = raw_value
             else:
                 true_value = raw_value
 
-            processed_events_df.at[row_idx, field] = true_value                                                         # implement the correction into the dataframe
-            print(f'Corrected {raw_value}: {true_value}')
+            try:
+                processed_events_df.loc[row_idx, field] = true_value                                                     # implement the correction into the dataframe
+                print(f'Corrected {raw_value}: {true_value}')
+            except ValueError as e:
+                print(e)
+                print(f"Could not correct {field} to {true_value}")
 
 def curate_meta_data(processed_events_df, curated_events_df):
     curated_events_df["schema_id"] = processed_events_df["schema_id"]
@@ -160,11 +163,6 @@ def curate_numeric_fields(processed_events_df, curated_events_df):
         if validate_numeric_column(processed_events_df, col):
             curated_events_df[col] = processed_events_df[col].apply(parse_ocr_int)       # copy all original values as integers
 
-def get_issue_year(s3_uri):
-    issue_year = object_key.split('/')[-3]
-
-    return issue_year
-
 def curate_events():
     #processed_data = pd.read_csv(f"s3://{BUCKET_NAME}/{object_key}")
     processed_events_df = pd.read_csv("test_files/processed/BB-1985-01-19.csv")
@@ -173,7 +171,7 @@ def curate_events():
     dimension_tables = load_dimension_tables()
     identify_venue_name(processed_events_df, dimension_tables)
     identify_first_artist_line(processed_events_df)
-    identify_start_date(processed_events_df, get_issue_year(object_key))
+    identify_start_date(processed_events_df, object_key)
     processed_events_df["promoter"] = processed_events_df["promoter"].apply(ast.literal_eval)
     processed_events_df["ticket_prices"] = processed_events_df["ticket_prices"].apply(ast.literal_eval)
     add_raw_event_signature(processed_events_df)
@@ -187,7 +185,7 @@ def curate_events():
     print(processed_events_df["location"])
     curated_events_df["venue_id"], venue_names = curate_locations(processed_events_df, dimension_tables)
     curate_promoters(processed_events_df, curated_events_df, dimension_tables["promoters"], venue_names)
-    curate_dates(processed_events_df, curated_events_df, get_issue_year(object_key))
+    curate_dates(processed_events_df, curated_events_df, object_key)
     curate_event_signature(curated_events_df)
     curate_numeric_fields(processed_events_df, curated_events_df)
     curate_num_sellouts(processed_events_df, curated_events_df)

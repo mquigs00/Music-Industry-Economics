@@ -16,6 +16,11 @@ CITY_ALIAS_MAP = build_reverse_map(LOCATION_ALIASES["cities"])
 STATE_ALIAS_MAP = LOCATION_ALIASES["states"]
 
 def find_venue_type_idx(location_tokens):
+    """
+    Finds the index of the venue type
+    :param location_tokens: list, each string of the location
+    :return: int, the index of the venue_type
+    """
     venue_types = build_reverse_map(VENUE_TYPES_MAP)
 
     for i, token in enumerate(location_tokens):
@@ -25,10 +30,16 @@ def find_venue_type_idx(location_tokens):
     return None
 
 def clean_location(location_tokens):
+    """
+    Filter out tokens that match strings prevalent in other fields like promoter, artists, etc...
+    :param location_tokens: (list) the normalized location tokens
+    :return: clean_tokens (list), the filtered tokens that did not match noise strings
+    """
     venue_types = build_reverse_map(VENUE_TYPES_MAP)
     NOISE = {"productions", "promotions", "presents", "presentations", "prods", "concerts", "inc", "jam"
-             "sellout", "associates", "attractions"}
+             "sellout", "sellouts", "associates", "attractions"}
     clean_tokens = []
+
     for i, token in enumerate(location_tokens):
         token = token.replace(',', '')
         token = token.replace('.', '')
@@ -89,9 +100,9 @@ def match_city_after_venue(location_tokens, state_id, dim_cities):
                 candidate_slug = slugify.slugify(candidate_city_name)
                 candidate_key = (candidate_slug, state_id)
                 if candidate_key in dim_cities_by_key:
-                    city_id = dim_cities_by_key[candidate_key]["id"]                                                                     # get the existing city id
+                    city_id = int(dim_cities_by_key[candidate_key]["id"])                                               # get the existing city id
                     city_name = dim_cities_by_key[candidate_key]["name"]
-                    city_index = start+difference                                                                                        # get the index of the first word in the city
+                    city_index = start+difference                                                                       # get the index of the first word in the city
                     return city_id, city_name, city_index
 
         # if no exact match, filter down to venues in the same state, and check against venue names in case of typos in venue name
@@ -108,7 +119,7 @@ def match_city_after_venue(location_tokens, state_id, dim_cities):
                 if cities_with_matching_state:
                     for city in cities_with_matching_state:
                         if len(city["name"]) >= 5 and levenshtein_distance(city["name"].lower(), candidate_city_name) <= 2:
-                            city_id = city["id"]
+                            city_id = int(city["id"])
                             city_name = city["name"]
                             city_index = start+difference
                             return city_id, city_name, city_index
@@ -121,7 +132,7 @@ def match_city_after_venue(location_tokens, state_id, dim_cities):
                 # if no state id, check for a unique city with the same name ("Springfield", "Arlington", etc... are common, get ignored)
                 city_name_matches = dim_cities_by_slug.get(candidate_slug, [])
                 if len(city_name_matches) == 1:
-                    city_id = city_name_matches[0]["id"]
+                    city_id = int(city_name_matches[0]["id"])
                     city_name = city_name_matches[0]["name"]
                     city_index = start+difference
                     return city_id, city_name, city_index
@@ -162,8 +173,6 @@ def match_state_after_venue(location_tokens):
     # loop through each in the rest of the location strings
     for index, token in reversed(list(enumerate(location_tokens))):
         token_clean = token.lower().strip('.')
-        # this function is only meant to find states that come after the venue
-        # if a venue pattern like "hall", "auditorium", etc... is found then there is no state after the venue, just break
         if token_clean in venue_patterns:
             break
         if token_clean in state_aliases:                                                      # if the word is one of the possible aliases for a state
@@ -235,7 +244,7 @@ def match_city_in_venue(location_tokens, dim_cities, state_id):
                 candidate_key = (candidate_slug, state_id)
 
                 if candidate_key in dim_cities_by_key:
-                    city_id = dim_cities_by_key[candidate_key]["id"]
+                    city_id = int(dim_cities_by_key[candidate_key]["id"])
                     break
 
         if not city_id:
@@ -247,7 +256,7 @@ def match_city_in_venue(location_tokens, dim_cities, state_id):
                         candidate_slug = slugify.slugify(" ".join(location_tokens[i:i + window_size]).lower())
                         #print(f"{city['slug']} vs candidate: {levenshtein_distance(city['slug'], candidate_slug)}")
                         if len(candidate_slug) > 7 and levenshtein_distance(city["slug"], candidate_slug) <= 2:
-                            city_id = city["id"]
+                            city_id = int(city["id"])
                             return city_id
 
     # if state_id is not present, only match if there is only one instance of the given slug in dim cities (ex. "Las Vegas", "Los Angeles", "Honolulu")
@@ -258,7 +267,7 @@ def match_city_in_venue(location_tokens, dim_cities, state_id):
 
             if candidate_slug in dim_cities_by_slug and len(dim_cities_by_slug[candidate_slug]) == 1:
                 print(dim_cities_by_slug[candidate_slug])
-                city_id = dim_cities_by_slug[candidate_slug][0]["id"]
+                city_id = int(dim_cities_by_slug[candidate_slug][0]["id"])
                 break
 
     return city_id

@@ -1,9 +1,21 @@
 from etl.schemas.billboard_magazine_3.curation.artists import parse_artist_names
 from etl.schemas.billboard_magazine_3.curation.special_event import parse_event_name
+from etl.schemas.billboard_magazine_3.curation.dates import curate_date
 from etl.utils.utils import load_dimension_tables
+from datetime import date
+import pytest
 
 dim_special_events = load_dimension_tables()["special_events"]
 dim_artists = load_dimension_tables()["artists"]
+
+def test_event_year_before_issue_year():
+    object_key = "processed/billboard/magazines/1985/01/BB-1985-01-19.csv"
+    issue_year = int(object_key.split('/')[-3])
+    issue_month = int(object_key.split('/')[-2])
+    raw_dates = ['Dec. 31']
+    start_date, end_date, total_dates = curate_date(raw_dates, issue_year, issue_month)
+    print(start_date)
+    assert start_date == date(1984, 12, 31)
 
 def test_curate_artists_with_comma():
     """

@@ -58,8 +58,9 @@ def calc_special_event_score(artist_lines):
 
     if ":" in total_artists_string:
         score += 5
-        pre_colon, post_colon = total_artists_string.split(":")
+        pre_colon, post_colon = total_artists_string.split(":", 1)
         event_candidate = pre_colon
+
     else:
         event_end_idx = find_event_end_index(artist_lines, strong_event_keywords+weak_event_keywords)
         print(event_end_idx)
