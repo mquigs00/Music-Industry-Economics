@@ -1,6 +1,7 @@
 from etl.schemas.billboard_magazine_3.curation.artists import parse_artist_names
 from etl.schemas.billboard_magazine_3.curation.special_event import parse_event_name
 from etl.schemas.billboard_magazine_3.curation.dates import curate_date
+from etl.schemas.billboard_magazine_3.curation.curate import *
 from etl.utils.utils import load_dimension_tables
 from datetime import date
 import pytest
@@ -60,3 +61,4 @@ def test_curate_artists_festival_period():
     artists = parse_artist_names(artists, has_event_name)
     assert event_name == 'World Series of Rock'
     assert artists == ['WHITESNAKE', 'SKID ROW', 'GREAT WHITE', 'BAD ENGLISH', 'HERICANE ALICE']
+

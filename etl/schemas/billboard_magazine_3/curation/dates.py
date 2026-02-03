@@ -3,8 +3,8 @@ import re
 import ast
 
 MONTH_MAP = {
-    "Jan": 1, "Feb": 2, "Mar": 3, "Apr": 4,
-    "May": 5,"Jun": 6, "Jul": 7, "Aug": 8,
+    "Jan": 1, "Feb": 2, "March": 3, "Apr": 4,
+    "May": 5, "Jun": 6, "June": 6, "Jul": 7, "Aug": 8,
     "Sept": 9, "Oct": 10, "Nov": 11, "Dec": 12
 }
 
@@ -20,8 +20,7 @@ def identify_start_date(processed_events_df, object_key):
     '''
     Adds a start_date field to the processed_events_df in yyyy-mm-dd format
     :param processed_events_df:
-    :param issue_year: the year the magazine copy came out
-    :return:
+    :param object_key: the key of the processed csv file (partitioned by year/month)
     '''
     processed_events_df["dates"] = processed_events_df["dates"].apply(ast.literal_eval)                                                  # convert dates string to array of strings                                                                         # get issue year from S3 uri
     issue_year = get_issue_year(object_key)
@@ -74,11 +73,13 @@ def clean_dates(raw_dates):
         if i > 0 and date[0] != ',':
             date = "," + date
         date = re.sub(r"(?<=[A-Za-z]{3}),", ".", date)
+        date = re.sub(r"\d{2,},\d{3,}", "", date)  # remove any number that precedes a comma and numbers
+        date = re.sub(r"\d,\d{3,}", "", date)  # remove any number that precedes a comma and numbers
         date = re.sub(r"\d{3,}", "", date)                                                                  # remove any group of 3 or more digits
-        date = re.sub(r"\d,\d{3,}", "", date)
         date = re.sub(r"\b(?!Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Sept|Oct|Nov|Dec)[a-zA-Z]{2,}\b", "", date)# remove text that is not a month
         date = re.sub(r"[.;]", " ", date)                                                                  # remove any punctuation
         date = re.sub(r"\s+", " ", date).strip()                                                            # remove any whitespace
+        date = re.sub(r",$", "", date)
         clean_dates.append(date)
 
     clean_dates = clean_stray_numbers(clean_dates)                                                                           # remove any garbage numbers that may have gotten mixed in
@@ -90,12 +91,13 @@ def clean_dates(raw_dates):
 def determine_event_year(issue_year, issue_month, event_month):
     """
     Billboard does not provide event year, must be inferred based on the month the event took place in
-    :param issue_year: the year that the magazine issue was released
-    :param issue_month: the month that the magazine issue was released
-    :param event_month: the month the event took place
+    :param issue_year: int, the year that the magazine issue was released
+    :param issue_month: int,  the month that the magazine issue was released
+    :param event_month: int,  the month the event took place
     :return: event_year: int
     """
-    if event_month - issue_month:
+    # if the event month is later in year than the issue month, it must be from the previous year (impossible to report on future event metrics)
+    if event_month > issue_month:
         event_year = issue_year-1
     else:
         event_year = issue_year

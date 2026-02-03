@@ -21,7 +21,14 @@ def test_match_state_in_venue():
     state_id, location_tokens = match_state_in_venue(location_tokens)
     assert state_id == 7
 
-def test_find_state_in_venue_no_parentheses():
-    test_data = ['Rochester' 'N.Y,' 'War', 'Memorial']
-    state_id = match_state_in_venue(test_data)
-    assert state_id == 32
+def test_match_state_in_venue_no_separators():
+    location_tokens = ['Ohio', 'Center']
+    state_id, location_tokens = match_state_in_venue(location_tokens)
+    assert state_id == 35
+    assert location_tokens == ['Ohio', 'Center']
+
+def test_match_state_in_venue_with_separators():
+    location_tokens = ['Providence', '(R.I.)', 'Civic', 'Center']
+    state_id, location_tokens = match_state_in_venue(location_tokens)
+    assert state_id == 39
+    assert location_tokens == ['Providence', 'Civic', 'Center']

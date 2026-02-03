@@ -1,5 +1,4 @@
 from collections import defaultdict
-
 from pdf2image import convert_from_bytes
 import pytesseract
 import os
@@ -10,6 +9,7 @@ import slugify
 from config.config import DIMENSION_TABLES
 from config.paths import *
 import json
+import math
 
 def load_list_from_file(path):
     text_list = []
@@ -112,11 +112,23 @@ def index_dimension(rows, key_fn):
     }
 
 def get_venue_name(venue_id):
+    """
+
+    :param venue_id: int
+    :return:
+    """
+    if math.isnan(venue_id):
+        return ""
+
+    print(venue_id)
+
     if isinstance(venue_id, str):
         if venue_id.isdigit():
             venue_id = int(venue_id)
     elif isinstance(venue_id, bool):
         raise TypeError("venue_id must be int, not bool")
+    elif isinstance(venue_id, float):
+        venue_id = int(venue_id)
     if not isinstance(venue_id, int):
         print(f"venue_id must be int, not {type(venue_id)}")
 

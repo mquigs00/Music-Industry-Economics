@@ -2,7 +2,7 @@ id,name,slug,city_id,state_id
 1,Oakland Coliseum,oakland-coliseum,44,5
 2,Fox Theater,fox-theater,75,
 3,Reunion Arena,reunion-arena,9,
-4,The Forum,the-forum,122,5
+4,The Forum Inglewood Sellout Jam,the-forum-inglewood-sellout-jam,122,5
 5,Lyric Opera House,lyric-opera-house,29,
 6,Frank Erwin Center,frank-erwin-center,11,
 7,Concord Pavilion,concord-pavilion,121,5
@@ -10,81 +10,173 @@ id,name,slug,city_id,state_id
 9,Crisler Arena,crisler-arena,113,22
 10,Convention Center,convention-center,7,
 11,Hollywood Sportatorium,hollywood-sportatorium,120,9
-12,BSU Pavilion,bsu-pavilion,94,12
+12,Bsu Pavilion,bsu-pavilion,94,12
 13,Market Square Arena,market-square-arena,16,
 14,Irvine Meadows Amphitheatre,irvine-meadows-amphitheatre,114,5
 15,Centennial Hall,centennial-hall,84,
 16,Spectrum Theater,spectrum-theater,6,
 17,Barton Coliseum,barton-coliseum,117,
-18,NBC Arena,nbc-arena,54,
-19,Mid-South Coliseum,mid-south-coliseum,28,
+18,Nbc Arena,nbc-arena,54,
+19,Mid South Coliseum,mid-south-coliseum,28,
 20,Royal Oak Music Theater,royal-oak-music-theater,126,22
 21,Von Braun Civic Center,von-braun-civic-center,99,1
 22,Stephen F Austin College,stephen-f-austin-college,123,43
 23,Cal Expo Amphitheatre,cal-expo-amphitheatre,34,5
 24,Greek Theatre,greek-theatre,115,5
 25,G Rollie White Coliseum,g-rollie-white-coliseum,125,43
-26,McNichols Sports Arena,mcnichols-sports-arena,19,
+26,Mcnichols Sports Arena,mcnichols-sports-arena,19,
 27,San Francisco Civic Auditorium,san-francisco-civic-auditorium,17,
-28,Lawlor Events Center,lawlor-events-center,79,
+28,Lawior Events Center,lawior-events-center,79,
 29,Massey Hall,massey-hall,119,
 30,Frank Cainer Arena Behan Park,frank-cainer-arena-behan-park,116,62
 31,Radio City Musi¢ Hall,radio-city-music-hall,1,
 32,Byrne Meadowlands Arena,byrne-meadowlands-arena,129,30
 33,Carrier Dome,carrier-dome,105,32
-34,The Spectrum,the-spectrum,6,
-35,Harttord Civic Center,harttord-civic-center,132,7
-36,Capital Centre,capital-centre,127,20
-37,Univ Of Dayton Arena,univ-of-dayton-arena,112,35
-38,San Diego Sports Arena,san-diego-sports-arena,8,5
-39,Hilton Coliseum,hilton-coliseum,133,
-40,Athletic & Convocation Center,athletic-convocation-center,128,14
-41,Memorial Coliseum,memorial-coliseum,12,14
-42,Rupp Arena,rupp-arena,58,17
-43,Middle Tennessee State Univ Murphy Center,middle-tennessee-state-univ-murphy-center,134,
-44,Providence Civic Center,providence-civic-center,140,39
-45,Salt Palace,salt-palace,135,
-46,Fort Wayne Coliseum,fort-wayne-coliseum,82,14
-47,San Antonio Convention Center,san-antonio-convention-center,7,43
-48,Casper Events Center,casper-events-center,136,-1
-49,Municipal Auditorium,municipal-auditorium,21,
-50,Rochester War Memorial,rochester-war-memorial,106,32
-51,Jackson Coliseum,jackson-coliseum,100,24
-52,Lakeland Civic Center,lakeland-civic-center,111,9
-53,Univ Of Colorado At,univ-of-colorado-at,137,
-54,Beacon Theatre,beacon-theatre,1,
-55,Knoxville Civic Center,knoxville-civic-center,142,42
-56,Ahearn Fieldhouse,ahearn-fieldhouse,130,16
-57,Holiday Star Theatre,holiday-star-theatre,131,14
-58,Memorial,memorial,139,15
-59,Hearns Multi-Purpose Building,hearns-multi-purpose-building,141,25
-60,Utah State Univ Spectrum,utah-state-univ-spectrum,148,
-61,Joe Louis Arena,joe-louis-arena,26,
-62,Riverside Theater,riverside-theater,30,
-63,Thomas & Mack Center,thomas-mack-center,24,
-64,Maple Leaf Gardens,maple-leaf-gardens,119,
-65,Baltimore Civic Center,baltimore-civic-center,29,
-66,Tatlahassee-Leon County Civic Center,tatlahassee-leon-county-civic-center,,9
-67,Omaha Civic Auditorium,omaha-civic-auditorium,39,
-68,Tulsa Assembly Center,tulsa-assembly-center,47,
-69,Ector Country Coliseum,ector-country-coliseum,143,43
-70,Amarillo Civic Center,amarillo-civic-center,,43
-71,Jacksonville Civic Auditorium,jacksonville-civic-auditorium,10,9
-72,Boise State Univ Pavilion,boise-state-univ-pavilion,94,
-73,Activity Center,activity-center,,
-74,Univ Of Tennessee At Chattanooga Arena,univ-of-tennessee-at-chattanooga-arena,,
-75,Winmpeg Arena,winmpeg-arena,,-1
-76,Spokane Coliseum,spokane-coliseum,96,
-77,Louisville Gardens,louisville-gardens,,
-78,Tinsley Arena,tinsley-arena,31,
-79,Stabler Arena,stabler-arena,144,38
-80,Bismarck Auditorium,bismarck-auditorium,3,
-81,L Knight International Center,l-knight-international-center,41,
-82,Northrup Arena,northrup-arena,45,
-83,Syria Mosque,syria-mosque,67,
-84,Bing Crosby Hall,bing-crosby-hall,103,5
-85,The Concert Hall,the-concert-hall,119,
-86,Capital Theater,capital-theater,146,30
-87,Orpheum Theater,orpheum-theater,25,
-88,Opera House,opera-house,25,
-89,Civic Auditorium,civic-auditorium,145,36
+34,The Spectrum Philadelphia,the-spectrum-philadelphia,6,
+35,Hartford Civic Center,hartford-civic-center,132,7
+36,The Forum Inglewood,the-forum-inglewood,122,5
+37,Capital Centre,capital-centre,127,20
+38,Univ Of Dayton Arena,univ-of-dayton-arena,112,35
+39,San Diego Sports Arena,san-diego-sports-arena,8,5
+40,Hilton Coliseum,hilton-coliseum,133,
+41,Athletic & Convocation Center,athletic-convocation-center,128,14
+42,Memorial Coliseum,memorial-coliseum,170,14
+43,Rupp Arena,rupp-arena,58,17
+44,Middle Tennessee State Univ Murphy Center,middle-tennessee-state-univ-murphy-center,134,
+45,Providence Civic Center,providence-civic-center,140,39
+46,Salt Palace,salt-palace,135,
+47,Fort Wayne Coliseum,fort-wayne-coliseum,82,14
+48,San Antonio Convention Center,san-antonio-convention-center,7,43
+49,Casper Events Center,casper-events-center,136,-1
+50,Municipal Auditorium,municipal-auditorium,21,
+51,Rochester Ny War Memorial,rochester-ny-war-memorial,106,32
+52,Jackson Miss Coliseum,jackson-miss-coliseum,100,24
+53,Lakeland Civic Center,lakeland-civic-center,111,9
+54,Univ Of Colorado At Boulder,univ-of-colorado-at-boulder,137,
+55,Beacon Theatre,beacon-theatre,1,
+56,Rochester War Memorial,rochester-war-memorial,106,32
+57,Knoxville Civic Center,knoxville-civic-center,142,42
+58,Ahearn Fieldhouse,ahearn-fieldhouse,130,16
+59,Holiday Star Theatre,holiday-star-theatre,131,14
+60,Memorial,memorial,139,15
+61,Hearns Multi Purpose Building Columbia,hearns-multi-purpose-building-columbia,141,25
+62,Utah State Univ Spectrum,utah-state-univ-spectrum,-1,
+63,Joe Louis Arena,joe-louis-arena,26,
+64,Riverside Theater,riverside-theater,30,
+65,Thomas & Mack Center,thomas-mack-center,24,
+66,Maple Leaf Gardens,maple-leaf-gardens,119,
+67,Baltimore Civic Center,baltimore-civic-center,29,
+68,Tallahassee Leon County Civic Center,tallahassee-leon-county-civic-center,147,9
+69,Omaha Civic Auditorium,omaha-civic-auditorium,39,
+70,Tulsa Assembly Center,tulsa-assembly-center,47,
+71,Ector Country Coliseum,ector-country-coliseum,143,43
+72,Amarillo Civic Center,amarillo-civic-center,149,43
+73,Jacksonville Civic Auditorium,jacksonville-civic-auditorium,10,9
+74,Boise State Univ Pavilion,boise-state-univ-pavilion,94,
+75,Activity Center,activity-center,152,
+76,Univ Of Tennessee At Chattanooga Arena,univ-of-tennessee-at-chattanooga-arena,151,
+77,Winnipeg Arena,winnipeg-arena,153,-1
+78,Spokane Coliseum,spokane-coliseum,96,
+79,Louisville Gardens,louisville-gardens,150,
+80,Tinsley Arena,tinsley-arena,31,
+81,Stabler Arena,stabler-arena,144,38
+82,Bismarck Auditorium,bismarck-auditorium,3,
+83,James L Knight International Center,james-l-knight-international-center,41,
+84,Northrup Arena,northrup-arena,45,
+85,Syria Mosque Pittsburgh,syria-mosque-pittsburgh,67,
+86,Bing Crosby Hall,bing-crosby-hall,103,5
+87,The Concert Hall,the-concert-hall,119,
+88,Capital Theater,capital-theater,146,30
+89,Orpheum Theater,orpheum-theater,25,
+90,Opera House,opera-house,25,
+91,Civic Auditorium,civic-auditorium,145,36
+92,Houston Summit,houston-summit,4,
+93,San Francisco Civic Center,san-francisco-civic-center,17,
+94,Baton Rouge Centroplex,baton-rouge-centroplex,109,
+95,Reunion Arena,reunion-arena,-1,
+96,Freedom Mall,freedom-mall,150,
+97,Cow Palace,cow-palace,17,
+98,Fox Theater,fox-theater,-1,
+99,Long Beach Arena,long-beach-arena,43,5
+100,Oral Roberts Un Dee Tulsa,oral-roberts-un-dee-tulsa,47,
+101,Veterans’ Memorial Coliseum,veterans-memorial-coliseum,5,
+102,Front Row Theater,front-row-theater,53,
+103,Kansas Coliseum,kansas-coliseum,50,
+104,Freedom Hall,freedom-hall,-1,
+105,Springfield Coliseum,springfield-coliseum,157,21
+106,New Haven Coliseum,new-haven-coliseum,159,7
+107,Cincinnati Gardens,cincinnati-gardens,63,
+108,The Civic Center,the-civic-center,149,43
+109,The Orpheum Boston,the-orpheum-boston,25,
+110,Tucson Community Center,tucson-community-center,32,
+111,Universal Amphitheater,universal-amphitheater,154,5
+112,Tulsa Conventton Center Arena,tulsa-conventton-center-arena,47,
+113,Wendler Arena,wendler-arena,155,22
+114,Orange Pavilion,orange-pavilion,156,5
+115,Gammage Center,gammage-center,152,3
+116,Selland Arena,selland-arena,33,5
+117,Carlton West Green Bay,carlton-west-green-bay,167,49
+118,Special Events Center,special-events-center,31,31
+119,Mckale Memorial Center,mckale-memorial-center,32,3
+120,Charlotte Coliseum,charlotte-coliseum,15,-1
+121,Executive Inn,executive-inn,160,17
+122,Civic Center,civic-center,161,10
+123,Charleston Civic Center,charleston-civic-center,168,40
+124,Richfield Coliseum,richfield-coliseum,53,
+125,Hilman Civic Center,hilman-civic-center,162,14
+126,Leon County Civic Tallahassee,leon-county-civic-tallahassee,147,9
+127,Hara Arena,hara-arena,112,35
+128,Mid Hudson Civic Center,mid-hudson-civic-center,163,32
+129,Ohio Center,ohio-center,14,35
+130,Memorial Auditorium,memorial-auditorium,34,5
+131,Goiden Hall,goiden-hall,8,
+132,Met Center,met-center,45,
+133,Civic Auditorium,civic-auditorium,13,5
+134,Dane County Memorial Coliseum,dane-county-memorial-coliseum,76,49
+135,Frank Crane Arena,frank-crane-arena,116,62
+136,Capitol Theatre,capitol-theatre,146,30
+137,The Ritz New York,the-ritz-new-york,1,
+138,Civic Center,civic-center,164,36
+139,Tupperware Orlando,tupperware-orlando,57,9
+140,Roseland Ballroom,roseland-ballroom,1,
+141,Maude Cobb Civic Center,maude-cobb-civic-center,165,43
+142,Gym University Of California At San Diego,gym-university-of-california-at-san-diego,8,
+143,Music Theater,music-theater,126,22
+144,Sherwood Hall,sherwood-hall,166,16
+145,Ottawa Civic Center,ottawa-civic-center,169,60
+146,The Copa Toronto,the-copa-toronto,119,60
+147,Fox Theatre,fox-theatre,75,
+148,The Centrum,the-centrum,179,21
+149,Henry J Kaiser Convention Center,henry-j-kaiser-convention-center,44,5
+150,Freedom Hall,freedom-hall,150,17
+151,The Omni Atlanta,the-omni-atlanta,36,
+152,Soulh Fla Fairgrounds,soulh-fla-fairgrounds,173,9
+153,Lows State Center,lows-state-center,133,
+154,Greensboro Coliseum,greensboro-coliseum,68,33
+155,Arena,arena,151,
+156,Jacksonville Coliseum,jacksonville-coliseum,10,9
+157,Assembly Hall,assembly-hall,176,
+158,Southern Illinois Univ,southern-illinois-univ,177,
+159,Fox Theatre,fox-theatre,36,
+160,Knoxville Civic Coliseum,knoxville-civic-coliseum,142,42
+161,Rochester Community War Memorial,rochester-community-war-memorial,106,32
+162,Sunrise Musical Theatre,sunrise-musical-theatre,178,9
+163,Paramount Theater,paramount-theater,44,5
+164,Leon County Civic Center,leon-county-civic-center,147,9
+165,Augusta Civic Center,augusta-civic-center,161,10
+166,Fox Theatre,fox-theatre,-1,
+167,Onodaga War Memorial,onodaga-war-memorial,105,32
+168,Albany Civic Center,albany-civic-center,175,10
+169,West Palm Beach Auditorium,west-palm-beach-auditorium,173,9
+170,Greenville Memorial Auditorium,greenville-memorial-auditorium,174,33
+171,Cobo Arena,cobo-arena,26,
+172,Compton Terrace,compton-terrace,5,
+173,Nassau Coliseum,nassau-coliseum,171,32
+174,Pittsburgh Civic Arena,pittsburgh-civic-arena,67,
+175,Nassau Coliseum,nassau-coliseum,172,32
+176,Alpine Valley Music Theater,alpine-valley-music-theater,180,49
+177,Birmingham Jefferson Civic Center,birmingham-jefferson-civic-center,-1,1
+178,Meadowlands Arena,meadowlands-arena,129,30
+179,Rwertront Coliseum,rwertront-coliseum,63,
+180,Chastain Park,chastain-park,36,
+181,Greek Theatre,greek-theatre,2,

@@ -91,18 +91,155 @@ id,name,slug
 89,Rooooo,rooooo
 90,Phil Collins & His Hot Tub Club,phil-collins-and-his-hot-tub-club
 91,Zebra,zebra
-92,Menudo,menudo
-93,Survivor,survivor
-94,Sylvia,sylvia
-95,Dads,dads
-96,Kickaxe,kickaxe
-97,Bangles,bangles
-98,La Bamba & The Hubcaps,la-bamba-the-hubcaps
-99,K,k
-100,New York,new-york
-101,City Fresh Festival,city-fresh-festival
-102,Queensreich,queensreich
-103,Roooco,roooco
-104,New Johnny Five,new-johnny-five
-105,Prince,prince
-106,Kiss,kiss
+92,Dads,dads
+93,Sylvia,sylvia
+94,Prince,prince
+95,New Johnny Five,new-johnny-five
+96,Kiss,kiss
+97,Queensreich,queensreich
+98,Roooco,roooco
+99,Bangles,bangles
+100,Kickaxe,kickaxe
+101,Menudo,menudo
+102,La Bamba & The Hubcaps,la-bamba-the-hubcaps
+103,Survivor,survivor
+104,Rodney Dangerfield,rodney-dangerfield
+105,Lita Ford,lita-ford
+106,Twisted Sister,twisted-sister
+107,Tony Orlando,tony-orlando
+108,Michael Furlong,michael-furlong
+109,Dr Gonzo,dr-gonzo
+110,Los Lobos,los-lobos
+111,Night Ranger,night-ranger
+112,Della Reese,della-reese
+113,Molly Hatchet,molly-hatchet
+114,Dolly Parton,dolly-parton
+115,Neil Diamond,neil-diamond
+116,Aerosmith,aerosmith
+117,Iron Maiden,iron-maiden
+118,Eddie & The Tide,eddie-the-tide
+119,Mark Grey,mark-grey
+120,David Johansen,david-johansen
+121,Oingo Boingo,oingo-boingo
+122,What Is This?,what-is-this
+123,Sheila E,sheila-e
+124,Huey Lewis & The News,huey-lewis-the-news
+125,Tower Of Power,tower-of-power
+126,Triumph,triumph
+127,Karamazov Brothers,karamazov-brothers
+128,Poison Dollies,poison-dollies
+129,Chuck Berry,chuck-berry
+130,John Ayd,john-ayd
+131,Billboard February,billboard-february
+132,Kingfish,kingfish
+133,Jorma Kaukonew,jorma-kaukonew
+134,Billy Ocean,billy-ocean
+135,Metallica,metallica
+136,George Jones,george-jones
+137,Straffe,straffe
+138,Autograph,autograph
+139,New Riders Of The Purple,new-riders-of-the-purple
+140,Wasp,wasp
+141,Dio,dio
+142,Ronnie Laws,ronnie-laws
+143,Leon Russell,leon-russell
+144,Champaign,champaign
+145,Utfo & The Real Roxanne,utfo-the-real-roxanne
+146,Royce Lytel,royce-lytel
+147,Le Vert,le-vert
+148,Willie Nelson & Family,willie-nelson-family
+149,Bill Medley,bill-medley
+150,Sage,sage
+151,June Carter Cash,june-carter-cash
+152,Johnny Cash,johnny-cash
+153,Kinks,kinks
+154,Helen Cornelius,helen-cornelius
+155,Girlschool,girlschool
+156,Jerry Reed,jerry-reed
+157,Andreal Griminelli,andreal-griminelli
+158,Temptations,temptations
+159,Teena Marie,teena-marie
+160,Fat Boys,fat-boys
+161,Pointer Sisters,pointer-sisters
+162,Hank Williams Jr,hank-williams-jr
+163,Reno Philharmonic,reno-philharmonic
+164,Ronnie Milsap,ronnie-milsap
+165,Eddie Murphy,eddie-murphy
+166,Jeannine Burner,jeannine-burner
+167,Johnny Maths,johnny-maths
+168,Statler Brothers,statler-brothers
+169,Til Tuesday,til-tuesday
+170,Jim Stafford,jim-stafford
+171,Blake Clark,blake-clark
+172,Lillo Thomas,lillo-thomas
+173,Chicago Ufc,chicago-ufc
+174,Joan Rivers,joan-rivers
+175,Daryl Hall & John Oates,daryl-hall-john-oates
+176,Alambam,alambam
+177,Whodini,whodini
+178,New Edition,new-edition
+179,Luciano Pavarotti,luciano-pavarotti
+180,Bama Band Merle Kilgore,bama-band-merle-kilgore
+181,Deep Purple,deep-purple
+182,Wire Train,wire-train
+183,Dan Riley,dan-riley
+184,One Way,one-way
+185,Sos,sos
+186,Judds,judds
+187,Tears For Fears,tears-for-fears
+188,Gorme,gorme
+189,Willie Nelson,willie-nelson
+190,Joan Armatrading,joan-armatrading
+191,George Lindsay,george-lindsay
+192,Paul Anka,paul-anka
+193,Steve Lawrence & Eydie,steve-lawrence-eydie
+194,Animotion,animotion
+195,Accept,accept
+196,Diana Ross,diana-ross
+197,Madonna,madonna
+198,Earl Klugh,earl-klugh
+199,Lacy J Dalton,lacy-j-dalton
+200,Chuck Mangione,chuck-mangione
+201,Beastie Boys,beastie-boys
+202,Van Morrison,van-morrison
+203,Phil Collins & His Hot Tub,phil-collins-his-hot-tub
+204,Bryan Adams,bryan-adams
+205,Club,club
+206,Mose Allison,mose-allison
+207,Cheap Trick,cheap-trick
+208,Howard Jones,howard-jones
+209,Mountain,mountain
+210,Idle Eyes,idle-eyes
+211,Frankie Goes Tohollywood,frankie-goes-tohollywood
+212,Flash Kahan,flash-kahan
+213,Cheryl Lynn,cheryl-lynn
+214,Ready For The World,ready-for-the-world
+215,Jimmy Sturr Band Myron Floren,jimmy-sturr-band-myron-floren
+216,Annie Murray,annie-murray
+217,Santana,santana
+218,Crusaders,crusaders
+219,Commodores,commodores
+220,Lou Christie,lou-christie
+221,Fabian,fabian
+222,Shirelles,shirelles
+223,Dave Grusin,dave-grusin
+224,Randy Stonehill,randy-stonehill
+225,Smiths,smiths
+226,Lee Ritenour,lee-ritenour
+227,Petra,petra
+228,Billy Bragg,billy-bragg
+229,Bo Diddley,bo-diddley
+230,Con Funk Shun,con-funk-shun
+231,Drifters,drifters
+232,Leslie Gore,leslie-gore
+233,Kenny Loggins,kenny-loggins
+234,Mark,mark
+235,Platters,platters
+236,Petra Mecca,petra-mecca
+237,Luther Vandross,luther-vandross
+238,Stevie Ray Vaughan & Double Trouble,stevie-ray-vaughan-double-trouble
+239,Jeffrey Osborne,jeffrey-osborne
+240,Roberta Flack,roberta-flack
+241,Spyro Gyra,spyro-gyra
+242,Chris Bliss,chris-bliss
+243,Mark Mccollum,mark-mccollum

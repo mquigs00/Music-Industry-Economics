@@ -11,12 +11,13 @@ from etl.schemas.billboard_magazine_3.curation.special_event import curate_event
 from etl.utils.utils import load_dimension_tables, get_venue_name, load_corrections_table, get_source_id, parse_ocr_int
 import slugify
 from config.paths import EVENT_CORRECTIONS_PATH
+import re
 
 '''
 This curation script is for the Billboard Boxscore schema that ran from 1984-10-20 to 2001-07-21
 '''
-
-object_key = "processed/billboard/magazines/1985/01/BB-1985-02-09.csv"
+test_file = "BB-1985-06-22"
+object_key = f"processed/billboard/magazines/1985/06/{test_file}"
 
 def curate_num_sellouts(processed_events_df, curated_events_df):
     mask = processed_events_df[["num_shows", "num_sellouts"]].dropna()                                                  # drop rows that are empty before validating
@@ -49,25 +50,69 @@ def find_multiple_ticket_price_symbol(ticket_price):
         if symbol in ticket_price:
             return symbol
 
+def clean_ticket_price(ticket_price):
+    """
+
+    :param ticket_price: str
+    :return:
+    """
+    cleaned_ticket_price = ticket_price.strip()
+    cleaned_ticket_price = cleaned_ticket_price.replace('$', '')
+    cleaned_ticket_price = re.sub(r'\.$', '', cleaned_ticket_price)                                         # remove periods at the end with nothing
+    cleaned_ticket_price = re.sub(r',$', '', cleaned_ticket_price)
+    cleaned_ticket_price = re.sub(r'(\d{1,2}),(\d{2})', r'\1.\2', cleaned_ticket_price)
+
+    return cleaned_ticket_price
+
+def validate_ticket_price(ticket_price):
+    NOISE = {'(', ')', '{', '}', '[', ']'}
+
+    for noise_symbol in NOISE:
+        if noise_symbol in ticket_price:
+            return False
+
+    if bool(re.search(r'\d{2,},{3.}', ticket_price)):
+        print("Failed regex")
+        return False
+
+    return True
+
+def curate_ticket_price(ticket_price):
+    cleaned_ticket_price = clean_ticket_price(ticket_price)
+    if validate_ticket_price(cleaned_ticket_price):
+        try:
+            curated_ticket_price = float(cleaned_ticket_price)
+            return curated_ticket_price
+        except ValueError as e:
+            print(f"Error {e} curating ticket price: {cleaned_ticket_price}")
+            return None
+    else:
+        return None
+
+def curate_event_ticket_prices(ticket_price):
+    symbols = ['/', '-', '&']
+
+    event_prices = []
+    for prices in ticket_price:
+        if any(symbol in prices for symbol in symbols):
+            multiple_ticket_symbol = find_multiple_ticket_price_symbol(prices)
+            ticket_prices = prices.split(multiple_ticket_symbol)
+            for price in ticket_prices:
+                curated_ticket_price = curate_ticket_price(price)
+                if curated_ticket_price:
+                    event_prices.append(curated_ticket_price)
+        else:
+            curated_ticket_price = curate_ticket_price(prices)
+            if curated_ticket_price:
+                event_prices.append(curated_ticket_price)
+
+    return event_prices
+
 def curate_ticket_prices(processed_events_df, curated_events_df):
     clean_prices = []
 
-    symbols = ['/', '-', '&']
-
     for row in processed_events_df["ticket_prices"]:
-        event_prices = []
-        for prices in row:
-            prices = prices.replace('$', '')
-            if any(symbol in prices for symbol in symbols):
-                multiple_ticket_symbol = find_multiple_ticket_price_symbol(prices)
-                ticket_prices = prices.split(multiple_ticket_symbol)
-                for price in ticket_prices:
-                    price = price.replace(',', '.').strip()
-                    event_prices.append(float(price))
-            else:
-                prices = prices.replace(',', '.')
-                event_prices.append(float(prices))
-
+        event_prices = curate_event_ticket_prices(row)
         clean_prices.append(event_prices)
 
     curated_events_df["ticket_prices"] = clean_prices
@@ -147,7 +192,7 @@ def implement_corrections(processed_events_df):
                 true_value = raw_value
 
             try:
-                processed_events_df.loc[row_idx, field] = true_value                                                     # implement the correction into the dataframe
+                processed_events_df.at[row_idx, field] = true_value                                                     # implement the correction into the dataframe
                 print(f'Corrected {raw_value}: {true_value}')
             except ValueError as e:
                 print(e)
@@ -165,7 +210,7 @@ def curate_numeric_fields(processed_events_df, curated_events_df):
 
 def curate_events():
     #processed_data = pd.read_csv(f"s3://{BUCKET_NAME}/{object_key}")
-    processed_events_df = pd.read_csv("test_files/processed/BB-1985-01-19.csv")
+    processed_events_df = pd.read_csv(f"test_files/processed/{test_file}.csv")
     curated_events_df = pd.DataFrame()
 
     dimension_tables = load_dimension_tables()
@@ -174,6 +219,10 @@ def curate_events():
     identify_start_date(processed_events_df, object_key)
     processed_events_df["promoter"] = processed_events_df["promoter"].apply(ast.literal_eval)
     processed_events_df["ticket_prices"] = processed_events_df["ticket_prices"].apply(ast.literal_eval)
+
+    for col in ["promoter", "ticket_prices", "artists", "dates"]:
+        if col in processed_events_df.columns:
+            processed_events_df[col] = processed_events_df[col].astype("object")
     add_raw_event_signature(processed_events_df)
     for signature in processed_events_df["signature"]:
         print(signature)
@@ -191,4 +240,4 @@ def curate_events():
     curate_num_sellouts(processed_events_df, curated_events_df)
     curate_ticket_prices(processed_events_df, curated_events_df)
     curate_meta_data(processed_events_df, curated_events_df)
-    curated_events_df.to_csv("test_files/curated/BB-1985-01-19_cur.csv", index=False)
+    curated_events_df.to_csv(f"test_files/curated/{test_file}_cur.csv", index=False)

@@ -48,6 +48,9 @@ def clean_location(location_tokens):
         if lowered in NOISE:
             continue
 
+        if "www" in lowered or "http" in lowered:
+            continue
+
         if token.lower() in venue_types:
             clean_tokens.append(venue_types[lowered].title())
             print(f"Changes token to {venue_types[lowered]}")
@@ -189,7 +192,7 @@ def match_state_in_venue(location_tokens):
     Will not extract state name like 'Ohio Center' because many venues have states in their name but are not actually located in the given state
 
     :param location_tokens (list)
-    :return: state_id, location
+    :return: state_id (int), location_tokens (list)
     '''
     state_aliases = build_reverse_map(STATE_ALIAS_MAP)
     state_id = None
@@ -204,8 +207,9 @@ def match_state_in_venue(location_tokens):
         if token_clean in state_aliases:
             found_match = True
             try:
-                state_id = state_aliases[token_clean]                                                                   # get the states id number
-                del location_tokens[index]
+                state_id = state_aliases[token_clean]
+                if any(separator in token for separator in state_chars):                                                # remove state if it has separators around it
+                    del location_tokens[index]
             except KeyError:
                 state_id = -1                                               # if there is a state present, but it doesn't match any existing states, return -1 for unknown state id
                 del location_tokens[index]
@@ -303,7 +307,7 @@ def match_existing_venues(venue_name, dim_venues, city_id, city_name, dim_cities
     :param city_id (int)
     :param city_name (str)
     :param dim_cities (dict)
-    :return: venue_id
+    :return: venue_id (int), venue_name (str)
     '''
     venue_slug = slugify.slugify(venue_name)
     existing_venues_by_slug = dim_venues["by_slug"]
@@ -317,7 +321,7 @@ def match_existing_venues(venue_name, dim_venues, city_id, city_name, dim_cities
                 venue
                 for venues in existing_venues_by_slug.values()
                 for venue in venues
-                if venue["city_id"] == city_id
+                if int(venue["city_id"]) == city_id
             ]
             if not venues_with_matching_city:
                 print(f"No existing venues with city id {city_id}")
@@ -334,27 +338,29 @@ def match_existing_venues(venue_name, dim_venues, city_id, city_name, dim_cities
             return None, None
 
     venue_id = candidate_city_id = None
-    candidates = existing_venues_by_slug[venue_slug]                                                                    # get all venues that have the given name
+    candidates = existing_venues_by_slug[venue_slug]                                                                    # get all existing venues that match incoming venue name
 
     for candidate in candidates:
-        candidate_city_id = candidate["city_id"]
-        candidate_city_name = existing_cities_by_id[int(candidate_city_id)]["name"]
+        candidate_city_id = int(candidate["city_id"])                                                                        # get the existing venues id
+        candidate_city_name = existing_cities_by_id[int(candidate_city_id)]["name"]                                     # get the existing venues name
 
         if any(educational_token in venue_slug for educational_token in EDUCATIONAL_TOKENS):
-            venue_id = candidate["id"]
+            venue_id = int(candidate["id"])
             venue_name = candidate["name"]
             break
         if city_id == candidate_city_id:
-            venue_id = candidate["id"]
+            print(f"Candidate {candidate_city_id} has the same city_id")
+            venue_id = int(candidate["id"])
             venue_name = candidate["name"]
             break
         elif city_name == candidate_city_name:                                                                          # check if potential city name matches
-            venue_id = candidate["id"]
+            venue_id = int(candidate["id"])
             venue_name = candidate["name"]
             break
         else:
             print(f"Candidate {candidate} does not have matching city id or city name")
 
+    print(f"Returning after checking candidates, venue_id = {venue_id}, venue_name = {venue_name}")
     return venue_id, venue_name
 
 def looks_like_educational_institution(location_tokens):
@@ -498,7 +504,8 @@ def curate_location(location, dimension_tables):
     if venue_name is not None:
         venue_id, existing_venue_name = match_existing_venues(venue_name, dim_venues, city_id, city_candidate, dim_cities)  # check if the venue already exists in dim_venues
 
-        if venue_id is None:  # if it is a new venue
+        if venue_id is None and venue_name:  # if it is a new venue
+            print(f"Venue id is None, appending new venue!")
             venue_id = append_venue(venue_name, dim_venues, city_id, state_id)  # add it to the dim_venues table
         else:
             venue_name = existing_venue_name
@@ -506,17 +513,17 @@ def curate_location(location, dimension_tables):
     return venue_id, venue_name
 
 def curate_locations(processed_events_df, dimension_tables):
-    '''
+    """
+    Curate all locations in the from the processed events dataframe
 
     :param processed_events_df: a dataframe of all the events in the current Billboard issue
     :param dimension_tables:
     :return:
-    '''
+    """
     venue_ids = []
     venue_names = []
 
     for location in processed_events_df["location"]:
-        print(f"Location = {location}")
         venue_id, venue_name = curate_location(location, dimension_tables)
         venue_ids.append(venue_id)
         venue_names.append(venue_name)
