@@ -2,7 +2,7 @@ id,name,slug,city_id,state_id
 1,Oakland Coliseum,oakland-coliseum,44,5
 2,Fox Theater,fox-theater,75,
 3,Reunion Arena,reunion-arena,9,
-4,The Forum Inglewood Sellout Jam,the-forum-inglewood-sellout-jam,122,5
+4,The Forum Inglewood Sellout Jam,the-forum-inglewood-sellout-jam,304,5
 5,Lyric Opera House,lyric-opera-house,29,
 6,Frank Erwin Center,frank-erwin-center,11,
 7,Concord Pavilion,concord-pavilion,121,5
@@ -13,7 +13,7 @@ id,name,slug,city_id,state_id
 12,Bsu Pavilion,bsu-pavilion,94,12
 13,Market Square Arena,market-square-arena,16,
 14,Irvine Meadows Amphitheatre,irvine-meadows-amphitheatre,114,5
-15,Centennial Hall,centennial-hall,84,
+15,Centennial Hall,centennial-hall,302,
 16,Spectrum Theater,spectrum-theater,6,
 17,Barton Coliseum,barton-coliseum,117,
 18,Nbc Arena,nbc-arena,54,
@@ -145,18 +145,18 @@ id,name,slug,city_id,state_id
 144,Sherwood Hall,sherwood-hall,166,16
 145,Ottawa Civic Center,ottawa-civic-center,169,60
 146,The Copa Toronto,the-copa-toronto,119,60
-147,Fox Theatre,fox-theatre,75,
-148,The Centrum,the-centrum,179,21
+147,Fox Theatre,fox-theatre,-1,
+148,The Centrum Worcester,the-centrum-worcester,179,21
 149,Henry J Kaiser Convention Center,henry-j-kaiser-convention-center,44,5
 150,Freedom Hall,freedom-hall,150,17
 151,The Omni Atlanta,the-omni-atlanta,36,
 152,Soulh Fla Fairgrounds,soulh-fla-fairgrounds,173,9
-153,Lows State Center,lows-state-center,133,
+153,Lows State Center,lows-state-center,302,
 154,Greensboro Coliseum,greensboro-coliseum,68,33
-155,Arena,arena,151,
+155,Arena,arena,302,
 156,Jacksonville Coliseum,jacksonville-coliseum,10,9
-157,Assembly Hall,assembly-hall,176,
-158,Southern Illinois Univ,southern-illinois-univ,177,
+157,Assembly Hall,assembly-hall,302,
+158,Southern Illinois Unw Carbondale,southern-illinois-unw-carbondale,177,
 159,Fox Theatre,fox-theatre,36,
 160,Knoxville Civic Coliseum,knoxville-civic-coliseum,142,42
 161,Rochester Community War Memorial,rochester-community-war-memorial,106,32
@@ -166,7 +166,7 @@ id,name,slug,city_id,state_id
 165,Augusta Civic Center,augusta-civic-center,161,10
 166,Fox Theatre,fox-theatre,-1,
 167,Onodaga War Memorial,onodaga-war-memorial,105,32
-168,Albany Civic Center,albany-civic-center,175,10
+168,Albany Crve Center,albany-crve-center,175,10
 169,West Palm Beach Auditorium,west-palm-beach-auditorium,173,9
 170,Greenville Memorial Auditorium,greenville-memorial-auditorium,174,33
 171,Cobo Arena,cobo-arena,26,
@@ -175,8 +175,809 @@ id,name,slug,city_id,state_id
 174,Pittsburgh Civic Arena,pittsburgh-civic-arena,67,
 175,Nassau Coliseum,nassau-coliseum,172,32
 176,Alpine Valley Music Theater,alpine-valley-music-theater,180,49
-177,Birmingham Jefferson Civic Center,birmingham-jefferson-civic-center,-1,1
+177,Birmingham Jefferson Civic Center,birmingham-jefferson-civic-center,199,1
 178,Meadowlands Arena,meadowlands-arena,129,30
 179,Rwertront Coliseum,rwertront-coliseum,63,
 180,Chastain Park,chastain-park,36,
 181,Greek Theatre,greek-theatre,2,
+182,Pensacola Civic Center,pensacola-civic-center,237,9
+183,Ottawa Civic Center,ottawa-civic-center,304,60
+184,Berkeley Community Theater,berkeley-community-theater,115,5
+185,Carolina Coliseum,carolina-coliseum,-1,
+186,Manatee Civic Center,manatee-civic-center,181,9
+187,Cumberland County Civic Center,cumberland-county-civic-center,182,19
+188,Springfield Civic Center,springfield-civic-center,157,21
+189,Warfield Theater,warfield-theater,17,
+190,Fox Theater,fox-theater,36,
+191,Alumni Hall,alumni-hall,183,60
+192,Hamilton Place Donald,hamilton-place-donald,208,60
+193,Center,center,184,60
+194,Sandstone Bonner Springs,sandstone-bonner-springs,196,16
+195,Universal City Amphitheater,universal-city-amphitheater,154,5
+196,Carolina Coliseum,carolina-coliseum,185,40
+197,Market Square Arena,market-square-arena,-1,
+198,Circle Star Theater,circle-star-theater,186,5
+199,Jacksonville Civic Center,jacksonville-civic-center,10,9
+200,Sunrise Theater,sunrise-theater,187,9
+201,Audobon Zoo New Orleans,audobon-zoo-new-orleans,52,
+202,The Aladdin Las Vegas,the-aladdin-las-vegas,24,
+203,Mud Island Memphis,mud-island-memphis,28,
+204,Garden State Arts Center,garden-state-arts-center,188,30
+205,Kiel Auditorium,kiel-auditorium,75,
+206,Welsh Auditorium,welsh-auditorium,189,22
+207,Ruth Eckard Hall,ruth-eckard-hall,190,9
+208,Vernon Valley Action Park,vernon-valley-action-park,-1,30
+209,Prairie Capital Convention Center,prairie-capital-convention-center,-1,
+210,Celebrity Theater,celebrity-theater,5,
+211,Mecca Arena,mecca-arena,30,
+212,Royal Qak Music Theater,royal-qak-music-theater,304,22
+213,Prairie Capital Convention Center,prairie-capital-convention-center,-1,
+214,Mud Island Amphitheatre,mud-island-amphitheatre,28,
+215,Red Rocks Amphitheatre,red-rocks-amphitheatre,19,
+216,Fox Theater,fox-theater,-1,
+217,Arizona Veterans Memorial Coliseum,arizona-veterans-memorial-coliseum,5,
+218,Tanglewood Lenox,tanglewood-lenox,-1,21
+219,Richmond Coliseum,richmond-coliseum,97,46
+220,Henry J Kaiser Auditorium,henry-j-kaiser-auditorium,44,5
+221,Indianapolis Sports Arena,indianapolis-sports-arena,16,
+222,Grand Ole Opry House,grand-ole-opry-house,21,
+223,Great Plains Coliseum,great-plains-coliseum,191,36
+224,Savannah Civic Center,savannah-civic-center,225,10
+225,Bicentennial Center,bicentennial-center,166,16
+226,Mesker Music Theater,mesker-music-theater,192,14
+227,Memorial Hall,memorial-hall,193,25
+228,Albany Civic Center,albany-civic-center,175,10
+229,Clowes Hall,clowes-hall,16,
+230,Centennial Hall,centennial-hall,35,3
+231,Rainbow Music Hall,rainbow-music-hall,19,
+232,The Moonshadow Atlanta,the-moonshadow-atlanta,36,
+233,Stadium,stadium,6,
+234,Merriweather Post Pavilion,merriweather-post-pavilion,194,20
+235,Saratoga Springs Performing Arts Center,saratoga-springs-performing-arts-center,-1,32
+236,Ventura County Fairgrounds,ventura-county-fairgrounds,-1,5
+237,Hersheypark Hershey,hersheypark-hershey,290,38
+238,Astrodome Houston V Unlimited,astrodome-houston-v-unlimited,4,
+239,St Paul Civic Center,st-paul-civic-center,263,23
+240,Blossom Music Festival Cuyahoga Falls,blossom-music-festival-cuyahoga-falls,-1,35
+241,Blossom Music Festival Cuyahoga Falls,blossom-music-festival-cuyahoga-falls,-1,35
+242,Riverband Music Theater,riverband-music-theater,63,
+243,Red Rocks Amphitheatre,red-rocks-amphitheatre,-1,
+244,Assembly Center,assembly-center,109,18
+245,Sun Dome,sun-dome,48,9
+246,Veterans Auditorium,veterans-auditorium,-1,
+247,Freedom Hall,freedom-hall,195,42
+248,Sandstone Amphitheatre,sandstone-amphitheatre,196,16
+249,Monroe Civic Center,monroe-civic-center,-1,18
+250,Indianapolis Sports & Music Center,indianapolis-sports-music-center,16,
+251,Comiskey Park,comiskey-park,3,
+252,Arena,arena,30,
+253,Public Hall,public-hall,53,
+254,Westbury Music Fair,westbury-music-fair,284,32
+255,Compton Terrace,compton-terrace,-1,
+256,Pontiac Sverdome,pontiac-sverdome,258,22
+257,Tacoma Dome,tacoma-dome,202,47
+258,Nassau Veterans Memorial Coliseum,nassau-veterans-memorial-coliseum,172,32
+259,Minnesota State Fair,minnesota-state-fair,263,
+260,Orange County Fairgrounds,orange-county-fairgrounds,197,32
+261,New York State Fair,new-york-state-fair,105,
+262,Busch Gadens Williamsburg,busch-gadens-williamsburg,-1,46
+263,Rushmore Plaza Civic Center,rushmore-plaza-civic-center,198,41
+264,Minnesota State Fair,minnesota-state-fair,-1,
+265,Starlight Theater,starlight-theater,37,25
+266,Muni Opera Stlouis,muni-opera-stlouis,-1,
+267,Orange County Farrgrounds Middletown,orange-county-farrgrounds-middletown,197,32
+268,New York State Far Syracuse,new-york-state-far-syracuse,105,
+269,Nashville Municipal Auditorium,nashville-municipal-auditorium,21,
+270,Meadowbrook Music Festival Rochester,meadowbrook-music-festival-rochester,106,32
+271,Tingley Coliseum,tingley-coliseum,31,
+272,Indiana State Fair,indiana-state-fair,16,
+273,The Summit Houston,the-summit-houston,4,
+274,The Forum Inglewood Calf,the-forum-inglewood-calf,122,
+275,Alameda County Coliseum Arena,alameda-county-coliseum-arena,44,5
+276,The Oma Allanta,the-oma-allanta,-1,
+277,Memorial Coliseum,memorial-coliseum,-1,
+278,Sports Arena,sports-arena,2,5
+279,Jefferson Civie Center,jefferson-civie-center,199,1
+280,Olympic Saddledome Calgary,olympic-saddledome-calgary,-1,59
+281,Wheeling Civic Center,wheeling-civic-center,-1,48
+282,Lake Charles Civic Center,lake-charles-civic-center,227,18
+283,Saginaw Civic Center,saginaw-civic-center,155,22
+284,Recreation Hall,recreation-hall,200,5
+285,Mckale Center,mckale-center,32,3
+286,The Ritz New York City,the-ritz-new-york-city,1,
+287,The Palace,the-palace,201,7
+288,Bushnell Memorial Hall,bushnell-memorial-hall,132,7
+289,Chicago Theater,chicago-theater,3,
+290,Popular Creek Music Theater,popular-creek-music-theater,269,
+291,Place Stadium,place-stadium,203,62
+292,Memorial Coliseum,memorial-coliseum,-1,
+293,Shoreline Amphitheater,shoreline-amphitheater,204,5
+294,Pacific Amphitheater,pacific-amphitheater,205,5
+295,Great Woods Center,great-woods-center,209,21
+296,Pan American Center,pan-american-center,207,31
+297,Warwick Music Theater,warwick-music-theater,-1,
+298,Copps Coliseum,copps-coliseum,208,60
+299,Dane County Expo Center & Coliseum,dane-county-expo-center-coliseum,76,49
+300,Pine Knob Music Theater,pine-knob-music-theater,211,22
+301,Starwood Amphitheater,starwood-amphitheater,21,42
+302,The Spectrum Ti Philadelphia,the-spectrum-ti-philadelphia,6,38
+303,Pittsburgh Civic Arena & Exhibit Hall Arena,pittsburgh-civic-arena-exhibit-hall-arena,67,38
+304,Olympic Saddledome Calgary Canada,olympic-saddledome-calgary-canada,-1,59
+305,Rosemont Horizon Rosemont Il,rosemont-horizon-rosemont-il,-1,
+306,Montreal Forum Montreal Canada,montreal-forum-montreal-canada,280,61
+307,Buffalo Memorial Auditorium,buffalo-memorial-auditorium,80,32
+308,The Omni Atlanta Gap Herman’S Hermits,the-omni-atlanta-gap-hermans-hermits,36,10
+309,Utica Memorial Auditorium,utica-memorial-auditorium,212,32
+310,Met Center,met-center,213,23
+311,Rivera Chicago In,rivera-chicago-in,3,
+312,In The Country Lanierland Cumming,in-the-country-lanierland-cumming,-1,10
+313,The Orpheum Theatre,the-orpheum-theatre,25,21
+314,Onondaga County War Memorial,onondaga-county-war-memorial,105,32
+315,Five Seasons Center,five-seasons-center,-1,
+316,In The Country Calhoun Calhoun,in-the-country-calhoun-calhoun,-1,10
+317,Neal S Blaisdell Center,neal-s-blaisdell-center,54,11
+318,Niagara Falls International Convention Center,niagara-falls-international-convention-center,214,32
+319,Olympic Center,olympic-center,215,32
+320,Norfolk Scope Cultural & Convention Center,norfolk-scope-cultural-convention-center,95,46
+321,Pavilion,pavilion,3,13
+322,The Forum Anglewood {__,the-forum-anglewood,268,5
+323,Menichols Arena,menichols-arena,19,6
+324,Arena,arena,34,5
+325,Arizona Veterans Memorial Coliseum & Fairgrounds,arizona-veterans-memorial-coliseum-fairgrounds,5,3
+326,Hollywood Palladium Hollywood ___},hollywood-palladium-hollywood,120,5
+327,Seattle Center,seattle-center,18,47
+328,Memorial Coliseum,memorial-coliseum,-1,
+329,Civic Arena,civic-arena,67,38
+330,Rensselaer Polytechnic Institute Troy,rensselaer-polytechnic-institute-troy,-1,32
+331,Music Hall,music-hall,4,43
+332,Lakefront Arena,lakefront-arena,52,18
+333,Cumberland County Civic Center,cumberland-county-civic-center,-1,
+334,Willmar Civic Center Arena,willmar-civic-center-arena,223,23
+335,Frank Erwin Center,frank-erwin-center,302,43
+336,Mayo Civic Center,mayo-civic-center,224,23
+337,Sioux Falls Arena/Coliseum/Convention Hall,sioux-falls-arena-coliseum-convention-hall,-1,
+338,Performing Arts Center,performing-arts-center,-1,
+339,Santa Monica Civic Auditorium,santa-monica-civic-auditorium,226,5
+340,Civic Memorial Auditorium,civic-memorial-auditorium,59,5
+341,Saenger Theatre,saenger-theatre,52,18
+342,King Tut Columbus,king-tut-columbus,14,35
+343,The Ritz New York City Scher,the-ritz-new-york-city-scher,1,32
+344,Richfield Coliseum,richfield-coliseum,216,35
+345,Meadowlands Arena & Giants Stadium,meadowlands-arena-giants-stadium,129,30
+346,Civic Arena & Exhibit Hall,civic-arena-exhibit-hall,67,38
+347,Tucson Community Center Arena,tucson-community-center-arena,32,3
+348,El Paso County Coliseum,el-paso-county-coliseum,23,43
+349,Hirsch Memorial Coliseum,hirsch-memorial-coliseum,102,18
+350,The Celebrity Theatre,the-celebrity-theatre,45,23
+351,Univ Of Nevada At Las Vegas Dee Las Vegas,univ-of-nevada-at-las-vegas-dee-las-vegas,24,28
+352,Greenville Memorial Auditorium,greenville-memorial-auditorium,-1,
+353,Braden Auditorium,braden-auditorium,-1,
+354,Cumberland County Memorial,cumberland-county-memorial,228,33
+355,Orchestra Hall,orchestra-hall,45,23
+356,Westport Playhouse St Louis Ity Sellout,westport-playhouse-st-louis-ity-sellout,304,25
+357,Starry Night Portland Ore Stilletto'S,starry-night-portland-ore-stilletto-s,-1,
+358,The Ritz New York Scher,the-ritz-new-york-scher,1,32
+359,Westport Playhouse St Louis,westport-playhouse-st-louis,75,25
+360,Erb Memorial Union Ballroom,erb-memorial-union-ballroom,229,37
+361,George M Sullivan Sports Arena,george-m-sullivan-sports-arena,73,
+362,Fox Theatre,fox-theatre,75,25
+363,British Columbia Place Stadium,british-columbia-place-stadium,203,
+364,Kentucky Fair & Exposition Center,kentucky-fair-exposition-center,150,17
+365,Tampa Sun Dome,tampa-sun-dome,48,9
+366,Dayton Hara Arena & Exposition Center,dayton-hara-arena-exposition-center,112,35
+367,Ocean Center,ocean-center,221,9
+368,Duluth Arena,duluth-arena,230,23
+369,Brown County Veterans Memorial Arena,brown-county-veterans-memorial-arena,167,49
+370,Jacksonville Convention Center,jacksonville-convention-center,10,9
+371,Winston Salem Memorial Coliseum,winston-salem-memorial-coliseum,90,33
+372,Tullio Convention Center,tullio-convention-center,231,38
+373,Toledo Masonic Auditorium: Toledo,toledo-masonic-auditorium-toledo,84,35
+374,Wichita Falls Activity Center & Memorial Auditorium,wichita-falls-activity-center-memorial-auditorium,9,43
+375,Greenville Memorial Auditorium,greenville-memorial-auditorium,232,40
+376,Viking Hall,viking-hall,233,42
+377,Bayfront Center,bayfront-center,85,9
+378,Convocation Center,convocation-center,234,46
+379,Bob Carr Performing Arts Center,bob-carr-performing-arts-center,57,9
+380,Hollywood Palladium Hollywood Murphy'S Law,hollywood-palladium-hollywood-murphy-s-law,120,5
+381,Gaillard Municipal Auditorium,gaillard-municipal-auditorium,168,40
+382,Ozark Civic Center,ozark-civic-center,235,1
+383,Barnhill Arena,barnhill-arena,236,4
+384,Memphis Convention Center,memphis-convention-center,28,42
+385,Saenger Theatre,saenger-theatre,237,9
+386,Smith Center,smith-center,238,33
+387,The Centrum In Worcester Worcester,the-centrum-in-worcester-worcester,179,21
+388,Chicago Stadium,chicago-stadium,3,
+389,Hampton Coliseum,hampton-coliseum,239,46
+390,Smith Center,smith-center,240,33
+391,Oakland Alameda County Coliseum,oakland-alameda-county-coliseum,44,5
+392,Riverfront Coliseum,riverfront-coliseum,63,35
+393,Myriad Convention Center,myriad-convention-center,20,36
+394,The Omni Atlanta Era,the-omni-atlanta-era,36,10
+395,The Arena,the-arena,75,25
+396,Sportatorium,sportatorium,120,9
+397,Charles M Murphy Athletic Center,charles-m-murphy-athletic-center,134,42
+398,Jacksonville Veterans Memorial Coliseum,jacksonville-veterans-memorial-coliseum,10,9
+399,Uoyd Noble Center,uoyd-noble-center,241,36
+400,Mabee Center,mabee-center,47,36
+401,Coliseum,coliseum,242,1
+402,Lee Civic Center,lee-civic-center,243,9
+403,Lee Civic Center,lee-civic-center,244,9
+404,Patriot Center,patriot-center,245,46
+405,Arena,arena,151,42
+406,Orange County Convention Civic Ter Orlando,orange-county-convention-civic-ter-orlando,57,9
+407,Patriot Center,patriot-center,246,46
+408,The Von Braun Civic Center,the-von-braun-civic-center,99,1
+409,Orange Bowl Miami Es,orange-bowl-miami-es,41,9
+410,Forrest Theatre,forrest-theatre,6,38
+411,Long Beach Convention & Entertainment Center Arena,long-beach-convention-entertainment-center-arena,43,5
+412,Warner Theatre,warner-theatre,22,51
+413,Kemper Arena American Royal Center,kemper-arena-american-royal-center,37,25
+414,Freedom Hall Coliseum Kentucky Fair & Exposition Center,freedom-hall-coliseum-kentucky-fair-exposition-center,150,17
+415,Los Angeles Sports Arena,los-angeles-sports-arena,2,5
+416,Oakland Alameda County Coliseum,oakland-alameda-county-coliseum,247,5
+417,Saenger Arts Center,saenger-arts-center,52,18
+418,Dorton Arena North Carolina State Fair,dorton-arena-north-carolina-state-fair,40,
+419,Stokley Athletic Center,stokley-athletic-center,142,42
+420,Barton Coliseum Arkansas State Fairgrounds,barton-coliseum-arkansas-state-fairgrounds,117,4
+421,Centennial Hall,centennial-hall,84,35
+422,Littlejohn Coliseum,littlejohn-coliseum,-1,
+423,Memorial Auditorium,memorial-auditorium,9,43
+424,Augusta Richmond County Civic Center,augusta-richmond-county-civic-center,161,10
+425,Carlton Celebrity Theatre,carlton-celebrity-theatre,45,23
+426,Aspen Hotel Parsippany,aspen-hotel-parsippany,-1,30
+427,Arena Freedom Hall Civic Center,arena-freedom-hall-civic-center,195,42
+428,Dean Smith Center,dean-smith-center,240,33
+429,The Rosemont Horizon Rosemont,the-rosemont-horizon-rosemont,-1,13
+430,The Meadowlands Arena,the-meadowlands-arena,129,
+431,Charlotte Coliseum Ovens Auditorium,charlotte-coliseum-ovens-auditorium,15,33
+432,Arena,arena,177,13
+433,The Kiel Auditorium,the-kiel-auditorium,75,25
+434,New Newark Symphony Hall,new-newark-symphony-hall,-1,
+435,Walker Arena,walker-arena,248,22
+436,Asheville Civic Center,asheville-civic-center,249,33
+437,Expo Hall Florida State Fair & Expo Park,expo-hall-florida-state-fair-expo-park,48,9
+438,Arena Ocean Center,arena-ocean-center,221,9
+439,Fox Theatre,fox-theatre,26,22
+440,Arena,arena,225,10
+441,Theatre,theatre,34,
+442,Wiltern Theatre,wiltern-theatre,2,5
+443,Sam Houston Coliseum Civic Center,sam-houston-coliseum-civic-center,4,43
+444,Showcase Theatre,showcase-theatre,10,9
+445,Theatre,theatre,36,10
+446,Giants Stadium,giants-stadium,129,30
+447,Veteran'S Stadium,veteran-s-stadium,6,38
+448,Rfk Stadium,rfk-stadium,22,51
+449,Buckeye Lake Music Center,buckeye-lake-music-center,250,35
+450,Rosemont Horizon Rosemont Il,rosemont-horizon-rosemont-il,-1,
+451,Coliseum Arizona Veterans Memorial Coliseum & Fairgrounds,coliseum-arizona-veterans-memorial-coliseum-fairgrounds,5,3
+452,Memorial Coliseum,memorial-coliseum,-1,
+453,Bell Co Expo Center,bell-co-expo-center,251,43
+454,Concert In The Country Lanierland Cumming,concert-in-the-country-lanierland-cumming,-1,10
+455,Central Alabama Music Park,central-alabama-music-park,252,1
+456,Memorial Coliseum,memorial-coliseum,-1,
+457,Beaumont Civic Center,beaumont-civic-center,108,43
+458,Oak Mountain Amphitheatre,oak-mountain-amphitheatre,199,1
+459,Waikiki Shell Honolulu Hawait,waikiki-shell-honolulu-hawait,54,
+460,Santa Barbara Co Bow! Santa Barbara Calt,santa-barbara-co-bow-santa-barbara-calt,-1,
+461,Hult Center,hult-center,-1,
+462,Jackson Co Expo Park,jackson-co-expo-park,100,
+463,Civic Auditorium Portland Center,civic-auditorium-portland-center,-1,
+464,Expo Center,expo-center,220,43
+465,Sundance Long Island,sundance-long-island,-1,32
+466,Bayou Washington,bayou-washington,22,51
+467,After The Goldrush Tempe,after-the-goldrush-tempe,152,3
+468,Cotton Bow! Stadium Texas State Fair Coliseum & Catton Bowi Stadium,cotton-bow-stadium-texas-state-fair-coliseum-catton-bowi-stadium,9,43
+469,Calaveras Co Fairgrounds,calaveras-co-fairgrounds,253,5
+470,Arena Madison Square Garden Center,arena-madison-square-garden-center,254,28
+471,The Centrum In Worcester Tune Worcester,the-centrum-in-worcester-tune-worcester,179,21
+472,Jones Beach Theatre,jones-beach-theatre,257,32
+473,Warwick Musical Theatre,warwick-musical-theatre,-1,
+474,Coliseum Theatre,coliseum-theatre,256,32
+475,Arena,arena,32,3
+476,Baltimore Arena,baltimore-arena,29,20
+477,Kansas Expocentre Topeka,kansas-expocentre-topeka,-1,16
+478,Arena,arena,39,27
+479,Arena Madison Square Garden Center,arena-madison-square-garden-center,1,32
+480,Stadium Lansdowne Park,stadium-lansdowne-park,169,60
+481,The Spectrum Philadelphia Sellout,the-spectrum-philadelphia-sellout,304,38
+482,Grandstand Exhibition Stadium,grandstand-exhibition-stadium,119,60
+483,Ovens Coliseum,ovens-coliseum,15,33
+484,Open Air Theatre,open-air-theatre,8,5
+485,Huntington Civic Center,huntington-civic-center,259,48
+486,Five Seasons Center,five-seasons-center,-1,
+487,Pavilion,pavilion,302,
+488,The Oil Palace,the-oil-palace,260,43
+489,Grandstand,grandstand,1,32
+490,Northern Alberta Jubilee Edmonton Canada,northern-alberta-jubilee-edmonton-canada,-1,59
+491,Arena,arena,43,5
+492,Centrum In Worcester Worcester,centrum-in-worcester-worcester,179,21
+493,Spectrum Philadetphia,spectrum-philadetphia,6,38
+494,Boston Garden Boston,boston-garden-boston,25,21
+495,Masonic Auditorium,masonic-auditorium,26,22
+496,Cumberland County Civic Center,cumberland-county-civic-center,-1,
+497,Roanoke Civic Center,roanoke-civic-center,217,46
+498,Viking Hal Bristol Sellout,viking-hal-bristol-sellout,304,42
+499,Hirsch Memorial Coliseum,hirsch-memorial-coliseum,-1,18
+500,Super Star Theatre,super-star-theatre,218,30
+501,Pt Fieldhouse,pt-fieldhouse,219,32
+502,Thompson Boling Arena,thompson-boling-arena,142,42
+503,Olympic Saddledome Calgary Canada,olympic-saddledome-calgary-canada,-1,59
+504,Salem Civic Center,salem-civic-center,222,46
+505,Arena,arena,36,10
+506,Freedom Hall Kentucky Fair & Exposition Gehl Center,freedom-hall-kentucky-fair-exposition-gehl-center,150,17
+507,Thompson Boling Assembly Center & Arena,thompson-boling-assembly-center-arena,142,42
+508,The Kiel St Louis,the-kiel-st-louis,75,25
+509,Arena Lloyd Noble Center,arena-lloyd-noble-center,241,36
+510,Pavillion Univer Of Tllinois Chicago Chicago,pavillion-univer-of-tllinois-chicago-chicago,3,13
+511,Carolina Coliseum,carolina-coliseum,261,40
+512,Senator Nat G Kiefer Uno Lakefront Arena,senator-nat-g-kiefer-uno-lakefront-arena,52,18
+513,Kellogg Center Arena,kellogg-center-arena,262,22
+514,Ordway Music Theatre,ordway-music-theatre,263,23
+515,Olympic Saddledome Calgary Perryscope Concert,olympic-saddledome-calgary-perryscope-concert,-1,59
+516,Coliseum,coliseum,264,59
+517,Santa Barbara County Bow! Santa Barbara,santa-barbara-county-bow-santa-barbara,-1,5
+518,Rosemont Horizon Rosemont Ti Sellout,rosemont-horizon-rosemont-ti-sellout,304,
+519,Oakland Alameda County Jr/Dean Martin Coliseum,oakland-alameda-county-jr-dean-martin-coliseum,44,5
+520,Coliseum,coliseum,18,47
+521,Radio City Music Hal Ph _| New York,radio-city-music-hal-ph-new-york,1,32
+522,Patriot Center,patriot-center,265,46
+523,The Summit Houston _ _Ii,the-summit-houston-ii,4,43
+524,Irvine Meadows Amphitheatre,irvine-meadows-amphitheatre,62,
+525,The Summit Match Houston _,the-summit-match-houston,4,43
+526,Westbury Music Fair,westbury-music-fair,266,32
+527,Arena,arena,-1,
+528,Irvine Meadows Amphitheatre,irvine-meadows-amphitheatre,267,5
+529,Selland Arena,selland-arena,268,5
+530,Rochester Community War Hemorial Scher |_Flaming Harry Rochester Baa,rochester-community-war-hemorial-scher-flaming-harry-rochester-baa,106,32
+531,Special Events Center,special-events-center,302,43
+532,University Activity Center,university-activity-center,152,3
+533,Radio City Music Hal New York,radio-city-music-hal-new-york,1,32
+534,Lawlor Events Cente: Of Reno _ },lawlor-events-cente-of-reno,79,28
+535,Roberts Municipal Stadium,roberts-municipal-stadium,192,
+536,Memorial Coliseum,memorial-coliseum,-1,
+537,Arena Memorial Coliseum,arena-memorial-coliseum,-1,
+538,Municipal Auditorium,municipal-auditorium,7,43
+539,Arena Henry J Kaiser Convention Center,arena-henry-j-kaiser-convention-center,44,5
+540,Arena,arena,149,43
+541,Los Angeles Duly Coliseum,los-angeles-duly-coliseum,2,
+542,Poplar Creek Music Theatre,poplar-creek-music-theatre,269,13
+543,Olympic Saddledome Calgary Donald K Donald Perryscope Concert Special Moments,olympic-saddledome-calgary-donald-k-donald-perryscope-concert-special-moments,-1,59
+544,Olympic Saddledome Calgary,olympic-saddledome-calgary,-1,59
+545,Indiana State Fairgrounds,indiana-state-fairgrounds,16,
+546,Place Vancouver British Donald K Donald Columbia Perryscope Concert,place-vancouver-british-donald-k-donald-columbia-perryscope-concert,203,
+547,Chastain Park Amphitheatre,chastain-park-amphitheatre,36,
+548,Mackay Stadium,mackay-stadium,79,28
+549,Starplex Wr Roses: Amphitheatre,starplex-wr-roses-amphitheatre,9,
+550,Sussex County Fairgrounds,sussex-county-fairgrounds,270,30
+551,Greensboro Duly Coliseum,greensboro-duly-coliseum,68,
+552,Olympic Saddledome Calgary,olympic-saddledome-calgary,-1,59
+553,Keifer Uno Lakefront Arena,keifer-uno-lakefront-arena,52,
+554,Exhibition Stadium,exhibition-stadium,119,60
+555,Arena,arena,1,32
+556,Olympic Saddtedome Calgary Donald K Donald Perryscope Concert,olympic-saddtedome-calgary-donald-k-donald-perryscope-concert,-1,59
+557,Olympic Saddledome Concert Calgary Aiberta Donaid K Donald Concert International,olympic-saddledome-concert-calgary-aiberta-donaid-k-donald-concert-international,-1,
+558,Coliseum Pacific Exhibition Park,coliseum-pacific-exhibition-park,203,-1
+559,Greensboro Coliseum,greensboro-coliseum,304,
+560,Coliseum,coliseum,-1,
+561,Cincinnati Riverfront Coliseum,cincinnati-riverfront-coliseum,63,35
+562,Seattle Center Arena,seattle-center-arena,271,47
+563,Coliseum Pacific National Exhibition Park,coliseum-pacific-national-exhibition-park,203,
+564,Palace,palace,272,22
+565,Autzen Stadium,autzen-stadium,273,37
+566,Miami Arena,miami-arena,41,9
+567,Valley Forge Music Fair,valley-forge-music-fair,-1,38
+568,Lake Compounce Festival Park,lake-compounce-festival-park,274,7
+569,Palace,palace,275,22
+570,Nassau Veterans Memorial Bureau Coliseum,nassau-veterans-memorial-bureau-coliseum,172,32
+571,Lakeland Civic Center,lakeland-civic-center,276,9
+572,St Paui Civic Center,st-paui-civic-center,-1,23
+573,Spectrum Phitadelphia ________,spectrum-phitadelphia,6,38
+574,Meadowlands East Rutherford Bureau John Scher,meadowlands-east-rutherford-bureau-john-scher,129,
+575,Roundhouse Univ Of Tennessee  Chattanooga,roundhouse-univ-of-tennessee-chattanooga,151,
+576,Madison Square Garden Entertainment New York John Scher =,madison-square-garden-entertainment-new-york-john-scher,1,32
+577,John F Kennedy Stadium,john-f-kennedy-stadium,6,38
+578,Los Angeles Coliseum,los-angeles-coliseum,2,
+579,Olympic Stadium,olympic-stadium,277,61
+580,Oakland  Alameda Stadium,oakland-alameda-stadium,278,5
+581,Tacoma Dome,tacoma-dome,279,47
+582,Rosemont Horizon Il _ Sellout Ee,rosemont-horizon-il-sellout-ee,304,
+583,Madison Square Garden New York Bureau John Schet,madison-square-garden-new-york-bureau-john-schet,1,32
+584,Olympic Stadium,olympic-stadium,280,61
+585,Fiddler'S Green |_Deok Estus |_ Denver,fiddler-s-green-deok-estus-denver,19,6
+586,Universal Amphitheatre,universal-amphitheatre,-1,5
+587,Mann Music Center,mann-music-center,6,38
+588,Montreal Forum Canadian) A =,montreal-forum-canadian-a,-1,61
+589,Boston Garden,boston-garden,25,21
+590,Mississippi Coast Coliseum,mississippi-coast-coliseum,281,24
+591,Centrum In Worcester =,centrum-in-worcester,179,21
+592,Louisiana State Univ Assembly Center,louisiana-state-univ-assembly-center,109,18
+593,Ottawa Fair,ottawa-fair,282,60
+594,Orpheum Performing Arts Theatre,orpheum-performing-arts-theatre,39,27
+595,Miami Baseball Stadium,miami-baseball-stadium,41,
+596,Arizona Veterans Memorial Coliseum & State Fairgrounds,arizona-veterans-memorial-coliseum-state-fairgrounds,5,3
+597,Reunion Arena,reunion-arena,-1,
+598,Valley Forge Music Fair,valley-forge-music-fair,283,38
+599,Allen County War Memorial Coliseum,allen-county-war-memorial-coliseum,82,14
+600,Queen Elizabeth Theatre,queen-elizabeth-theatre,203,
+601,Jesse H Jones Hall,jesse-h-jones-hall,4,
+602,Centennial Hall,centennial-hall,32,3
+603,New Charlotte Coliseum,new-charlotte-coliseum,15,33
+604,Caesars Palace,caesars-palace,285,28
+605,Bradley Center,bradley-center,30,
+606,The Omni Atlanta Promotions/ Southern,the-omni-atlanta-promotions-southern,36,10
+607,Mississippi Coast Coliseum & Convention Center,mississippi-coast-coliseum-convention-center,286,24
+608,Resorts International Hotel Sellout Atlantic City,resorts-international-hotel-sellout-atlantic-city,304,
+609,Wicomico Youth Civic Center,wicomico-youth-civic-center,287,20
+610,Mississippi Coliseum,mississippi-coliseum,100,24
+611,Kemper Arena,kemper-arena,37,25
+612,Martin Luther King Jr Arena,martin-luther-king-jr-arena,225,10
+613,Rosemont Horizon Rosemont Lll,rosemont-horizon-rosemont-lll,-1,
+614,Barton Coliseum Ark State Sé Fairgrounds,barton-coliseum-ark-state-se-fairgrounds,117,4
+615,Norfolk Scope Convention & Cultural Center,norfolk-scope-convention-cultural-center,95,46
+616,Rockford Metrocentre Rockford Fl,rockford-metrocentre-rockford-fl,-1,
+617,Arena,arena,112,35
+618,John M Huntsman: Center Salt Palace Convention Center,john-m-huntsman-center-salt-palace-convention-center,135,
+619,David S Palmer Civic Center,david-s-palmer-civic-center,-1,
+620,Mid South Coliseum Fairgrounds,mid-south-coliseum-fairgrounds,28,42
+621,Brown Co Veterans Memorial Arena,brown-co-veterans-memorial-arena,167,49
+622,Dubuque Five Flags Center,dubuque-five-flags-center,-1,
+623,Nashville Municipal Lng Auditorium,nashville-municipal-lng-auditorium,21,42
+624,Gershwin Theatre,gershwin-theatre,1,32
+625,Alpine Valiey Music Theatre,alpine-valiey-music-theatre,180,49
+626,Atlanta/Fulton Co Stadium,atlanta-fulton-co-stadium,36,10
+627,Halifax Metro Center,halifax-metro-center,-1,
+628,Grandstand,grandstand,119,60
+629,Montreal Forum Montreal Canadian),montreal-forum-montreal-canadian,280,61
+630,Civic Arena In House,civic-arena-in-house,-1,
+631,Theatre Ill National Arts Centre,theatre-ill-national-arts-centre,169,60
+632,Long Beach Li Convention & Entertainment Center,long-beach-li-convention-entertainment-center,43,5
+633,Peoria Civic Center,peoria-civic-center,288,13
+634,Nashville Dune Municipal Auditorium,nashville-dune-municipal-auditorium,21,42
+635,Irvine Meadows Laguna Hills,irvine-meadows-laguna-hills,267,5
+636,Stadium,stadium,22,
+637,Starplex Amphitheatre,starplex-amphitheatre,9,43
+638,Hersheypark Stadium,hersheypark-stadium,290,38
+639,Pacific Coliseum,pacific-coliseum,203,
+640,Point Stadium,point-stadium,291,38
+641,Jones Beach Girls Theatre,jones-beach-girls-theatre,257,32
+642,Olympic Saddledome Calgary Canadian) Donald K Donald Perryscope,olympic-saddledome-calgary-canadian-donald-k-donald-perryscope,-1,59
+643,The Summit Xid'Npliy Houston,the-summit-xid-npliy-houston,4,43
+644,Darien Lake Lakeside Amphitheatre Bureau Datien Center,darien-lake-lakeside-amphitheatre-bureau-datien-center,-1,
+645,Northlands Coliseum,northlands-coliseum,292,59
+646,Wolt Trap Farm = Park,wolt-trap-farm-park,293,46
+647,Louisville Tooshort Gardens,louisville-tooshort-gardens,150,17
+648,Cincinnati Riverfront Nio 'Nplay Coliseum,cincinnati-riverfront-nio-nplay-coliseum,63,35
+649,The Great Western Forum Inglewood __&,the-great-western-forum-inglewood,122,5
+650,Stagium Washington,stagium-washington,22,51
+651,Rich Stadium Orchard Park,rich-stadium-orchard-park,-1,10
+652,Silver Stadium,silver-stadium,106,32
+653,Deer Creek Music Theatre,deer-creek-music-theatre,16,
+654,Charleston Civic Center,charleston-civic-center,294,48
+655,Coliseum Mississippi $I? Sellout State Fairgrounds,coliseum-mississippi-i-sellout-state-fairgrounds,100,24
+656,Open Air Theatre,open-air-theatre,-1,
+657,Starplex Dalias,starplex-dalias,-1,
+658,Westbury Music Lov Dinos Fair,westbury-music-lov-dinos-fair,284,32
+659,Lakeside Amphitheatre Darien Center,lakeside-amphitheatre-darien-center,-1,
+660,Philadelphia Veterans Stadium,philadelphia-veterans-stadium,6,
+661,Three Rivers Stadium,three-rivers-stadium,67,
+662,Poplar Creek Music Theatre,poplar-creek-music-theatre,3,
+663,Southfield Mud {Sland Memphis Is A,southfield-mud-sland-memphis-is-a,28,42
+664,Seashore Performing Arts Centre,seashore-performing-arts-centre,-1,
+665,Nassau Veterans Memorial Larry Vaughan Coliseum,nassau-veterans-memorial-larry-vaughan-coliseum,172,32
+666,Winter Park Ski Fey Concert Co Resort Winter Park,winter-park-ski-fey-concert-co-resort-winter-park,-1,6
+667,Champs De Brionne Amphitheatre,champs-de-brionne-amphitheatre,295,47
+668,Kiefer Uno Lakefront Arena,kiefer-uno-lakefront-arena,302,
+669,Amphitheatre,amphitheatre,34,5
+670,Cajundome Lafayette,cajundome-lafayette,-1,18
+671,Municipal Theatre,municipal-theatre,75,
+672,Park West Amphitheatre,park-west-amphitheatre,135,
+673,Busch Stadium,busch-stadium,-1,
+674,Grandstand,grandstand,34,5
+675,Wt Alpine Valley Music Theatre,wt-alpine-valley-music-theatre,180,49
+676,Hollywood Bow! Hollywood,hollywood-bow-hollywood,120,5
+677,Seashore Performing Arts Center,seashore-performing-arts-center,-1,
+678,Wolf Trap Farm Park,wolf-trap-farm-park,293,46
+679,Grandstand California State Fair,grandstand-california-state-fair,296,5
+680,Arena Gmaha Civic Auditorium,arena-gmaha-civic-auditorium,39,27
+681,Seashore Performing Arts Center,seashore-performing-arts-center,-1,
+682,Regal Theatre,regal-theatre,3,
+683,Arena Five Seasons Center,arena-five-seasons-center,297,15
+684,Wolf Trap Farm Duly Park,wolf-trap-farm-duly-park,293,46
+685,Arco Arena,arco-arena,34,5
+686,Oawiana Alameda County Stadium,oawiana-alameda-county-stadium,44,
+687,Busch Stadium,busch-stadium,75,
+688,Riverfront Uving Colour Stadium,riverfront-uving-colour-stadium,63,
+689,Carter Finley Stadium,carter-finley-stadium,40,33
+690,Dodger Stadium,dodger-stadium,2,
+691,Astrodome Houston,astrodome-houston,4,
+692,Cottonbow! State Fair,cottonbow-state-fair,9,43
+693,Irvine Meadows Sxio Row Amphitheatre,irvine-meadows-sxio-row-amphitheatre,114,
+694,Shoreline Amphitheatre,shoreline-amphitheatre,298,38
+695,Providence Civic Frank) Russo Center,providence-civic-frank-russo-center,140,39
+696,Western Washington Fairgrounds,western-washington-fairgrounds,271,47
+697,Jo Arizona Sxio Row Veterans Memorial Coliseum & State Fairgrounds,jo-arizona-sxio-row-veterans-memorial-coliseum-state-fairgrounds,5,
+698,He Cure Compton Terrace,he-cure-compton-terrace,5,
+699,Cardinal Stadium Kentucky Fair & Exposition Center,cardinal-stadium-kentucky-fair-exposition-center,150,17
+700,Arena,arena,104,1
+701,Carnegie Hall,carnegie-hall,1,
+702,Peterborough Memonal Centre,peterborough-memonal-centre,299,60
+703,Joyce Athletic Convocation Center,joyce-athletic-convocation-center,300,14
+704,Rialto Square O'Connor Theatre,rialto-square-o-connor-theatre,-1,
+705,Exposition Center Allen County War Memorial Coliseum,exposition-center-allen-county-war-memorial-coliseum,82,14
+706,Arena,arena,288,13
+707,Valley Forge Music Fair,valley-forge-music-fair,-1,38
+708,William A Shea Stadium,william-a-shea-stadium,301,32
+709,Shoreline Amphitheatre,shoreline-amphitheatre,204,5
+710,Carl Farley Coliseum,carl-farley-coliseum,149,43
+711,John F Savage Hall,john-f-savage-hall,84,35
+712,Pan American Center,pan-american-center,-1,
+713,Patriot Center,patriot-center,303,46
+714,Northrop Memorial Auditorium,northrop-memorial-auditorium,302,
+715,Von Braun Civic Huntsville,von-braun-civic-huntsville,99,1
+716,Music Hall,music-hall,32,3
+717,Skydome Toronto Canadian),skydome-toronto-canadian,119,60
+718,Hoosier Dome,hoosier-dome,16,14
+719,Keefe Center,keefe-center,119,60
+720,Great Western Forum Inglewood,great-western-forum-inglewood,122,5
+721,James L Knight Center,james-l-knight-center,41,9
+722,Freeman Coliseum,freeman-coliseum,7,43
+723,Veterans Memorial Coliseum,veterans-memorial-coliseum,10,9
+724,Midland Theatre,midland-theatre,37,25
+725,Front Row Theatre,front-row-theatre,304,35
+726,Oscar Theatre,oscar-theatre,76,49
+727,George | Lewis Arena,george-lewis-arena,295,
+728,Memorial Stadium,memorial-stadium,115,5
+729,Knickerbocker Arena,knickerbocker-arena,306,32
+730,Oakland  Alameda County Coliseum,oakland-alameda-county-coliseum,268,5
+731,Dean E Smith Center,dean-e-smith-center,238,33
+732,Starplex Amphitheatre State Fairgrounds,starplex-amphitheatre-state-fairgrounds,9,43
+733,Buffalo Memorial Auditorium,buffalo-memorial-auditorium,307,32
+734,Alpine Valley East Troy Group,alpine-valley-east-troy-group,180,49
+735,Rosemont Horizon Rosemont Il,rosemont-horizon-rosemont-il,-1,
+736,Cooper Stadium,cooper-stadium,14,35
+737,World Music Theatre Tinley Park,world-music-theatre-tinley-park,-1,13
+738,Arena,arena,57,9
+739,Veterans Memorial Arena,veterans-memorial-arena,132,7
+740,Rosemont Honzon Rosemont,rosemont-honzon-rosemont,-1,13
+741,Olympic Saddledome Calgary Canadian),olympic-saddledome-calgary-canadian,-1,59
+742,Jon M Huntsman Center,jon-m-huntsman-center,302,
+743,Wembley Arena,wembley-arena,-1,
+744,Premier Club Mexico City Mexican,premier-club-mexico-city-mexican,-1,-1
+745,Metrapark Arena,metrapark-arena,308,26
+746,Tingley Coliseum New Menico State Fairgrounds,tingley-coliseum-new-menico-state-fairgrounds,31,31
+747,Olympic Saddledome Calgary Canadian),olympic-saddledome-calgary-canadian,-1,59
+748,Blockbuster Desert Sky Pavilion,blockbuster-desert-sky-pavilion,5,
+749,Spokane Center Coliseum,spokane-center-coliseum,96,47
+750,Great Western Forum Inglewood Organization,great-western-forum-inglewood-organization,122,5
+751,Riverbend Music Center,riverbend-music-center,268,5
+752,Shoreline Amphitheatre,shoreline-amphitheatre,309,5
+753,Shoreline Amphitheatre,shoreline-amphitheatre,310,5
+754,Great Western Forum Org Inglewood Avalon,great-western-forum-org-inglewood-avalon,122,5
+755,Arena,arena,202,
+756,Pacific Amph Costa Mesa Attractions: Cait,pacific-amph-costa-mesa-attractions-cait,35,
+757,The New Pine Knob Music Theat Clarkston,the-new-pine-knob-music-theat-clarkston,211,22
+758,Cary Field College,cary-field-college,311,46
+759,Grandstand California State Fair,grandstand-california-state-fair,-1,
+760,Hardee'S Walnut Jane'S Addiction Creek Amphitheatre,hardee-s-walnut-jane-s-addiction-creek-amphitheatre,40,33
+761,World Music Theatre Tinley Park,world-music-theatre-tinley-park,-1,
+762,Jones Beach Theatre,jones-beach-theatre,-1,
+763,Grandstand California State Fair,grandstand-california-state-fair,-1,
+764,Starplex Jane'S Addiction Amphitheatre,starplex-jane-s-addiction-amphitheatre,304,
+765,Blockbuster Pavilion,blockbuster-pavilion,15,33
+766,World Music Theatre Tinley Park,world-music-theatre-tinley-park,312,13
+767,Citadel Hill Halifax Donald Scotia International,citadel-hill-halifax-donald-scotia-international,-1,-1
+768,Coca Cola Star Lake Amphitheatre,coca-cola-star-lake-amphitheatre,313,38
+769,The New Pine Knob Music Theatre,the-new-pine-knob-music-theatre,210,22
+770,Canadian National Exhibition Stadium,canadian-national-exhibition-stadium,119,-1
+771,Waterloo Village Concert U Field Sellout Waterloo Stanhope Foundation,waterloo-village-concert-u-field-sellout-waterloo-stanhope-foundation,304,30
+772,Gold Coast Concert Bow! Squaw Valley,gold-coast-concert-bow-squaw-valley,-1,5
+773,Champs De Brionne Amphitheatre,champs-de-brionne-amphitheatre,314,47
+774,Canadian National Exhibition Grandstand,canadian-national-exhibition-grandstand,119,-1
+775,Madison Square Garden New York,madison-square-garden-new-york,1,
+776,Great Woods Mansfield Law Co,great-woods-mansfield-law-co,-1,21
+777,Wadison Square Garden New York _,wadison-square-garden-new-york,312,
+778,The Paramount New York Ed Sellout,the-paramount-new-york-ed-sellout,304,
+779,Hollywood Bow! Hollywood Silva,hollywood-bow-hollywood-silva,120,5
+780,Glen Helen Park,glen-helen-park,-1,
+781,Hardee'S Wainut Creek Amphitheatre,hardee-s-wainut-creek-amphitheatre,40,33
+782,Pacific Amphitheatre Costa Mesa Cali T Nassau Veterans Memorial Larry Vaughn Coliseum,pacific-amphitheatre-costa-mesa-cali-t-nassau-veterans-memorial-larry-vaughn-coliseum,172,32
+783,Oakland  Alameda County Stadium,oakland-alameda-county-stadium,44,5
+784,Sydney Entertainment Centre,sydney-entertainment-centre,-1,
+785,Louisiana Superdome Dome Arena,louisiana-superdome-dome-arena,52,
+786,Target Center,target-center,45,
+787,Rosemont Horizon Rosemont Lil,rosemont-horizon-rosemont-lil,-1,
+788,Madison Square Garden Ray York,madison-square-garden-ray-york,76,
+789,Oslo Spectrum Oslo Norway Norwegian,oslo-spectrum-oslo-norway-norwegian,-1,-1
+790,Sydney Entertainment Centre,sydney-entertainment-centre,-1,
+791,Florida Suncoast Dome,florida-suncoast-dome,85,9
+792,Sydney Entertainment Centre,sydney-entertainment-centre,-1,
+793,The Paramount New York  +,the-paramount-new-york,312,
+794,Los Angeles Memorial Sports Arena,los-angeles-memorial-sports-arena,2,
+795,Spectrum Philadelphia Sellout Iz =,spectrum-philadelphia-sellout-iz,312,
+796,Cynthia Woods Mitchelt Pavilion,cynthia-woods-mitchelt-pavilion,315,43
+797,Nov Birmingham England British Andrew Miller,nov-birmingham-england-british-andrew-miller,199,-1
+798,Wembley Arena,wembley-arena,-1,
+799,Centrum In Now Worcester Worcester Mass Rus Richfield Coliseum,centrum-in-now-worcester-worcester-mass-rus-richfield-coliseum,216,35
+800,Rosemont Horizon Graham Rosemont,rosemont-horizon-graham-rosemont,-1,13
+801,Sydney Entertainment Centre,sydney-entertainment-centre,-1,
+802,The Summit Houston Group I   =,the-summit-houston-group-i,312,
+803,The Summit Houston One Sellout,the-summit-houston-one-sellout,304,
+804,Rosemont Horizon Rosemont Il,rosemont-horizon-rosemont-il,-1,
+805,Skydome Toronto,skydome-toronto,119,-1
+806,Star Plaza Theatre,star-plaza-theatre,131,14
+807,Rosemont Horizon Rosemont Il,rosemont-horizon-rosemont-il,-1,
+808,Cinemobile Catetal Caracas Venezuelan,cinemobile-catetal-caracas-venezuelan,-1,
+809,Lexington Center Rupp Arena,lexington-center-rupp-arena,58,17
+810,The Pyramid Memphis,the-pyramid-memphis,28,
+811,Spectrum Philadelphia Electri¢ Factory,spectrum-philadelphia-electric-factory,6,
+812,Palacio De Los Deportes Palace) Mexican Mexico City,palacio-de-los-deportes-palace-mexican-mexico-city,-1,-1
+813,National Auditorium,national-auditorium,-1,
+814,The Paramount New York David Maldonado,the-paramount-new-york-david-maldonado,1,
+815,Centrum In Worcester {,centrum-in-worcester,312,21
+816,Symphony Hall,symphony-hall,5,
+817,Rosemont Horizon Rosemont Il,rosemont-horizon-rosemont-il,-1,
+818,Sydney Entertainment Centre,sydney-entertainment-centre,-1,
+819,National Auditorium,national-auditorium,-1,
+820,Palacio De Los Deportes Palace) Mexican Setiouts Mexico City,palacio-de-los-deportes-palace-mexican-setiouts-mexico-city,-1,-1
+821,Great Western Forum Inglewood Two Nederlander Shows One Organization Sellout,great-western-forum-inglewood-two-nederlander-shows-one-organization-sellout,304,5
+822,Ervin J Nutter Center,ervin-j-nutter-center,112,35
+823,Astrodome Houston Rodeo I,astrodome-houston-rodeo-i,4,
+824,Feb Milwaukee,feb-milwaukee,30,
+825,Astrodome Houston & Rodeo,astrodome-houston-rodeo,312,
+826,Astrodome Houston Livestock Houston & Rodeo,astrodome-houston-livestock-houston-rodeo,312,-1
+827,Houston & Rodeo,houston-rodeo,312,-1
+828,Astrodome Houston Rodeo,astrodome-houston-rodeo,4,
+829,Great Western Forum Seltouts,great-western-forum-seltouts,-1,5
+830,Great Western Forum,great-western-forum,-1,5
+831,Great Western Forum Ves Inglewood,great-western-forum-ves-inglewood,122,5
+832,El Nemesio Camacho Stadium,el-nemesio-camacho-stadium,-1,
+833,Toliedro Arena,toliedro-arena,-1,
+834,March Stadium,march-stadium,87,43
+835,El Tascuat Guerrero Stadium,el-tascuat-guerrero-stadium,316,5
+836,Luis Aparicio Stadium,luis-aparicio-stadium,-1,
+837,Great Western Forum Inglewood Cai,great-western-forum-inglewood-cai,122,
+838,The Omni Arena,the-omni-arena,36,
+839,Star Plaza Theatre,star-plaza-theatre,-1,14
+840,Fiddler'S Green Amphitheatre,fiddler-s-green-amphitheatre,317,6
+841,Reunion Arena,reunion-arena,-1,
+842,Fox Theater,fox-theater,-1,
+843,Freedom Hall,freedom-hall,-1,
+844,Fox Theatre,fox-theatre,-1,
+845,Fox Theatre,fox-theatre,-1,
+846,Carolina Coliseum,carolina-coliseum,-1,
+847,Market Square Arena,market-square-arena,-1,
+848,Vernon Valley Action Park,vernon-valley-action-park,-1,30
+849,Prairie Capital Convention Center,prairie-capital-convention-center,-1,
+850,Prairie Capital Convention Center,prairie-capital-convention-center,-1,
+851,Fox Theater,fox-theater,-1,
+852,Tanglewood Lenox,tanglewood-lenox,-1,21
+853,Saratoga Springs Performing Arts Center,saratoga-springs-performing-arts-center,-1,32
+854,Ventura County Fairgrounds,ventura-county-fairgrounds,-1,5
+855,Blossom Music Festival Cuyahoga Falls,blossom-music-festival-cuyahoga-falls,-1,35
+856,Blossom Music Festival Cuyahoga Falls,blossom-music-festival-cuyahoga-falls,-1,35
+857,Red Rocks Amphitheatre,red-rocks-amphitheatre,-1,
+858,Veterans Auditorium,veterans-auditorium,-1,
+859,Monroe Civic Center,monroe-civic-center,-1,18
+860,Compton Terrace,compton-terrace,-1,
+861,Busch Gadens Williamsburg,busch-gadens-williamsburg,-1,46
+862,Minnesota State Fair,minnesota-state-fair,-1,
+863,Muni Opera Stlouis,muni-opera-stlouis,-1,
+864,The Oma Allanta,the-oma-allanta,-1,
+865,Memorial Coliseum,memorial-coliseum,-1,
+866,Olympic Saddledome Calgary,olympic-saddledome-calgary,-1,59
+867,Wheeling Civic Center,wheeling-civic-center,-1,48
+868,Memorial Coliseum,memorial-coliseum,-1,
+869,Warwick Music Theater,warwick-music-theater,-1,
+870,Olympic Saddledome Calgary Canada,olympic-saddledome-calgary-canada,-1,59
+871,Front Row Theatre,front-row-theatre,53,35
+872,Rosemont Horizon Rosemont Il,rosemont-horizon-rosemont-il,-1,
+873,In The Country Lanierland Cumming,in-the-country-lanierland-cumming,-1,10
+874,Five Seasons Center,five-seasons-center,-1,
+875,In The Country Calhoun Calhoun,in-the-country-calhoun-calhoun,-1,10
+876,Memorial Coliseum,memorial-coliseum,-1,
+877,Rensselaer Polytechnic Institute Troy,rensselaer-polytechnic-institute-troy,-1,32
+878,Cumberland County Civic Center,cumberland-county-civic-center,-1,
+879,Sioux Falls Arena/Coliseum/Convention Hall,sioux-falls-arena-coliseum-convention-hall,-1,
+880,Performing Arts Center,performing-arts-center,-1,
+881,Greenville Memorial Auditorium,greenville-memorial-auditorium,-1,
+882,Braden Auditorium,braden-auditorium,-1,
+883,Starry Night Portland Ore Stilletto'S,starry-night-portland-ore-stilletto-s,-1,
+884,Littlejohn Coliseum,littlejohn-coliseum,-1,
+885,Aspen Hotel Parsippany,aspen-hotel-parsippany,-1,30
+886,The Rosemont Horizon Rosemont,the-rosemont-horizon-rosemont,-1,13
+887,New Newark Symphony Hall,new-newark-symphony-hall,-1,
+888,Rosemont Horizon Rosemont Il,rosemont-horizon-rosemont-il,-1,
+889,Memorial Coliseum,memorial-coliseum,-1,
+890,Concert In The Country Lanierland Cumming,concert-in-the-country-lanierland-cumming,-1,10
+891,Memorial Coliseum,memorial-coliseum,-1,
+892,Santa Barbara Co Bow! Santa Barbara Calt,santa-barbara-co-bow-santa-barbara-calt,-1,
+893,Hult Center,hult-center,-1,
+894,Civic Auditorium Portland Center,civic-auditorium-portland-center,-1,
+895,Sundance Long Island,sundance-long-island,-1,32
+896,Warwick Musical Theatre,warwick-musical-theatre,-1,
+897,Kansas Expocentre Topeka,kansas-expocentre-topeka,-1,16
+898,Five Seasons Center,five-seasons-center,-1,
+899,Northern Alberta Jubilee Edmonton Canada,northern-alberta-jubilee-edmonton-canada,-1,59
+900,Cumberland County Civic Center,cumberland-county-civic-center,-1,
+901,Hirsch Memorial Coliseum,hirsch-memorial-coliseum,-1,18
+902,Olympic Saddledome Calgary Canada,olympic-saddledome-calgary-canada,-1,59
+903,Olympic Saddledome Calgary Perryscope Concert,olympic-saddledome-calgary-perryscope-concert,-1,59
+904,Santa Barbara County Bow! Santa Barbara,santa-barbara-county-bow-santa-barbara,-1,5
+905,Arena,arena,-1,
+906,Memorial Coliseum,memorial-coliseum,-1,
+907,Arena Memorial Coliseum,arena-memorial-coliseum,-1,
+908,Olympic Saddledome Calgary Donald K Donald Perryscope Concert Special Moments,olympic-saddledome-calgary-donald-k-donald-perryscope-concert-special-moments,-1,59
+909,Olympic Saddledome Calgary,olympic-saddledome-calgary,-1,59
+910,Olympic Saddledome Calgary,olympic-saddledome-calgary,-1,59
+911,Olympic Saddtedome Calgary Donald K Donald Perryscope Concert,olympic-saddtedome-calgary-donald-k-donald-perryscope-concert,-1,59
+912,Olympic Saddledome Concert Calgary Aiberta Donaid K Donald Concert International,olympic-saddledome-concert-calgary-aiberta-donaid-k-donald-concert-international,-1,
+913,Coliseum,coliseum,-1,
+914,Valley Forge Music Fair,valley-forge-music-fair,-1,38
+915,St Paui Civic Center,st-paui-civic-center,-1,23
+916,Montreal Forum Canadian) A =,montreal-forum-canadian-a,-1,61
+917,Reunion Arena,reunion-arena,-1,
+918,Rosemont Horizon Rosemont Lll,rosemont-horizon-rosemont-lll,-1,
+919,Rockford Metrocentre Rockford Fl,rockford-metrocentre-rockford-fl,-1,
+920,David S Palmer Civic Center,david-s-palmer-civic-center,-1,
+921,Dubuque Five Flags Center,dubuque-five-flags-center,-1,
+922,Halifax Metro Center,halifax-metro-center,-1,
+923,Civic Arena In House,civic-arena-in-house,-1,
+924,Olympic Saddledome Calgary Canadian) Donald K Donald Perryscope,olympic-saddledome-calgary-canadian-donald-k-donald-perryscope,-1,59
+925,Darien Lake Lakeside Amphitheatre Bureau Datien Center,darien-lake-lakeside-amphitheatre-bureau-datien-center,-1,
+926,Rich Stadium Orchard Park,rich-stadium-orchard-park,-1,10
+927,Open Air Theatre,open-air-theatre,-1,
+928,Starplex Dalias,starplex-dalias,-1,
+929,Lakeside Amphitheatre Darien Center,lakeside-amphitheatre-darien-center,-1,
+930,Seashore Performing Arts Centre,seashore-performing-arts-centre,-1,
+931,Winter Park Ski Fey Concert Co Resort Winter Park,winter-park-ski-fey-concert-co-resort-winter-park,-1,6
+932,Cajundome Lafayette,cajundome-lafayette,-1,18
+933,Busch Stadium,busch-stadium,-1,
+934,Seashore Performing Arts Center,seashore-performing-arts-center,-1,
+935,Seashore Performing Arts Center,seashore-performing-arts-center,-1,
+936,Rialto Square O'Connor Theatre,rialto-square-o-connor-theatre,-1,
+937,Valley Forge Music Fair,valley-forge-music-fair,-1,38
+938,Pan American Center,pan-american-center,-1,
+939,Rosemont Horizon Rosemont Il,rosemont-horizon-rosemont-il,-1,
+940,World Music Theatre Tinley Park,world-music-theatre-tinley-park,-1,13
+941,Rosemont Honzon Rosemont,rosemont-honzon-rosemont,-1,13
+942,Olympic Saddledome Calgary Canadian),olympic-saddledome-calgary-canadian,-1,59
+943,Wembley Arena,wembley-arena,-1,
+944,Premier Club Mexico City Mexican,premier-club-mexico-city-mexican,-1,-1
+945,Olympic Saddledome Calgary Canadian),olympic-saddledome-calgary-canadian,-1,59
+946,Grandstand California State Fair,grandstand-california-state-fair,-1,
+947,World Music Theatre Tinley Park,world-music-theatre-tinley-park,-1,
+948,Jones Beach Theatre,jones-beach-theatre,-1,
+949,Grandstand California State Fair,grandstand-california-state-fair,-1,
+950,Citadel Hill Halifax Donald Scotia International,citadel-hill-halifax-donald-scotia-international,-1,-1
+951,Gold Coast Concert Bow! Squaw Valley,gold-coast-concert-bow-squaw-valley,-1,5
+952,Great Woods Mansfield Law Co,great-woods-mansfield-law-co,-1,21
+953,Wadison Square Garden New York _,wadison-square-garden-new-york,1,
+954,Glen Helen Park,glen-helen-park,-1,
+955,Sydney Entertainment Centre,sydney-entertainment-centre,-1,
+956,Rosemont Horizon Rosemont Lil,rosemont-horizon-rosemont-lil,-1,
+957,Oslo Spectrum Oslo Norway Norwegian,oslo-spectrum-oslo-norway-norwegian,-1,-1
+958,Sydney Entertainment Centre,sydney-entertainment-centre,-1,
+959,Sydney Entertainment Centre,sydney-entertainment-centre,-1,
+960,The Paramount New York  +,the-paramount-new-york,1,
+961,Spectrum Philadelphia Sellout Iz =,spectrum-philadelphia-sellout-iz,304,
+962,Wembley Arena,wembley-arena,-1,
+963,Rosemont Horizon Graham Rosemont,rosemont-horizon-graham-rosemont,-1,13
+964,Sydney Entertainment Centre,sydney-entertainment-centre,-1,
+965,The Summit Houston Group I   =,the-summit-houston-group-i,4,
+966,Rosemont Horizon Rosemont Il,rosemont-horizon-rosemont-il,-1,
+967,Rosemont Horizon Rosemont Il,rosemont-horizon-rosemont-il,-1,
+968,Cinemobile Catetal Caracas Venezuelan,cinemobile-catetal-caracas-venezuelan,-1,
+969,Palacio De Los Deportes Palace) Mexican Mexico City,palacio-de-los-deportes-palace-mexican-mexico-city,-1,-1
+970,National Auditorium,national-auditorium,-1,
+971,Rosemont Horizon Rosemont Il,rosemont-horizon-rosemont-il,-1,
+972,Sydney Entertainment Centre,sydney-entertainment-centre,-1,
+973,National Auditorium,national-auditorium,-1,
+974,Palacio De Los Deportes Palace) Mexican Setiouts Mexico City,palacio-de-los-deportes-palace-mexican-setiouts-mexico-city,-1,-1
+975,Astrodome Houston Livestock Houston & Rodeo,astrodome-houston-livestock-houston-rodeo,4,-1
+976,Houston & Rodeo,houston-rodeo,4,-1
+977,Great Western Forum Seltouts,great-western-forum-seltouts,-1,5
+978,Great Western Forum,great-western-forum,-1,5
+979,El Nemesio Camacho Stadium,el-nemesio-camacho-stadium,-1,
+980,Toliedro Arena,toliedro-arena,-1,
+981,Luis Aparicio Stadium,luis-aparicio-stadium,-1,
+982,Star Plaza Theatre,star-plaza-theatre,-1,14

@@ -4,16 +4,18 @@ import ast
 
 MONTH_MAP = {
     "Jan": 1, "Feb": 2, "March": 3, "Apr": 4,
-    "May": 5, "Jun": 6, "June": 6, "Jul": 7, "Aug": 8,
+    "May": 5, "Jun": 6, "June": 6, "July": 7, "Aug": 8,
     "Sept": 9, "Oct": 10, "Nov": 11, "Dec": 12
 }
 
 def get_issue_year(object_key):
-    issue_year = int(object_key.split('/')[-3])
+    normalized = object_key.replace("\\", "/")
+    issue_year = int(normalized.split('/')[-3])
     return issue_year
 
 def get_issue_month(object_key):
-    issue_month = int(object_key.split('/')[-2])
+    normalized = object_key.replace("\\", "/")
+    issue_month = int(normalized.split('/')[-2])
     return issue_month
 
 def identify_start_date(processed_events_df, object_key):
@@ -48,14 +50,17 @@ def clean_stray_numbers(dates):
     for date_str in dates:
         date_items = date_str.split()
         for date_item in date_items:
+            date_item = date_item.strip(',')
             if date_item in MONTH_MAP:                                                                                  # if next item is a month
                 clean_date_items.append(date_item)                                                                      # add the month to clean_items
                 last_month_seen = date_item                                                                             # record that the month was seen
+                last_day_seen = None                                                                                    # reset the day since a new month has started
             elif last_month_seen:                                                                                       # if a month has been found
                 # if the next item is a number and it is less or equal to than the previous date seen
                 if date_item.isdigit() and last_day_seen and date_item <= last_day_seen:
                     continue
                 elif date_item.isdigit() and 1 <= int(date_item) <= 31:
+                    print(f"{date_item} in valid days")
                     clean_date_items.append(date_item)
                     last_day_seen = date_item
                 elif '-' in date_item:
@@ -68,23 +73,28 @@ def clean_dates(raw_dates):
     :param raw_dates: a list of unstructured date strings, ex. ['Oct. 27-28/', '30-31/Nov. 2-3']
     :return: total_dates (str): a clean string of dates ex. 'Oct 27-28/30-31/Nov 2-3'
     """
-    clean_dates = []
+    cleaned_dates = []
     for i, date in enumerate(raw_dates):
         if i > 0 and date[0] != ',':
             date = "," + date
+
+        if re.search(r'[a-z]:\s?\d', date):
+            date = re.sub(r'([a-z]):(\s?\d)', r'\1.\2', date)                                               # replace colon with period
         date = re.sub(r"(?<=[A-Za-z]{3}),", ".", date)
-        date = re.sub(r"\d{2,},\d{3,}", "", date)  # remove any number that precedes a comma and numbers
-        date = re.sub(r"\d,\d{3,}", "", date)  # remove any number that precedes a comma and numbers
+        date = re.sub(r"\d{2,},\d{3,}", "", date)                                                           # remove values like '24,000'
+        date = re.sub(r"\d,\d{3,}", "", date)                                                               # replace thousands
         date = re.sub(r"\d{3,}", "", date)                                                                  # remove any group of 3 or more digits
         date = re.sub(r"\b(?!Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Sept|Oct|Nov|Dec)[a-zA-Z]{2,}\b", "", date)# remove text that is not a month
-        date = re.sub(r"[.;]", " ", date)                                                                  # remove any punctuation
-        date = re.sub(r"\s+", " ", date).strip()                                                            # remove any whitespace
-        date = re.sub(r",$", "", date)
-        clean_dates.append(date)
+        date = re.sub(r"[.;$\[\](){}]", "", date)                                                          # remove any punctuation
+        date = re.sub(r"\s+", " ", date).strip()                                                            # remove any extra whitespace
+        date = re.sub(r"([a-z])(\d)", r"\1 \2", date)
 
-    clean_dates = clean_stray_numbers(clean_dates)                                                                           # remove any garbage numbers that may have gotten mixed in
-    total_dates = "".join(clean_dates)                                                                                # join into string with no spaces
+        cleaned_dates.append(date)
+
+    cleaned_dates = clean_stray_numbers(cleaned_dates)                                                         # remove any garbage numbers that may have gotten mixed in
+    total_dates = " ".join(cleaned_dates)                                                                               # join into string with no spaces
     total_dates = re.sub(r"([a-z])([0-9])", r"\1 \2", total_dates)                                          # add spaces between a number and letter, not /
+    total_dates = re.sub(r"(-)\s([0-9A-Z])", r"\1\2", total_dates)                                          # remove space between int/letter and hyphen
 
     return total_dates
 
@@ -115,6 +125,7 @@ def curate_date(dates, issue_year, issue_month):
     :return: start_date (date), end_date (date), total_dates (string)
     '''
     total_dates = clean_dates(dates)
+    print(total_dates)
 
     # Schema 1: 'Oct 7'
     m = re.fullmatch(r"([A-Za-z]+)[.,]? (\d+)", total_dates)
@@ -126,8 +137,9 @@ def curate_date(dates, issue_year, issue_month):
         return start_date, end_date, total_dates
 
     # Schema 2: 'Sept 20-27'
-    m = re.fullmatch(r"([A-Za-z]+)[.,]? (\d+)-(\d+)", total_dates)
+    m = re.fullmatch(r"([A-Za-z]+)[.,]? (\d+)-?\s?(\d+)", total_dates)
     if m:
+        print("MATCHED SCHEMA 2")
         m, d1, d2 = m.groups()
         event_month = MONTH_MAP[m]
         event_year = determine_event_year(issue_year, issue_month, event_month)
@@ -148,8 +160,9 @@ def curate_date(dates, issue_year, issue_month):
         return start_date, end_date, total_dates
 
     # Schema 4:
-    m = re.fullmatch(r"([A-Za-z]+)[.,]? (\d+)-(\d+)/(\d+)-(\d+)/([A-Za-z]+)[.,]? (\d+)-(\d+)", total_dates)
+    m = re.fullmatch(r"([A-Za-z]+)[.,]? (\d+)-(\d+)/?(\d+)-(\d+)/?([A-Za-z]+)[.,]? (\d+)-(\d+)", total_dates)
     if m:
+        print(f"{total_dates} matched Schema 4!")
         m1, start_day, e1, e2, e3, m2, e4, end_day = m.groups()
         event_month = MONTH_MAP[m1]
         event_year = determine_event_year(issue_year, issue_month, event_month)
@@ -171,8 +184,9 @@ def curate_date(dates, issue_year, issue_month):
         return start_date, end_date, total_dates
 
     # Case 6: ['Nov. 4-5,7-9', '11-12']
-    m = re.fullmatch(r"([A-Za-z]+)[.,]? (\d+)(-\d+)?,\s?(\d+)(-\d+)?,\s?(\d+)(-\d+)?", total_dates)
+    m = re.fullmatch(r"([A-Za-z]+)[.,]? (\d+)(-\d+)?,?\s?(\d+)(-\d+)?,?\s?(\d+)(-\d+)?", total_dates)
     if m:
+        print("MATCHED SCHEMA 6")
         m, d1, d2, d3, d4, d5, d6 = m.groups()
         event_month = MONTH_MAP[m]
         event_year = determine_event_year(issue_year, issue_month, event_month)

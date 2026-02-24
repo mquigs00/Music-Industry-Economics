@@ -1,0 +1,11 @@
+weekly_rank,event_name,artist_ids,venue_id,promoters,start_date,end_date,dates,signature,gross_receipts_us,gross_receipts_canadian,attendance,capacity,num_shows,num_sellouts,ticket_prices,schema_id,source_id,s3_uri
+1,,"[253, 1159]",234,[],1992-05-22,1992-05-24,May 22-24,jimmy-buffett-merriweather-post-pavilion-1992-05-22,,,,,,,[27.5],bb_3,1,music-industry-data-lakeraw/billboard/pdf/magazines/1992/06/Billboard-1992-06-06.pdf
+2,,"[631, 1163]",837,[],1992-05-16,1992-05-16,May 16,van-halen-great-western-forum-inglewood-cai-1992-05-16,,,,,,,[35.0],bb_3,1,music-industry-data-lakeraw/billboard/pdf/magazines/1992/06/Billboard-1992-06-06.pdf
+3,,"[631, 1163]",116,[],1992-05-14,1992-05-15,May 14-15,van-halen-selland-arena-1992-05-14,,,,,,1,[22.5],bb_3,1,music-industry-data-lakeraw/billboard/pdf/magazines/1992/06/Billboard-1992-06-06.pdf
+4,,[1155],838,[],1992-05-23,1992-05-23,May 23,fric-clapton-the-omni-arena-1992-05-23,41954,,16751,,,,[39.0],bb_3,1,music-industry-data-lakeraw/billboard/pdf/magazines/1992/06/Billboard-1992-06-06.pdf
+5,,[262],37,[],1992-05-10,1992-05-10,May 10,eric-clapton-capital-centre-1992-05-10,412617,,18381,,,,[27.5],bb_3,1,music-industry-data-lakeraw/billboard/pdf/magazines/1992/06/Billboard-1992-06-06.pdf
+6,,[84],492,[],1992-05-20,1992-05-21,May 20-21,the-cure-centrum-in-worcester-worcester-1992-05-20,,,,,,,[22.5],bb_3,1,music-industry-data-lakeraw/billboard/pdf/magazines/1992/06/Billboard-1992-06-06.pdf
+7,,"[37, 1162]",982,[],1992-05-23,1992-05-24,May 23-24,kenny-rogers-star-plaza-theatre-1992-05-23,,,,,,,[28.0],bb_3,1,music-industry-data-lakeraw/billboard/pdf/magazines/1992/06/Billboard-1992-06-06.pdf
+8,,"[996, 1154, 1157]",37,[],,,,hammer-capital-centre-None,33927,,14237,,,1,[26.5],bb_3,1,music-industry-data-lakeraw/billboard/pdf/magazines/1992/06/Billboard-1992-06-06.pdf
+9,,[84],258,[],1992-05-15,1992-05-15,May 15,the-cure-nassau-veterans-memorial-coliseum-1992-05-15,337500,,15000,,,1,[22.5],bb_3,1,music-industry-data-lakeraw/billboard/pdf/magazines/1992/06/Billboard-1992-06-06.pdf
+10,Kool Koncert'92,"[1156, 1164, 1158, 1160, 1161]",840,[],1992-05-22,1992-05-25,May 22-25,kool-koncert-92-fiddler's-green-amphitheatre-1992-05-22,,,,,,,[],bb_3,1,music-industry-data-lakeraw/billboard/pdf/magazines/1992/06/Billboard-1992-06-06.pdf

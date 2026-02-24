@@ -1,0 +1,11 @@
+weekly_rank,event_name,artist_ids,venue_id,promoters,start_date,end_date,dates,signature,gross_receipts_us,gross_receipts_canadian,attendance,capacity,num_shows,num_sellouts,ticket_prices,schema_id,source_id,s3_uri
+1,,"[1102, 1104, 1100, 1101]",439,[],1991-11-19,1991-11-24,Nov 19-24,the-music-of-andrew-fox-theatre-1991-11-19,,,,,,,"[32.5, 830.0, 27.5, 820.0]",bb_3,1,music-industry-data-lakeraw/billboard/pdf/magazines/1991/12/BB-1991-12-14.pdf
+2,,[24],569,[],1991-11-23,1991-11-04,Nov 23-24 4,rod-stewart-palace-1991-11-23,,,,,,1,"[50.0, 835.0, 22.5]",bb_3,1,music-industry-data-lakeraw/billboard/pdf/magazines/1991/12/BB-1991-12-14.pdf
+3,,[1103],964,[],1991-11-26,1991-11-26,Nov 26,jose-carreras-sydney-entertainment-centre-1991-11-26,,,,,,1,[],bb_3,1,music-industry-data-lakeraw/billboard/pdf/magazines/1991/12/BB-1991-12-14.pdf
+4,,"[989, 1105, 1099]",965,[],1991-11-16,1991-11-17,Nov 16-17,garth-brooks-the-summit-houston-group-i---=-1991-11-16,,,,,,1,[15.65],bb_3,1,music-industry-data-lakeraw/billboard/pdf/magazines/1991/12/BB-1991-12-14.pdf
+5,,"[210, 1062, 717]",803,[],,,,luther-vandross-the-summit-houston-one-sellout-None,,,,,,,[25.75],bb_3,1,music-industry-data-lakeraw/billboard/pdf/magazines/1991/12/BB-1991-12-14.pdf
+6,,[24],493,[],1991-11-21,1991-11-21,Nov 21,rod-stewart-spectrum-philadetphia-1991-11-21,445675,,17869,,,1,"[38.0, 825.5]",bb_3,1,music-industry-data-lakeraw/billboard/pdf/magazines/1991/12/BB-1991-12-14.pdf
+7,,"[1092, 1019]",966,[],1991-11-26,1991-11-26,Nov 26,paula-aboul-rosemont-horizon-rosemont-il-1991-11-26,318895,,12509,,,,"[35.0, 522.5]",bb_3,1,music-industry-data-lakeraw/billboard/pdf/magazines/1991/12/BB-1991-12-14.pdf
+8,,"[1094, 1096, 1019]",805,[],1991-11-23,1991-11-23,Nov 23,paula-abdul-skydome-toronto-1991-11-23,314873,,13972,,,,"[29.75, 25.75]",bb_3,1,music-industry-data-lakeraw/billboard/pdf/magazines/1991/12/BB-1991-12-14.pdf
+9,,"[1098, 137, 181, 277, 952]",163,[],1991-11-30,1991-11-30,Nov 30,the-highwaywen-paramount-theater-1991-11-30,306150,,,,,1,"[50.0, 25.0]",bb_3,1,music-industry-data-lakeraw/billboard/pdf/magazines/1991/12/BB-1991-12-14.pdf
+10,,[1106],806,[],1991-11-22,1991-11-24,Nov 22-24,perry-como-star-plaza-theatre-1991-11-22,,,,,,,[],bb_3,1,music-industry-data-lakeraw/billboard/pdf/magazines/1991/12/BB-1991-12-14.pdf

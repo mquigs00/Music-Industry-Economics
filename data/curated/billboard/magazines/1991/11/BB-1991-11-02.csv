@@ -1,0 +1,11 @@
+weekly_rank,event_name,artist_ids,venue_id,promoters,start_date,end_date,dates,signature,gross_receipts_us,gross_receipts_canadian,attendance,capacity,num_shows,num_sellouts,ticket_prices,schema_id,source_id,s3_uri
+1,,"[145, 323, 1079, 1076]",783,[],1991-10-12,1991-10-12,Oct 12,metallica-oakland--alameda-county-stadium-1991-10-12,1433529,,50271,,,1,"[30.0, 28.5]",bb_3,1,music-industry-data-lakeraw/billboard/pdf/magazines/1991/11/BB-1991-11-02.pdf
+2,,[651],720,[],1991-10-05,1991-10-06,Oct 5-6,george-michael-great-western-forum-inglewood-1991-10-05,622553,,27045,,,1,"[40.0, 23.5]",bb_3,1,music-industry-data-lakeraw/billboard/pdf/magazines/1991/11/BB-1991-11-02.pdf
+3,,[1078],955,[],,,,nic-sydney-entertainment-centre-None,,,,,,,[41.5],bb_3,1,music-industry-data-lakeraw/billboard/pdf/magazines/1991/11/BB-1991-11-02.pdf
+4,,[24],785,[],1991-10-18,1991-10-18,Oct 18,rod-stewart-louisiana-superdome-dome-arena-1991-10-18,429163,,18301,,,1,"[35.0, 19.5]",bb_3,1,music-industry-data-lakeraw/billboard/pdf/magazines/1991/11/BB-1991-11-02.pdf
+5,,[616],765,[],1991-10-04,1991-10-04,Oct 4,roo-stewart-blockbuster-pavilion-1991-10-04,374904,,17848,,,,"[25.5, 18.0]",bb_3,1,music-industry-data-lakeraw/billboard/pdf/magazines/1991/11/BB-1991-11-02.pdf
+6,,"[255, 1069]",178,[],1991-10-09,1991-10-09,Oct 9,tom-petty-the-heartbreakers-meadowlands-arena-1991-10-09,324912,,15187,,,1,"[22.5, 20.0]",bb_3,1,music-industry-data-lakeraw/billboard/pdf/magazines/1991/11/BB-1991-11-02.pdf
+7,,"[1080, 1077, 1008]",786,[],1991-10-13,1991-10-13,Oct 13,the-jud0s-target-center-1991-10-13,305538,,13772,,,,"[24.5, 21.5, 19.5]",bb_3,1,music-industry-data-lakeraw/billboard/pdf/magazines/1991/11/BB-1991-11-02.pdf
+8,,"[1040, 1074]",45,[],1991-10-09,1991-10-09,Oct 9,yan-halen-providence-civic-center-1991-10-09,267438,,12515,,,1,"[27.5, 19.5]",bb_3,1,music-industry-data-lakeraw/billboard/pdf/magazines/1991/11/BB-1991-11-02.pdf
+9,,[651],956,[],1991-10-19,1991-10-19,Oct 19,george-michael-rosemont-horizon-rosemont-lil-1991-10-19,256648,,10054,,,,"[35.0, 25.0, 12.5]",bb_3,1,music-industry-data-lakeraw/billboard/pdf/magazines/1991/11/BB-1991-11-02.pdf
+10,,"[1075, 1046]",748,[],1991-10-11,1991-10-11,Oct 11,wachael-bolton-blockbuster-desert-sky-pavilion-1991-10-11,226124,,14705,,,,"[23.0, 18.0]",bb_3,1,music-industry-data-lakeraw/billboard/pdf/magazines/1991/11/BB-1991-11-02.pdf

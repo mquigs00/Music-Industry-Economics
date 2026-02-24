@@ -1,0 +1,32 @@
+weekly_rank,event_name,artist_ids,venue_id,promoters,start_date,end_date,dates,signature,gross_receipts_us,gross_receipts_canadian,attendance,capacity,num_shows,num_sellouts,ticket_prices,schema_id,source_id,s3_uri
+1,,[1],1,[],1984-10-21,1984-10-22,Oct 21-22,bruce-springsteen-oakland-coliseum-1984-10-21,436272,,,,,2,[16.0],bb_3,1,music-industry-data-lakeraw/billboard/pdf/magazines/1984/11/BB-1984-11-03.pdf
+2,,[20],2,[],1984-10-16,1984-10-21,Oct 16-21,doug-henning-fox-theater-1984-10-16,401678,,34224,,8,4,"[4.9, 17.9]",bb_3,1,music-industry-data-lakeraw/billboard/pdf/magazines/1984/11/BB-1984-11-03.pdf
+3,,"[14, 6]",3,[],1984-10-14,1984-10-14,Oct 14,alabama-reunion-arena-1984-10-14,271436,,,,,1,[15.5],bb_3,1,music-industry-data-lakeraw/billboard/pdf/magazines/1984/11/BB-1984-11-03.pdf
+4,,"[2, 17]",4,[],1984-10-06,1984-10-06,Oct 6,rick-springfield-the-forum-inglewood-sellout-jam-1984-10-06,239237,,,,,,"[15.0, 12.5]",bb_3,1,music-industry-data-lakeraw/billboard/pdf/magazines/1984/11/BB-1984-11-03.pdf
+5,,[19],5,[],1984-10-09,1984-10-13,Oct 9-13,patti-labelle-lyric-opera-house-1984-10-09,216352,,,,,,"[20.0, 17.0, 15.0]",bb_3,1,music-industry-data-lakeraw/billboard/pdf/magazines/1984/11/BB-1984-11-03.pdf
+6,,[14],6,[],1984-10-19,1984-10-19,Oct 19,alabama-frank-erwin-center-1984-10-19,203277,,,,,,[13.5],bb_3,1,music-industry-data-lakeraw/billboard/pdf/magazines/1984/11/BB-1984-11-03.pdf
+7,,[2],7,[],1984-10-07,1984-10-08,Oct 7-8,rick-springfield-concord-pavilion-1984-10-07,197300,,,,,2,[12.5],bb_3,1,music-industry-data-lakeraw/billboard/pdf/magazines/1984/11/BB-1984-11-03.pdf
+8,,"[31, 29]",8,[],1984-10-20,1984-10-21,Oct 20-21,sammy-hagar-wings-stadium-1984-10-20,196087,,,,,2,[12.5],bb_3,1,music-industry-data-lakeraw/billboard/pdf/magazines/1984/11/BB-1984-11-03.pdf
+9,,[32],9,[],1984-10-19,1984-10-19,Oct 19,barry-manilow-crisler-arena-1984-10-19,190095,,,,,1,"[17.5, 15.0]",bb_3,1,music-industry-data-lakeraw/billboard/pdf/magazines/1984/11/BB-1984-11-03.pdf
+10,,[14],10,[],1984-10-12,1984-10-12,Oct 12,alabama-convention-center-1984-10-12,188666,,,,,,[15.5],bb_3,1,music-industry-data-lakeraw/billboard/pdf/magazines/1984/11/BB-1984-11-03.pdf
+11,,[24],11,[],1984-10-07,1984-10-07,Oct 7,rod-stewart-hollywood-sportatorium-1984-10-07,179172,,,,,,[14.0],bb_3,1,music-industry-data-lakeraw/billboard/pdf/magazines/1984/11/BB-1984-11-03.pdf
+12,,[25],12,[],1984-10-10,1984-10-10,Oct 10,lionel-richie-bsu-pavilion-1984-10-10,164694,,,12045,,,[15.0],bb_3,1,music-industry-data-lakeraw/billboard/pdf/magazines/1984/11/BB-1984-11-03.pdf
+13,,[31],13,[],1984-10-17,1984-10-17,Oct 17,sammy-hagar-market-square-arena-1984-10-17,141280,,13151,13500,,,"[11.4, 10.5]",bb_3,1,music-industry-data-lakeraw/billboard/pdf/magazines/1984/11/BB-1984-11-03.pdf
+14,,[28],14,[],1984-10-07,1984-10-07,Oct 7,george-benson-irvine-meadows-amphitheatre-1984-10-07,136569,,,15000,,,"[16.5, 15.0, 9.5]",bb_3,1,music-industry-data-lakeraw/billboard/pdf/magazines/1984/11/BB-1984-11-03.pdf
+15,,[32],15,[],1984-10-18,1984-10-18,Oct 18,barry-manilow-centennial-hall-1984-10-18,135496,,,,,1,"[15.0, 13.5]",bb_3,1,music-industry-data-lakeraw/billboard/pdf/magazines/1984/11/BB-1984-11-03.pdf
+16,,"[9, 5]",16,[],1984-10-19,1984-10-19,Oct 19,jethro-tull-spectrum-theater-1984-10-19,130017,,,11882,,,"[12.5, 10.0]",bb_3,1,music-industry-data-lakeraw/billboard/pdf/magazines/1984/11/BB-1984-11-03.pdf
+17,,"[21, 30]",17,[],1984-10-16,1984-10-16,Oct 16,billy-squier-barton-coliseum-1984-10-16,120000,,,,,1,[12.0],bb_3,1,music-industry-data-lakeraw/billboard/pdf/magazines/1984/11/BB-1984-11-03.pdf
+18,,[2],18,[],1984-10-12,1984-10-12,Oct 12,rick-springfield-nbc-arena-1984-10-12,114112,,,,,1,[13.5],bb_3,1,music-industry-data-lakeraw/billboard/pdf/magazines/1984/11/BB-1984-11-03.pdf
+19,,[21],19,[],1984-10-17,1984-10-17,Oct 17,billy-squier-mid-south-coliseum-1984-10-17,113207,,,12035,,,"[12.5, 11.5]",bb_3,1,music-industry-data-lakeraw/billboard/pdf/magazines/1984/11/BB-1984-11-03.pdf
+20,,[7],20,[],1984-10-19,1984-10-20,Oct 19-20,david-copperfield-royal-oak-music-theater-1984-10-19,112057,,,8500,5,,[15.0],bb_3,1,music-industry-data-lakeraw/billboard/pdf/magazines/1984/11/BB-1984-11-03.pdf
+21,,"[26, 10]",21,[],1984-10-14,1984-10-14,Oct 14,oak-ridge-boys-von-braun-civic-center-1984-10-14,109079,,,,,,"[12.75, 12.0]",bb_3,1,music-industry-data-lakeraw/billboard/pdf/magazines/1984/11/BB-1984-11-03.pdf
+22,,[14],22,[],1984-10-20,1984-10-20,Oct 20,alabama-stephen-f-austin-college-1984-10-20,107679,,,,,1,[13.0],bb_3,1,music-industry-data-lakeraw/billboard/pdf/magazines/1984/11/BB-1984-11-03.pdf
+23,,[3],23,[],1984-10-12,1984-10-12,Oct 12,chicago-cal-expo-amphitheatre-1984-10-12,105840,,,10000,,,[15.0],bb_3,1,music-industry-data-lakeraw/billboard/pdf/magazines/1984/11/BB-1984-11-03.pdf
+24,,[3],24,[],1984-10-13,1984-10-13,Oct 13,chicago-greek-theatre-1984-10-13,103940,,,8500,,,"[15.5, 15.0, 13.5]",bb_3,1,music-industry-data-lakeraw/billboard/pdf/magazines/1984/11/BB-1984-11-03.pdf
+25,,[14],25,[],1984-10-21,1984-10-21,Oct 21,alabama-g-rollie-white-coliseum-1984-10-21,100495,,,,,1,"[13.5, 12.5]",bb_3,1,music-industry-data-lakeraw/billboard/pdf/magazines/1984/11/BB-1984-11-03.pdf
+26,,"[22, 4, 15]",26,[],1984-10-14,1984-10-14,Oct 14,quiet-riot-mcnichols-sports-arena-1984-10-14,98221,,,18483,,,[9.35],bb_3,1,music-industry-data-lakeraw/billboard/pdf/magazines/1984/11/BB-1984-11-03.pdf
+27,,"[8, 11, 23]",27,[],1984-10-20,1984-10-20,Oct 20,fixx-san-francisco-civic-auditorium-1984-10-20,70557,,,8500,,,"[15.0, 13.5]",bb_3,1,music-industry-data-lakeraw/billboard/pdf/magazines/1984/11/BB-1984-11-03.pdf
+28,,"[22, 4, 18]",14,[],1984-09-30,1984-09-30,Sept 30,quiet-riot-irvine-meadows-amphitheatre-1984-09-30,66969,,,,,,"[16.0, 14.0]",bb_3,1,music-industry-data-lakeraw/billboard/pdf/magazines/1984/11/BB-1984-11-03.pdf
+29,,"[13, 12]",28,[],1984-09-22,1984-09-22,Sept 22,thompson-twins-lawior-events-center-1984-09-22,59238,,,7200,,,[13.5],bb_3,1,music-industry-data-lakeraw/billboard/pdf/magazines/1984/11/BB-1984-11-03.pdf
+30,,[27],29,[],1984-10-15,1984-10-16,Oct 15-16,amy-grant-massey-hall-1984-10-15,59128,73911,4667,5000,,,"[16.0, 15.0]",bb_3,1,music-industry-data-lakeraw/billboard/pdf/magazines/1984/11/BB-1984-11-03.pdf
+31,,[16],30,[],1984-10-20,1984-10-20,Oct 20,charley-pride-frank-cainer-arena-behan-park-1984-10-20,53749,,,3722,,,"[15.0, 13.0]",bb_3,1,music-industry-data-lakeraw/billboard/pdf/magazines/1984/11/BB-1984-11-03.pdf

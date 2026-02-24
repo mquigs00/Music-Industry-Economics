@@ -67,12 +67,15 @@ def load_dimension_table_rows(path):
 
     return rows, max_id
 
-def load_dimension_tables():
+def load_dimension_tables(storage_mode):
     tables = {}
 
     # name = name of csv file ("artists", "promoters", etc..., meta = a key function with the necessary keys
     for name, meta in DIMENSION_TABLES.items():
-        rows, max_id = load_dimension_table_rows(meta["path"])                                                                    # load the list of table rows and the maximum id value
+        if storage_mode == "s3":
+            rows, max_id = load_dimension_table_rows(meta["s3_path"])                                                                    # load the list of table rows and the maximum id value
+        else:
+            rows, max_id = load_dimension_table_rows(meta["local_path"])
 
         indexes = index_dimension(
             rows,
@@ -110,32 +113,6 @@ def index_dimension(rows, key_fn):
         "by_slug": dict(by_slug),
         "by_id": by_id
     }
-
-def get_venue_name(venue_id):
-    """
-
-    :param venue_id: int
-    :return:
-    """
-    if math.isnan(venue_id):
-        return ""
-
-    print(venue_id)
-
-    if isinstance(venue_id, str):
-        if venue_id.isdigit():
-            venue_id = int(venue_id)
-    elif isinstance(venue_id, bool):
-        raise TypeError("venue_id must be int, not bool")
-    elif isinstance(venue_id, float):
-        venue_id = int(venue_id)
-    if not isinstance(venue_id, int):
-        print(f"venue_id must be int, not {type(venue_id)}")
-
-    dimension_tables = load_dimension_tables()
-    dim_venues_by_id = dimension_tables["venues"]["by_id"]
-    venue_name = dim_venues_by_id[venue_id]["name"]
-    return venue_name
 
 def add_slugs_to_csv(path):
     df = pd.read_csv(path)
@@ -178,8 +155,8 @@ def parse_ocr_int(value):
 
     return int(v)
 
-def get_source_id(source_slug):
-    dim_sources = load_dimension_tables()["sources"]["by_slug"]
+def get_source_id(source_slug, storage_mode):
+    dim_sources = load_dimension_tables(storage_mode)["sources"]["by_slug"]
     source_id = dim_sources[source_slug][0]["id"]
     return source_id
 
@@ -190,3 +167,13 @@ def load_artist_corrections():
 def load_json(path):
     with open(path) as f:
         return json.load(f)
+
+def read_local_csv(path):
+    try:
+        df = pd.read_csv(path, dtype=str, encoding="latin1")
+        df = df.applymap(lambda x: x.encode("utf-8").decode("utf-8") if isinstance(x, str) else x)
+        df.columns = df.columns.str.strip()
+        return df
+    except FileNotFoundError:
+        print(f"File not found: {path}")
+        return pd.DataFrame()

@@ -42,6 +42,12 @@ def test_calc_special_event_score_colon_comma():
     special_event_score = calc_special_event_score(raw_artists)
     assert special_event_score == 7
 
+def test_calc_special_event_score_colon_comma_artifacts():
+    # this is not a special event, OCR added a colon and comma so this must be manually corrected
+    raw_artists = ['KENNY ROGERS:', 'THE FORESTER SISTERS,']                                                            # BB-1989-01-14
+    special_event_score = calc_special_event_score(raw_artists)
+    assert special_event_score == 7
+
 def test_calc_special_event_score_colon_apostrophe():
     raw_artists = ["VAN HALEN'S MONSTERS OF", 'ROCK:', 'VAN HALEN', 'SCORPIONS', 'DOKKEN', 'METALLICA', 'KINGDOM COME'] # BB-1988-08-13
     special_event_score = calc_special_event_score(raw_artists)

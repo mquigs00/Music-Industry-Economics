@@ -1,0 +1,9 @@
+weekly_rank,event_name,artist_ids,venue_id,promoters,start_date,end_date,dates,signature,gross_receipts_us,gross_receipts_canadian,attendance,capacity,num_shows,num_sellouts,ticket_prices,schema_id,source_id,s3_uri
+1,,[1093],797,[],,,,barry-manilow-nec-nov-birmingham-england-british-andrew-miller-None,929217,,25196,,,,"[37.02, 28.2]",bb_3,1,music-industry-data-lakeraw/billboard/pdf/magazines/1991/12/BB-1991-12-07.pdf
+2,,[32],962,[],1991-10-24,1991-10-26,Oct 24-26,barry-manilow-wembley-arena-1991-10-24,,,,,,,"[35.86, 27.0]",bb_3,1,music-industry-data-lakeraw/billboard/pdf/magazines/1991/12/BB-1991-12-07.pdf
+3,,"[810, 1041, 1097]",524,[],,,,o1ngo-boingo-irvine-meadows-amphitheatre-None,798406,,45000,,,1,"[22.5, 21.5, 20.0, 18.5, 696.71, 40.0, 35.0, 25.0]",bb_3,1,music-industry-data-lakeraw/billboard/pdf/magazines/1991/12/BB-1991-12-07.pdf
+4,,"[1094, 1019]",564,[],1991-11-08,1991-11-09,Nov 8-9,paula-abdul-palace-1991-11-08,,,,,,1,"[40.0, 22.5, 18.5]",bb_3,1,music-industry-data-lakeraw/billboard/pdf/magazines/1991/12/BB-1991-12-07.pdf
+5,,[32],289,[],1991-11-19,1991-11-23,Nov 19-23,barry-manilow-chicago-theater-1991-11-19,,,,,,,"[45.0, 34.5, 27.5, 22.5]",bb_3,1,music-industry-data-lakeraw/billboard/pdf/magazines/1991/12/BB-1991-12-07.pdf
+6,,"[44, 1014]",564,[],1991-11-13,1991-11-14,Nov 13-14,rush-palace-1991-11-13,,,,,,,"[32.5, 22.5]",bb_3,1,music-industry-data-lakeraw/billboard/pdf/magazines/1991/12/BB-1991-12-07.pdf
+7,,"[1092, 1095, 1096, 1014]",799,[],1991-11-17,1991-11-18,Nov 17-18,paula-aboul-centrum-in-now-worcester-worcester-mass-rus-richfield-coliseum-1991-11-17,,,,,,1,"[35.0, 517.5, 430.463, 30.0, 820.0]",bb_3,1,music-industry-data-lakeraw/billboard/pdf/magazines/1991/12/BB-1991-12-07.pdf
+8,,[],963,[],1991-11-22,1991-11-22,Nov 22,None-rosemont-horizon-graham-rosemont-1991-11-22,380280,,17283,,,1,"[22.5, 20.0]",bb_3,1,music-industry-data-lakeraw/billboard/pdf/magazines/1991/12/BB-1991-12-07.pdf

@@ -1,5 +1,5 @@
 id,name,slug,abbr,country_id
--1,Unknown,unknown,,
+-1,Unknown,unknown,UNK,
 1,Alabama,alabama,AL,840
 2,Alaska,alaska,AK,840
 3,Arizona,arizona,AZ,840
@@ -57,8 +57,8 @@ id,name,slug,abbr,country_id
 55,Puerto Rico,puerto-rico,PR,840
 56,United States Minor Outlying Islands,united-states-minor-outlying-islands,UM,840
 57,Virgin Islands,virgin-islands,VI,840
-58,Manitoba,manitoba,,124
-59,Alberta,alberta,,124
-60,Ontario,ontario,,124
-61,Quebec,quebec,,124
+58,Manitoba,manitoba,MB,124
+59,Alberta,alberta,AB,124
+60,Ontario,ontario,ON,124
+61,Quebec,quebec,QC,124
 62,British Columbia,british-columbia,BC,124

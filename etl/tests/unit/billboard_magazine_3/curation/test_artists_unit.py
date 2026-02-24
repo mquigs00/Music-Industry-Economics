@@ -4,7 +4,6 @@ import pytest
 
 dim_artists = load_dimension_tables()["artists"]
 
-@pytest.mark.only
 def test_curate_artists_weird_merge():
     raw_artists = ['HANK WILLIAMS JR.', 'BAMA BAND', 'MERLE KILGORE']                                                   # BB-1985-03-16
     final_artists = parse_artist_names(raw_artists, False, dim_artists)

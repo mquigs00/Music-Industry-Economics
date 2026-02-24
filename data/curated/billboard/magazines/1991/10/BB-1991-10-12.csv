@@ -1,0 +1,11 @@
+weekly_rank,event_name,artist_ids,venue_id,promoters,start_date,end_date,dates,signature,gross_receipts_us,gross_receipts_canadian,attendance,capacity,num_shows,num_sellouts,ticket_prices,schema_id,source_id,s3_uri
+1,,[36],953,[],1991-09-12,1991-09-08,Sept 12-14 16-8,grateful-dead-wadison-square-garden-new-york-_-1991-09-12,,,,,,1,"[24.0, 22.5]",bb_3,1,music-industry-data-lakeraw/billboard/pdf/magazines/1991/10/BB-1991-10-12.pdf
+2,,[36],494,[],1991-09-20,1991-09-06,Sept 20-22 24-26,grateful-dead-boston-garden-boston-1991-09-20,2039659,,6794,,,1,[23.5],bb_3,1,music-industry-data-lakeraw/billboard/pdf/magazines/1991/10/BB-1991-10-12.pdf
+3,,[24],178,[],1991-09-24,1991-09-07,Sept 24 26-27,rod-stewart-meadowlands-arena-1991-09-24,1430685,,4231,,,1,"[35.0, 825.0]",bb_3,1,music-industry-data-lakeraw/billboard/pdf/magazines/1991/10/BB-1991-10-12.pdf
+4,,"[631, 1043]",709,[],,,,van-halen-shoreline-amphitheatre-None,,,,,,1,"[28.5, 23.5]",bb_3,1,music-industry-data-lakeraw/billboard/pdf/magazines/1991/10/BB-1991-10-12.pdf
+5,,[1061],778,[],,,,barry-manrow-the-paramount-new-york-ed-sellout-None,764900,,19654,,,,"[60.5, 40.3]",bb_3,1,music-industry-data-lakeraw/billboard/pdf/magazines/1991/10/BB-1991-10-12.pdf
+6,,"[210, 1063, 1062]",37,[],1991-09-17,1991-09-04,Sept 17-18 4,luther-vandross-capital-centre-1991-09-17,699360,,24000,,,,"[45.0, 30.0]",bb_3,1,music-industry-data-lakeraw/billboard/pdf/magazines/1991/10/BB-1991-10-12.pdf
+7,,"[616, 204]",33,[],1991-09-28,1991-09-28,Sept 28,roo-stewart-carrier-dome-1991-09-28,562500,,25000,,,1,[22.5],bb_3,1,music-industry-data-lakeraw/billboard/pdf/magazines/1991/10/BB-1991-10-12.pdf
+8,,[1064],779,[],1991-09-27,1991-09-27,Sept 27,paul-sakom-hollywood-bow!-hollywood-silva-1991-09-27,505733,,16487,,,1,"[50.0, 527.5, 22.5]",bb_3,1,music-industry-data-lakeraw/billboard/pdf/magazines/1991/10/BB-1991-10-12.pdf
+9,,[465],709,[],1991-09-29,1991-09-29,Sept 29,paul-simon-shoreline-amphitheatre-1991-09-29,407085,,19002,,,1,"[22.0, 317.0]",bb_3,1,music-industry-data-lakeraw/billboard/pdf/magazines/1991/10/BB-1991-10-12.pdf
+10,,"[631, 1043]",23,[],1991-09-15,1991-09-15,Sept 15,van-halen-cal-expo-amphitheatre-1991-09-15,390515,,14188,,,1,[27.5],bb_3,1,music-industry-data-lakeraw/billboard/pdf/magazines/1991/10/BB-1991-10-12.pdf

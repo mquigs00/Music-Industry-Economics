@@ -1,9 +1,9 @@
-from etl.dimensions.artists import update_artists_dim, get_artist_ids
+from etl.dimensions.artists_csv import update_artists_dim_csv
+from etl.dimensions.artists_utils import get_artist_ids, get_artist_name, get_first_artist_name_by_id
 from etl.utils.utils import load_artist_corrections
 import slugify
 import ast
 import re
-
 
 def identify_first_artist_line(processed_events_df):
     """
@@ -232,7 +232,7 @@ def curate_artists(processed_events_df, curated_events_df, dim_artists):
         for artist in artist_list
     }
 
-    update_artists_dim(all_artists, dim_artists)
+    update_artists_dim_csv(all_artists, dim_artists)
 
     curated_events_df["artist_ids"] = processed_events_df["artists_clean"].apply(
         lambda artist_names: get_artist_ids(artist_names, dim_artists)

@@ -1,6 +1,6 @@
 from Levenshtein import distance as levenshtein_distance
 import slugify
-from etl.dimensions.promoters import update_dim_promoters
+from etl.dimensions.promoters_csv import update_dim_promoters_csv
 import ast
 
 def parse_promoters(promoters_list, venue_names):
@@ -39,17 +39,22 @@ def curate_promoters(processed_events_df, curated_events_df, dim_promoters, venu
 
     promoters_names_per_event, unique_promoters = parse_promoters(promoters_list, venue_names)
 
-    update_dim_promoters(unique_promoters, dim_promoters)                                                                 # add any new promoters to dim_promoters
+    update_dim_promoters_csv(unique_promoters, dim_promoters)                                                                 # add any new promoters to dim_promoters
     existing_promoters = dim_promoters["by_slug"]
+    print(existing_promoters)
 
     promoter_ids = []
 
     # loop through each set of promoter names
     for promoters in promoters_names_per_event:
         promoter_ids_per_event = []
+
         for promoter_name in promoters:
             promoter_slug = slugify.slugify(promoter_name)
-            promoter_ids_per_event.append(existing_promoters[promoter_slug][0]["id"])                                      # get the id for that promoter
+            print(f"Slug: {promoter_slug}")
+            promoter_record = existing_promoters.get(promoter_name)
+            if promoter_record is not None:
+                promoter_ids_per_event.append(promoter_record[0]["id"])                                      # get the id for that promoter
         promoter_ids.append(promoter_ids_per_event)
 
     curated_events_df["promoters"] = promoter_ids

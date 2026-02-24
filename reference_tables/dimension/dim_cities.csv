@@ -188,3 +188,130 @@ id,name,slug,state_id
 188,Holmdel,holmdel,30
 189,Grand Rapids,grand-rapids,22
 190,Clearwater,clearwater,9
+191,Lawton,lawton,36
+192,Evansville,evansville,14
+193,Joplin,joplin,25
+194,Columbia,columbia,20
+195,Johnson City,johnson-city,42
+196,Bonner Springs,bonner-springs,16
+197,Middletown,middletown,32
+198,Rapid City,rapid-city,41
+199,Birmingham,birmingham,1
+200,Univ Of Davis,univ-of-davis,5
+201,Stamford,stamford,7
+202,Tacoma,tacoma,47
+203,Vancouver,vancouver,62
+204,Mountain View,mountain-view,5
+205,Costa Mesa,costa-mesa,5
+206,For The Performing Arts Mansfield,for-the-performing-arts-mansfield,21
+207,La Cruces,la-cruces,31
+208,Hamilton,hamilton,60
+209,For The Performing Arts Mansfield,for-the-performing-arts-mansfield,21
+210,Clarkston,clarkston,22
+211,Clarkston,clarkston,22
+212,Utica,utica,32
+213,Bloomington,bloomington,23
+214,Niagara Falls,niagara-falls,32
+215,Complex Lake Placid,complex-lake-placid,32
+216,Richfield,richfield,35
+217,Roanoke,roanoke,46
+218,Resort International Hotel Atlantic City,resort-international-hotel-atlantic-city,30
+219,Rensselaer Polytechnic Institute Troy,rensselaer-polytechnic-institute-troy,32
+220,Of Taylor Co,of-taylor-co,43
+221,Daytona Beach,daytona-beach,9
+222,Salem At,salem-at,46
+223,Willmar,willmar,23
+224,Rochester,rochester,23
+225,Savannah,savannah,10
+226,Santa Monica,santa-monica,5
+227,Lake Charles,lake-charles,18
+228,Auditorium/Arena Fayetteville,auditorium-arena-fayetteville,33
+229,Univ Of Eugene Ore,univ-of-eugene-ore,37
+230,Duluth Ss Sellout Cellar Door,duluth-ss-sellout-cellar-door,23
+231,Erie,erie,38
+232,Greenville,greenville,40
+233,Bristol Corp,bristol-corp,42
+234,James Madison Univ Harrisonberg _},james-madison-univ-harrisonberg,46
+235,Ozark Corp,ozark-corp,1
+236,Univ Of Fayetteville,univ-of-fayetteville,4
+237,Pensacola,pensacola,9
+238,Univ Of North Carotina Chapel Hill,univ-of-north-carotina-chapel-hill,33
+239,Hampton,hampton,46
+240,Univ Of North Carolina Chapel Hill,univ-of-north-carolina-chapel-hill,33
+241,Univ Of Oklahoma Norman,univ-of-oklahoma-norman,36
+242,Auburn Univ Auburn,auburn-univ-auburn,1
+243,Fort Meyers Gi Sellout,fort-meyers-gi-sellout,9
+244,Fort Meyers,fort-meyers,9
+245,Georgia Mason Univ Fairfax,georgia-mason-univ-fairfax,46
+246,George Mason Univ Fairfax,george-mason-univ-fairfax,46
+247,Poland,poland,5
+248,Muskegon,muskegon,22
+249,Asheville Gehl Corp,asheville-gehl-corp,33
+250,Newark,newark,35
+251,Belton,belton,43
+252,Jemison,jemison,1
+253,Angeles Camp,angeles-camp,5
+254,York Wy Ae Dl,york-wy-ae-dl,28
+255,Wantagh,wantagh,32
+256,Latham +,latham,32
+257,Wantagh +,wantagh,32
+258,Pontiac,pontiac,22
+259,Huntington Sellout ==,huntington-sellout,48
+260,Tyler,tyler,43
+261,Univ Of South Carolina Columbia,univ-of-south-carolina-columbia,40
+262,Battle Creek,battle-creek,22
+263,St Paul,st-paul,23
+264,Edmonton Northlands Edmonton Perryscope Concert,edmonton-northlands-edmonton-perryscope-concert,59
+265,George Mason Univ,george-mason-univ,46
+266,Seasons/The Four Tops Westbury = Sellout,seasons-the-four-tops-westbury-sellout,32
+267,Hills _,hills,5
+268,_,,5
+269,Hoffman Estates,hoffman-estates,13
+270,Augusta Condit Charities,augusta-condit-charities,30
+271,:,,47
+272,Of Auburn Hills,of-auburn-hills,22
+273,Eugene Oregon University Of Bill Graham,eugene-oregon-university-of-bill-graham,37
+274,Group Bristol,group-bristol,7
+275,Of Auburn Hills Auburn Hills,of-auburn-hills-auburn-hills,22
+276,Sellout A,sellout-a,9
+277,Montreal Canadian) Wor _ ==,montreal-canadian-wor,61
+278,Roussou Nour,roussou-nour,5
+279,B,b,47
+280,Montreal Canadian),montreal-canadian,61
+281,Biloxi D _,biloxi-d,24
+282,Canadian) Donald K Donald: Bass Clef Lt Entertainment,canadian-donald-k-donald-bass-clef-lt-entertainment,60
+283,Devon,devon,38
+284,Westbury,westbury,32
+285,Lake Tahoe,lake-tahoe,28
+286,Biloxi,biloxi,24
+287,Salisbury Sellout,salisbury-sellout,20
+288,Peoria,peoria,13
+289,Hershey,hershey,38
+290,Hershey,hershey,38
+291,Johnstown,johnstown,38
+292,Edmonton Canadian) Donald K Donald Perryscope,edmonton-canadian-donald-k-donald-perryscope,59
+293,Vienna,vienna,46
+294,Charleston Entertainment,charleston-entertainment,48
+295,George,george,47
+296,Paso Robles,paso-robles,5
+297,Cedar Rapids B,cedar-rapids-b,15
+298,Mountain View Cali,mountain-view-cali,38
+299,Canadian) Peterborough,canadian-peterborough,60
+300,Univ Of Notre Dame Notre Dame,univ-of-notre-dame-notre-dame,14
+301,& Flushing,flushing,32
+302,Univ Of,univ-of,43
+303,Fairfax,fairfax,46
+304,Sellout,sellout,35
+305,Albany Cross Country Metropolitan   Entertainment,albany-cross-country-metropolitan-entertainment,32
+306,Albany,albany,32
+307,Pate & Assoc Buttato,pate-assoc-buttato,32
+308,Billings,billings,26
+309,Mtn View |_Monie Love,mtn-view-monie-love,5
+310,Mtn View,mtn-view,5
+311,Of William & Mary Williamsburg,of-william-mary-williamsburg,46
+312,___},,13
+313,Burgettstown,burgettstown,38
+314,Quincy,quincy,47
+315,The Woodlands,the-woodlands,43
+316,Pesos) Torres Colombia,pesos-torres-colombia,5
+317,Fx) Sellout Englewood,fx-sellout-englewood,6

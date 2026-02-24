@@ -1,0 +1,11 @@
+weekly_rank,event_name,artist_ids,venue_id,promoters,start_date,end_date,dates,signature,gross_receipts_us,gross_receipts_canadian,attendance,capacity,num_shows,num_sellouts,ticket_prices,schema_id,source_id,s3_uri
+1,,[1129],31,[],,,,uza-minnell-radio-city-musi¢-hall-None,,,,,,,"[50.0, 40.0]",bb_3,1,music-industry-data-lakeraw/billboard/pdf/magazines/1992/02/Billboard-1992-02-15.pdf
+2,,[24],775,[],1992-01-27,1992-01-28,Jan 27-28,rod-stewart-madison-square-garden-new-york-1992-01-27,,,,,,,"[50.0, 35.0]",bb_3,1,music-industry-data-lakeraw/billboard/pdf/magazines/1992/02/Billboard-1992-02-15.pdf
+3,,[1130],971,[],1992-01-30,1992-01-31,Jan 30-31,john-mellencamp-rosemont-horizon-rosemont-il-1992-01-30,,,,,,1,"[35.0, 22.5, 20.0]",bb_3,1,music-industry-data-lakeraw/billboard/pdf/magazines/1992/02/Billboard-1992-02-15.pdf
+4,,[1130],569,[],1992-01-24,1992-01-25,Jan 24-25,john-mellencamp-palace-1992-01-24,,,,,,1,"[40.0, 22.5]",bb_3,1,music-industry-data-lakeraw/billboard/pdf/magazines/1992/02/Billboard-1992-02-15.pdf
+5,,"[24, 361]",805,[],1992-01-22,1992-01-22,Jan 22,rod-stewart-skydome-toronto-1992-01-22,623377,,24919,,,,"[35.0, 29.75]",bb_3,1,music-industry-data-lakeraw/billboard/pdf/magazines/1992/02/Billboard-1992-02-15.pdf
+6,,"[685, 1076]",39,[],1992-01-27,1992-01-28,Jan 27-28,guns-w-roses-san-diego-sports-arena-1992-01-27,,,,,,,[22.5],bb_3,1,music-industry-data-lakeraw/billboard/pdf/magazines/1992/02/Billboard-1992-02-15.pdf
+7,,"[685, 1076]",786,[],1992-01-21,1992-01-22,Jan 21-22,guns-w-roses-target-center-1992-01-21,,,,,,1,[20.0],bb_3,1,music-industry-data-lakeraw/billboard/pdf/magazines/1992/02/Billboard-1992-02-15.pdf
+8,,[761],972,[],1992-01-28,1992-01-29,Jan 28-29,new-kids-on-the-block-sydney-entertainment-centre-1992-01-28,,,,,,,[41.5],bb_3,1,music-industry-data-lakeraw/billboard/pdf/magazines/1992/02/Billboard-1992-02-15.pdf
+9,,"[325, 1128]",310,[],1992-01-24,1992-01-24,Jan 24,frank-sinatra-met-center-1992-01-24,519150,,12978,,,1,"[75.0, 37.5, 25.0]",bb_3,1,music-industry-data-lakeraw/billboard/pdf/magazines/1992/02/Billboard-1992-02-15.pdf
+10,,"[191, 1127]",66,[],1992-01-18,1992-01-18,Jan 18,bryan-adams-maple-leaf-gardens-1992-01-18,399326,,16158,,,,[28.5],bb_3,1,music-industry-data-lakeraw/billboard/pdf/magazines/1992/02/Billboard-1992-02-15.pdf

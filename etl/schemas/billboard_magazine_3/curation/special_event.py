@@ -1,5 +1,5 @@
 from etl.utils.utils import load_event_keywords
-from config.paths import EVENT_KEYWORDS_PATH, DIM_SPECIAL_EVENTS_PATH
+from config.paths import EVENT_KEYWORDS_PATH, LOCAL_DIM_SPECIAL_EVENTS_PATH
 import re
 
 ORDINAL_FIX = re.compile(r"\b(\d+)(St|Nd|Rd|Th)\b")
@@ -167,7 +167,7 @@ def curate_event_name(processed_events_df, curated_events_df):
     '''
     event_name_results = processed_events_df["artists"].apply(
         parse_event_name,
-        args=(DIM_SPECIAL_EVENTS_PATH,)
+        args=(LOCAL_DIM_SPECIAL_EVENTS_PATH,)
     )
     processed_events_df["event_name"] = event_name_results.apply(lambda x: x[0])                                        # add the event name to the processed_events_df
     curated_events_df["event_name"] = event_name_results.apply(lambda x: x[0])                                          # add the event name to the curated_events_df

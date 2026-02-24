@@ -16,9 +16,13 @@ def list_s3_files(prefix):
 
     return keys
 
-
-
 def read_s3_file(key):
     response = client.get_object(Bucket=BUCKET_NAME, Key=key)
     file_stream = io.BytesIO(response['Body'].read())
     return file_stream
+
+def write_s3_to_parquet(df, s3_client, bucket, key):
+    buffer = io.BytesIO()
+    df.to_parquet(buffer, engine="pyarrow", index=False)
+    buffer.seek(0)
+    s3_client.upload_fileobj(buffer, bucket, key)
