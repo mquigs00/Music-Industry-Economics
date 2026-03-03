@@ -55,7 +55,7 @@ CREATE TABLE IF NOT EXISTS event (
     event_name VARCHAR(255),
     start_date DATE,
     end_date DATE,
-    total_dates VARCHAR(255),
+    dates VARCHAR(255),
     gross_receipts_us INTEGER NOT NULL,
     gross_receipts_canadian INTEGER,
     attendance INTEGER,
@@ -76,4 +76,9 @@ CREATE TABLE IF NOT EXISTS event_to_promoter (
 CREATE TABLE IF NOT EXISTS event_to_artist (
     event_id INTEGER REFERENCES event(id),
     artist_id INTEGER REFERENCES artist(id)
+);
+
+CREATE TABLE IF NOT EXISTS event_ticket_price (
+    event_id INTEGER REFERENCES event(id),
+    ticket_price DECIMAL(8, 2)
 );
