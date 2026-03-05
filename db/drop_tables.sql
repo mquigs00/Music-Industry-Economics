@@ -1,0 +1,11 @@
+DROP TABLE IF EXISTS event_ticket_price;
+DROP TABLE IF EXISTS event_to_promoter;
+DROP TABLE IF EXISTS event_to_artist;
+DROP TABLE IF EXISTS event;
+DROP TABLE IF EXISTS artist;
+DROP TABLE IF EXISTS promoter;
+DROP TABLE IF EXISTS special_event;
+DROP TABLE IF EXISTS venue;
+DROP TABLE IF EXISTS city;
+DROP TABLE IF EXISTS state;
+DROP TABLE IF EXISTS country;

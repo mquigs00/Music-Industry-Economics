@@ -1,12 +1,21 @@
+CREATE SEQUENCE IF NOT EXISTS seq_country_id START 1;
+CREATE SEQUENCE IF NOT EXISTS seq_state_id START 1;
+CREATE SEQUENCE IF NOT EXISTS seq_city_id START 1;
+CREATE SEQUENCE IF NOT EXISTS seq_venue_id START 1;
+CREATE SEQUENCE IF NOT EXISTS seq_special_event_id START 1;
+CREATE SEQUENCE IF NOT EXISTS seq_promoter_id START 1;
+CREATE SEQUENCE IF NOT EXISTS seq_artist_id START 1;
+CREATE SEQUENCE IF NOT EXISTS seq_event_id START 1;
+
 CREATE TABLE IF NOT EXISTS country (
-    id INTEGER PRIMARY KEY,
+    id INTEGER PRIMARY KEY DEFAULT nextval('seq_country_id'),
     name VARCHAR(255) NOT NULL,
     slug VARCHAR(255) NOT NULL,
     abbr VARCHAR (20) NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS state (
-    id INTEGER PRIMARY KEY,
+    id INTEGER PRIMARY KEY DEFAULT nextval('seq_state_id'),
     name VARCHAR(255) NOT NULL,
     slug VARCHAR(255) NOT NULL,
     abbr VARCHAR(20) NOT NULL,
@@ -14,14 +23,14 @@ CREATE TABLE IF NOT EXISTS state (
 );
 
 CREATE TABLE IF NOT EXISTS city (
-    id INTEGER PRIMARY KEY,
+    id INTEGER PRIMARY KEY DEFAULT nextval('seq_city_id'),
     name VARCHAR(255) NOT NULL,
     slug VARCHAR(255),
     state_id INTEGER REFERENCES state(id)
 );
 
 CREATE TABLE IF NOT EXISTS venue (
-    id INTEGER PRIMARY KEY,
+    id INTEGER PRIMARY KEY DEFAULT nextval('seq_venue_id'),
     name VARCHAR(255) NOT NULL,
     slug VARCHAR(255) NOT NULL,
     city_id INTEGER REFERENCES city(id),
@@ -29,26 +38,26 @@ CREATE TABLE IF NOT EXISTS venue (
 );
 
 CREATE TABLE IF NOT EXISTS special_event (
-    id INTEGER PRIMARY KEY,
+    id INTEGER PRIMARY KEY DEFAULT nextval('seq_special_event_id'),
     name VARCHAR(255) NOT NULL,
     slug VARCHAR(255) NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS promoter (
-    id INTEGER PRIMARY KEY,
+    id INTEGER PRIMARY KEY DEFAULT nextval('seq_promoter_id'),
     name VARCHAR(255) NOT NULL,
     slug VARCHAR(255)
 );
 
 CREATE TABLE IF NOT EXISTS artist (
-    id INTEGER PRIMARY KEY,
+    id INTEGER PRIMARY KEY DEFAULT nextval('seq_artist_id'),
     name VARCHAR(255) NOT NULL,
     slug VARCHAR(255) NOT NULL,
     parent_id INT
 );
 
 CREATE TABLE IF NOT EXISTS event (
-    id INTEGER PRIMARY KEY,
+    id INTEGER PRIMARY KEY DEFAULT nextval('seq_event_id'),
     signature VARCHAR(255) UNIQUE NOT NULL,
     weekly_rank INTEGER NOT NULL,
     venue_id INTEGER REFERENCES venue(id),

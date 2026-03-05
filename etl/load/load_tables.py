@@ -55,18 +55,19 @@ def load_facts(conn):
         CREATE OR REPLACE TEMP TABLE staging_event AS
         SELECT *
         FROM read_csv_auto(?)
+        QUALIFY ROW_NUMBER() OVER (PARTITION BY signature ORDER BY 1) = 1
     """, [LOCAL_CURATED_EVENTS_GLOB_PATH])
 
     conn.execute("""
-        INSERT INTO event (id, weekly_rank, event_name, venue_id, start_date, end_date, dates, signature, gross_receipts_us, gross_receipts_canadian, attendance, capacity, num_shows, num_sellouts, schema_id, source_id, s3_uri)
+        INSERT OR IGNORE INTO event (weekly_rank, event_name, venue_id, start_date, end_date, dates, signature, gross_receipts_us, gross_receipts_canadian, attendance, capacity, num_shows, num_sellouts, schema_id, source_id, s3_uri)
         SELECT weekly_rank, event_name, venue_id, start_date, end_date, dates, signature, gross_receipts_us, gross_receipts_canadian, attendance, capacity, num_shows, num_sellouts, schema_id, source_id, s3_uri
         FROM staging_event
     """)
 
     conn.execute("""
         INSERT INTO event_to_artist (event_id, artist_id)
-        SELECT
-            id,
+        SELECT DISTINCT
+            event.id,
             UNNEST(
                 string_split(
                     replace(replace(artist_ids, '[', ''), ']', ''),
@@ -74,4 +75,21 @@ def load_facts(conn):
                 )
             )::INTEGER
         FROM staging_event
+        JOIN event on event.signature = staging_event.signature
+        WHERE staging_event.artist_ids IS NOT NULL and staging_event.artist_ids != '[]'
     """)
+
+    conn.execute("""
+            INSERT INTO event_ticket_price (event_id, ticket_price)
+            SELECT DISTINCT
+                event.id,
+                UNNEST(
+                    string_split(
+                        replace(replace(ticket_prices, '[', ''), ']', ''),
+                        ','
+                    )
+                )::INTEGER
+            FROM staging_event
+            JOIN event on event.signature = staging_event.signature
+            WHERE staging_event.ticket_prices IS NOT NULL and staging_event.ticket_prices != '[]'
+        """)
