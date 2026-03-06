@@ -8,9 +8,9 @@ import tempfile
 tmp_path = os.path.join(tempfile.gettempdir(), 'music_warehouse.duckdb')
 s3 = boto3.client(
     's3',
-    aws_access_key_id = st.secrets["aws"["AWS_ACCESS_KEY_ID"]],
-    aws_secret_access_key = st.secrets["aws"["AWS_SECRET_ACCESS_KEY"]],
-    region_name=st.secrets["aws"["AWS_DEFAULT_REGION"]]
+    aws_access_key_id = st.secrets["aws"]["AWS_ACCESS_KEY_ID"],
+    aws_secret_access_key = st.secrets["aws"]["AWS_SECRET_ACCESS_KEY"],
+    region_name=st.secrets["aws"]["AWS_DEFAULT_REGION"]
 )
 
 s3.download_file('music-industry-data-lake', 'warehouse/music_warehouse.duckdb', tmp_path)
