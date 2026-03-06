@@ -15,9 +15,6 @@ s3 = boto3.client(
 
 s3.download_file('music-industry-data-lake', 'warehouse/music_warehouse.duckdb', tmp_path)
 
-sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from config.paths import DB_PATH
-
 conn = duckdb.connect(tmp_path, read_only=True)
 event_data = conn.execute("""
     SELECT
