@@ -9,6 +9,7 @@ from Levenshtein import distance as levenshtein_distance
 import logging
 from word2number import w2n
 import pytesseract
+from etl.utils.utils import extract_text_ocr
 logger = logging.getLogger()
 
 '''
@@ -28,8 +29,8 @@ pytesseract.pytesseract.tesseract_cmd = r"C:\Users\mquig\AppData\Local\Programs\
 
 directory_prefix = "raw/billboard/pdf/magazines/"
 
-object_key = 'raw/billboard/pdf/magazines/1995/02/BB-1995-02-11.pdf'
-page_num = 18
+object_key = 'raw/billboard/pdf/magazines/1984/11/BB-1984-11-03.pdf'
+page_num = 55
 
 '''
     Every tour has:

@@ -14,8 +14,8 @@ s3 = boto3.client(
 )
 
 s3.download_file('music-industry-data-lake', 'warehouse/music_warehouse.duckdb', tmp_path)
-
 conn = duckdb.connect(tmp_path, read_only=True)
+
 event_data = conn.execute("""
     SELECT
         event.event_name AS EventName,
@@ -67,13 +67,76 @@ AWS S3
 5. Streamlit queries events table to display data
 
 ## Example Text
-This is a snippet of what the table text would look like:\n
-NIGHT RANGER The Paltadium June 8. $49,561 4377 Avalon Prods.
-BLACK & BLUE Hollywood, Calif. $1L75 sellout
-HANK WILLIAMS JR. Convention Center June 9. ‘$46,414 a3la ‘Sound Seventy Prods.
-DAVID ALLAN COE Pine Bluff, Ark. $11.50 7,900
-MOTLEY CRUE Stanley Theater June 12. $44,905 3,522 DiCesare-Engler Prods.
-ACCEPT Pittsburgh $12.75 sellout
+This is an example of the event data from the November 3rd, 1984 issue of Billboard:\n
+ARTIST(S) Venue Date(s) Ticket Price(s) Capacity Promoter
+BRUCE SPRINGSTEEN Oakland Coliseum Oct, 21-22 $436,272 27,267 Bill Graham Presents
+Calif. $16 ‘two setlouts
+DOUG HENNING Fox Theater Oct. 16-21 $401,678 W224 ~ Ray Shepardson
+St. Louis $4.90-$17.90 eight shows
+four seltouts
+ALABAMA Reunion Arena Oct. 14 $271,436 17,512 Salem Concerts/Keith
+JUICE NEWTON Dallas $15.50 setlout Fowler Productions
+RICK SPRINGFIELD The Forum Oct. 6 $239,237 16,183 Avalon Attractions
+COREY HART Inglewood, Calif. $15 & $12.50 sellout Jam Promotions
+PATTI LABELLE Lyric Opera House ‘Oct. 9-13 $216,352 12,500 Mare Corwin/That’s
+Baltimore $20/$17 915 five sellouts. Entertainment Inc.
+ALABAMA Frank Erwin Center Oct. 19 $203,277 15,502 Satem Concerts/Keith
+Austin $13.50 (7217) Fowler Promotions
+RICK SPRINGFIELD Concord (Calif.) Pavilion Oct. 7-8 $197,300 16,950 Mederlander
+$12.50 two sellouts
+SAMMY HAGAR Wings Stadium Oct. 20-21 $196,087 16,046 Blue Suede Shows.
+KROKUS. Kalamazoo, Mich $12.50 two seHtouts,
+BARRY MANILOW Crister Arena Oct. 19 $190,095 12,582 Brass Ring Prods.
+Ann Arbor, Mich. $17.50/$15 seflout
+ALABAMA Convention Center Oct. 12 $188,666 12,172 Salem Concerts/Keith
+2 San Antonio $15.50 (13,200 Fowler Promotions
+ROD STEWART Hollywood (Fta.) Sportatorium Oct.7 $179,172 13,132 Fantasma Prods.
+$4 (12,500) |
+LIONEL RICHIE BSU Pavilion Oct. 10 $164,694 11,803 United Concerts.
+Boise, Idaho $15 (12,045)
+SAMMY HAGAR Market Square Arena Oct. 17 $141,280 13,15] ‘Sunshine Promotions
+Indianapolis $11.40/$10.50 (13,500)
+GEORGE BENSON Irvine Meadows Amphitheatre Oct.7 $136,569 10,358 Avalon Attractions.
+Laguna Hills, Calif. $16.50/$15/$9.50 (15,000)
+BARRY MANILOW Centennial Hall Oct. 18 $135,496 9,167 Belkin Prods.
+Univ. of Toledo $15/$13.50 sellout
+JETHRO TULL Spectrum Theater Oct. 19 $130,017 1,015 Electric Factory
+HONEYMOON SUITE Philadelphia $12.50/$10 (11,882) Concerts
+BILLY SQUIER Barton Coliseum Oct. 16 $120,000 10,000 Mid-South Concerts
+RATT Little Rock $2 sellout
+RICK SPRINGFIELD NBC Arena Oct. 12 $114,112 8,805 Jam Prods./Alan Carr
+Honolulu $13.50 sellout
+BILLY SQUIER Mid-South Coliseum Oct. 17 $113,207 9314 Mid-South Concerts
+Memphis. $12.50/$11.50 (12,035)
+DAVID COPPERFIELD Royal Oak (Mich.) Oct. 19-20 $112,057 7881 Brass Ring Prods.
+Music Theater ns (8,500)
+five shows
+OAK RIDGE BOYS Von Braun Civic Center Oct. 14 $109,079 8777 Jerry Bentley Prods,
+LEE GREENWOOD Huntsville, Ala. $12.75/$12 (8,696)
+ALABAMA Stephen F. Austin College ~ Oct. 20 $107,679 8,283 Salem Concerts/Keith Fowler
+Nagcogdoches, Tex. $13 sellout Promotions
+CHICAGO Cal Expo Amphitheatre Oct. 12 $105,840 7,055 Bill Graham Presents
+Sacramento $15 (10,000)
+CHICAGO Greek Theatre Oct. 13 $103,940 7,464 Bill Graham Presents
+Berkeley, Calif. $15.50/$15/$13.50 (8,500)
+ALABAMA G. Rollie White Coliseum, Oct. 21 $100,495 7,882 ‘Salem Concerts/Keith
+College Station, Tex. $13.50/$12.50 ‘sellout Fowler Promotions
+QUIET RIOT Mclichols Sports Arena Oct. 14 $98,221 10,505 Feyline Presents
+WHITESNAKE Denver $9.35 (18,483)
+HELIX
+FIXX ‘San Francisco Civic Auditorium Oct. 20 $70,557 5,142 Bill Graham Presents
+RONNIE HAYES & THE WILD $15/$13.50 (8,500)
+COMBO D
+QUIET RIOT levine Meadows Amphitheatre Sept. 30 $66,969 4385 Avalon Attractions.
+WHITESNAKE Laguna Hilts, Calif. S16 /$la (6.1L)
+ARMORED SAINTS
+THOMPSON TWINS Lawior Events Center Sept. 22 $59,238 4388 Rock ‘N’ Chair Prods.
+BERLIN Reno $13.50 (7,200)
+AMY GRANT Massey Hall Oct. 15-16 $59,128 467 Concert Prods.
+Toronto ($73,911 Canadian) (5,000) International
+$16/$15
+CHARLEY PRIDE Frank Cainer Arena Oct. 20 $53,749 3,689 Jack Roberts Prods.
+Behan Park, Nanaima, B.C. $15/$13 (3,722)
 
 ## Challenges
 The main challenge was that these PDF files were scans and not native PDF's. Therefore, initial testing with pdfplumber outputted garbled data. I resorted to using pytesseract OCR to
@@ -158,4 +221,10 @@ Features:\n
 - Colon\n
 - Artists\n
 - Tag, "10TH ANNUAL", comes before special event base "TEXXAS WORLD MUSIC FESTIVAL"
+
+**Reflection**
+In hindsight, I wish I tested more OCR engines to try and find one that would have less errors. Even small misreadings proved to have major impacts, which reveals that my
+regex parsing method was brittle. This project took significantly more time and energy than I expected, but it provided me with a fascinating data set and lots of new ideas.
+I was hoping to be able to successfully parse and curate more magazines issues, but I'm honestly glad that I was able to get 50 magazines issues completely curated. This project
+has boosted my confidence with ETL work, and I expect that future portfolio projects will often require less messy parsing due to raw data being more clean that the OCR readings here.
 """)

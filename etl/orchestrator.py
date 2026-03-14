@@ -3,7 +3,7 @@ import io
 from etl.schemas.billboard_magazine_3.curation.curate import curate_events, curate_event_ticket_prices
 import pandas as pd
 from config.config import BUCKET_NAME, STORAGE_FORMAT, STORAGE_MODE
-from config.paths import LOCAL_PROCESSED_DATA_PATH, LOCAL_CURATED_DATA_PATH
+from config.paths import LOCAL_PROCESSED_DATA_PATH
 import glob
 import os
 from etl.utils.utils import load_dimension_tables
